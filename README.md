@@ -23,8 +23,14 @@ The design and idea of this site is inspired by `App In the Air`  and `flighty`.
 This app is my personal project only. Not for commercial use.
 
 ## Usage
+This is a pure frontend project. I used CDNs instead of node modules. There is no server-side code(nodeJS, npm, express, sqlite, etc), also to keep this simple there is no framework in use.
 
-There are 3 UIs for this app:
+When complete, I will likely host this site on Github Pages (that's why no server-side code). Before that, to test or run it locally, you may:
+ - Run `npm install -g http-server`, or use some other light-weight demo server locally.
+ - Open terminal and run ` http-server .` to start server.
+ - Go to the prompted address in your browser to view the project site.
+
+There are 3 UI tabs for this app:
 - Globe view: Uses `CesiumJS` to visualize the routes of a user's past trips on 3D earth.
 - Log View: A table that holds all user input (display travel data and serve as data source)
 - Stats: Get some fun rankings and aggregation from user's travel data.
