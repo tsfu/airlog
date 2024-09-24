@@ -1,5 +1,7 @@
 const viewer = new Cesium.Viewer("cesiumContainer");
 
+let trips = [];
+
 // switch between tabs
 function openTab(event, tabName) {
   // Get all elements with class="tab-content" and hide them
@@ -23,50 +25,79 @@ function openTab(event, tabName) {
 
 // delete a row
 function removeRow(evt) {
-    const deleteIndex = evt.parentElement.parentElement.rowIndex;
-    document.getElementById("travelLogTable").deleteRow(deleteIndex);
+  const deleteIndex = evt.parentElement.parentElement.rowIndex;
+  document.getElementById("travelLogTable").deleteRow(deleteIndex);
 }
 
 // load airport info into map
 async function init() {
-    await getAirportDataAsync();
-    // test case
-    const test = getDistance("BOS", "HKG");
-    console.log("TEST BOS-HKG distance:" + test)
+  await getAirportDataAsync();
+  Test();
 }
 
+// console log testing basic functions
+async function Test() {
+  // test distance
+  const test = getDistance("BOS", "HKG");
+  console.log("TEST BOS-HKG distance: " + test);
+  const test2 = getDistance("MIG", "XIY");
+  console.log("TEST MIG-XIY distance: " + test2);
+  // test duration
+  const dur1 = await getDuration(
+    "2024-09-24T19:40:00",
+    "2024-09-25T06:50:00",
+    "BOS",
+    "LHR"
+  );
+  console.log("Test duration BOS-LHR: " + dur1);
+  const dur2 = await getDuration(
+    "2024-07-21T11:34:00",
+    "2024-07-21T15:17:00",
+    "JFK",
+    "LAX"
+  );
+  console.log("Test duration JFK-LAX: " + dur2);
+}
+
+// "add trip" button
 document.getElementById("addTripButton").addEventListener("click", function () {
   const form = document.getElementById("tripForm");
   form.classList.toggle("hidden");
 });
 
-// Handle form submission
+// handle form submission
 document
   .getElementById("tripForm")
-  .addEventListener("submit", function (event) {
+  .addEventListener("submit", async function (event) {
     event.preventDefault(); // Prevent the form from submitting the traditional way
-    // Get the input values from the form
-    const departureCity = document.getElementById("departureCity").value;
-    const departureIATA = document.getElementById("departureIATA").value;
-    const arrivalCity = document.getElementById("arrivalCity").value;
-    const arrivalIATA = document.getElementById("arrivalIATA").value;
-    const takeOffTime = document.getElementById("takeOffTime").value;
-    const landingTime = document.getElementById("landingTime").value;
-    const flightNumber = document.getElementById("flightNumber").value;
-    const airline = document.getElementById("airline").value;
-    const aircraft = document.getElementById("aircraft").value;
-    const tailNumber = document.getElementById("tailNumber").value;
-    const travelClass = document.getElementById("class").value;
-    const seatNumber = document.getElementById("seatNumber").value;
-    const deleteButtonHTML =
-      '<button onclick="removeRow(this)">Delete</button>';
 
-    // Calculate duration and distance use airport.js methods
-    let duration = getDuration(takeOffTime, landingTime); // TODO: Use GMT
-    let distance = getDistance(departureIATA, arrivalIATA);
+    // Get the input values from the form
+    let trip = {};
+    trip.departureCity = document.getElementById("departureCity").value;
+    trip.departureIATA = document.getElementById("departureIATA").value;
+    trip.arrivalCity = document.getElementById("arrivalCity").value;
+    trip.arrivalIATA = document.getElementById("arrivalIATA").value;
+    trip.takeOffTime = document.getElementById("takeOffTime").value;
+    trip.landingTime = document.getElementById("landingTime").value;
+    trip.flightNumber = document.getElementById("flightNumber").value;
+    trip.airline = document.getElementById("airline").value;
+    trip.aircraft = document.getElementById("aircraft").value;
+    trip.tailNumber = document.getElementById("tailNumber").value;
+    trip.travelClass = document.getElementById("class").value;
+    trip.seatNumber = document.getElementById("seatNumber").value;
+    const deleteButtonHTML =
+      '<button onclick="removeRow(this)">Delete</button>';   // TODO: add edit row (trip) button
+
+    // Calculate duration and distance using airport.js methods
+    trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
+    trip.duration = await getDuration(
+      trip.takeOffTime + ":00",
+      trip.landingTime + ":00",
+      trip.departureIATA,
+      trip.arrivalIATA
+    );
 
     // TODO: get airline code
-
     // TODO: get aircraft code/name from dropdown suggestion
 
     // Create a new row in the travel log table
@@ -74,23 +105,24 @@ document
     const newRow = table.insertRow(-1); // Insert a new row at the end of the table
 
     // Insert new cells and populate them with the input values
-    newRow.insertCell(0).textContent = departureIATA;
-    newRow.insertCell(1).textContent = arrivalIATA;
-    newRow.insertCell(2).textContent = departureCity;
-    newRow.insertCell(3).textContent = arrivalCity;
-    newRow.insertCell(4).textContent = takeOffTime;
-    newRow.insertCell(5).textContent = landingTime;
-    newRow.insertCell(6).textContent = duration;
-    newRow.insertCell(7).textContent = distance;
-    newRow.insertCell(8).textContent = airline;
-    newRow.insertCell(9).textContent = flightNumber;
-    newRow.insertCell(10).textContent = aircraft;
-    newRow.insertCell(11).textContent = tailNumber;
-    newRow.insertCell(12).textContent = travelClass;
-    newRow.insertCell(13).textContent = seatNumber;
+    newRow.insertCell(0).textContent = trip.departureIATA;
+    newRow.insertCell(1).textContent = trip.arrivalIATA;
+    newRow.insertCell(2).textContent = trip.departureCity;
+    newRow.insertCell(3).textContent = trip.arrivalCity;
+    newRow.insertCell(4).textContent = trip.takeOffTime;
+    newRow.insertCell(5).textContent = trip.landingTime;
+    newRow.insertCell(6).textContent = trip.duration;
+    newRow.insertCell(7).textContent = trip.distance;
+    newRow.insertCell(8).textContent = trip.airline;
+    newRow.insertCell(9).textContent = trip.flightNumber;
+    newRow.insertCell(10).textContent = trip.aircraft;
+    newRow.insertCell(11).textContent = trip.tailNumber;
+    newRow.insertCell(12).textContent = trip.travelClass;
+    newRow.insertCell(13).textContent = trip.seatNumber;
     newRow.insertCell(14).innerHTML = deleteButtonHTML;
 
     // Reset the form and hide it after submission
+    trips.push(trip);
     this.reset();
     this.classList.add("hidden");
   });

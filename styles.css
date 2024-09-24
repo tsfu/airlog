@@ -73,7 +73,7 @@ tr {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
 }
 tr:hover td {
-    background-color: #fdd7d7;
+    background-color: #d7f5e1;
     color: #333;
 }
 

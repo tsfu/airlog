@@ -1,6 +1,7 @@
 // Path to CSV file
 const csvFilePath = "./data/airports.csv";
 const airportDataMap = new Map();
+var DateTime = luxon.DateTime;
 
 async function getAirportDataAsync() {
   try {
@@ -26,8 +27,8 @@ async function getAirportDataAsync() {
     parsedData.forEach(airport => {
       airportDataMap.set(airport.iata, airport);
     });
-    console.log('Building airport data map completed:\n', airportDataMap);
     return airportDataMap
+    
   } catch (error) {
     console.error("Error occurred while building airport data map:", error);
   }
@@ -52,7 +53,6 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // Radius of the Earth in kilometers
   const dLat = ((lat2 - lat1) * Math.PI) / 180; // Convert degrees to radians
   const dLon = ((lon2 - lon1) * Math.PI) / 180; // Convert degrees to radians
-
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((lat1 * Math.PI) / 180) *
@@ -77,11 +77,17 @@ function getDistance(departureIATA, arrivalIATA) {
 }
 
 // Calculate flight duration
-function getDuration(takeoff, landing) {
-  const takeOffDate = new Date(takeoff);
-  const landingDate = new Date(landing);
-  const totalMins = (landingDate - takeOffDate) / 1000 / 60;
-  const hours = Math.floor(totalMins / 60);
-  const minutes = totalMins % 60;
-  return hours + "h " + minutes + "min";
+async function getDuration(takeoff, landing, departureIATA, arrivalIATA) {
+  // consider timezone offset given IATA code
+  const departureCoords = CodetoCoordinates(departureIATA)
+  const arrivalCoords = CodetoCoordinates(arrivalIATA)
+  
+  const departureTZ = await GeoTZ.find(departureCoords.latitude, departureCoords.longitude)
+  const arrivalTZ = await GeoTZ.find(arrivalCoords.latitude, arrivalCoords.longitude)
+
+  const departureDate = DateTime.fromISO(takeoff, { zone: departureTZ[0] });
+  const arrivalDate = DateTime.fromISO(landing, { zone: arrivalTZ[0] });
+  
+  const duration = arrivalDate.diff(departureDate, ['hours', 'minutes']);
+  return duration.hours + "h " + duration.minutes + "min";
 }
