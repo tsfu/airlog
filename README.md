@@ -49,9 +49,10 @@ These are the dataset or sources it currently uses:
 
   - Trips: user data
   - Airport: https://github.com/ip2location/ip2location-iata-icao
-  - Flight
-  - Airline
-  - Aircraft
+  - Flight: user input only
+  - Airline: user input (add auto-suggestion?)
+  - Aircraft: user input (add auto-suggestion?)
+  - Duration/Distance: Calculated upon user input using my helper methods in `airport.js`
 
 ### DataModel
 TODO: Insert a data model diagram here.
@@ -60,6 +61,7 @@ TODO: Insert a data model diagram here.
 ### Initial Setup - 2024.9
 - Intial Commit, first adoption of cesiumJS and nodeJS
 - Added airport data in data/airports.csv
+- Wrote functions to calculate distance and duration from input
 
 ## TODOs
  - Ablity to draw a route given 2 airports
