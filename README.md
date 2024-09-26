@@ -72,10 +72,14 @@ TODO: Insert a data model diagram here.
 ## TODOs
  - Ablity to draw a route given 2 airports
  - Grab Airline logos
- - Grab Aircraft pics
  - Grab national flag icons
  - Complete the log table as data source for globe view
- - Enhance LogView UI
+   - Edit a record 
+   - Sort records by columns?
+ - Enhance LogView UI:
+   - hover airport display full name
+   - national flag icon next to city name
+   - carrier logo next to airline   
  - Complete basic Global view:
    - Add basic flight info on the route, show as a card when hover on line
    - Add more info from log when expand the flight info card

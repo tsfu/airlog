@@ -109,8 +109,8 @@ document
     newRow.insertCell(1).textContent = trip.arrivalIATA;
     newRow.insertCell(2).textContent = trip.departureCity;
     newRow.insertCell(3).textContent = trip.arrivalCity;
-    newRow.insertCell(4).textContent = trip.takeOffTime;
-    newRow.insertCell(5).textContent = trip.landingTime;
+    newRow.insertCell(4).textContent = trip.takeOffTime.replace("T"," ");
+    newRow.insertCell(5).textContent = trip.landingTime.replace("T"," ");
     newRow.insertCell(6).textContent = trip.duration;
     newRow.insertCell(7).textContent = trip.distance;
     newRow.insertCell(8).textContent = trip.airline;

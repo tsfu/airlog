@@ -35,7 +35,7 @@ async function getAirportDataAsync() {
 }
 
 // Helper: map IATA code to GPS coordinates
-function CodetoCoordinates(iataCode) {
+function IATAtoCoordinates(iataCode) {
   const airport = airportDataMap.get(iataCode.trim().toUpperCase())
   if (airport) { 
     return {
@@ -65,8 +65,8 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
 
 // Calculate flight distance between 2 airports
 function getDistance(departureIATA, arrivalIATA) {
-  const departureCoords = CodetoCoordinates(departureIATA)
-  const arrivalCoords = CodetoCoordinates(arrivalIATA)
+  const departureCoords = IATAtoCoordinates(departureIATA)
+  const arrivalCoords = IATAtoCoordinates(arrivalIATA)
   const distance = haversineDistance(
     departureCoords.latitude,
     departureCoords.longitude,
@@ -79,8 +79,8 @@ function getDistance(departureIATA, arrivalIATA) {
 // Calculate flight duration
 async function getDuration(takeoff, landing, departureIATA, arrivalIATA) {
   // consider timezone offset given IATA code
-  const departureCoords = CodetoCoordinates(departureIATA)
-  const arrivalCoords = CodetoCoordinates(arrivalIATA)
+  const departureCoords = IATAtoCoordinates(departureIATA)
+  const arrivalCoords = IATAtoCoordinates(arrivalIATA)
   
   const departureTZ = await GeoTZ.find(departureCoords.latitude, departureCoords.longitude)
   const arrivalTZ = await GeoTZ.find(arrivalCoords.latitude, arrivalCoords.longitude)
