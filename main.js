@@ -86,7 +86,7 @@ document
     trip.travelClass = document.getElementById("class").value;
     trip.seatNumber = document.getElementById("seatNumber").value;
     const deleteButtonHTML =
-      '<button onclick="removeRow(this)">Delete</button>';   // TODO: add edit row (trip) button
+      '<button onclick="removeRow(this)">Delete</button>'; // TODO: add edit row (trip) button
 
     // Calculate duration and distance using airport.js methods
     trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
@@ -95,6 +95,15 @@ document
       trip.landingTime + ":00",
       trip.departureIATA,
       trip.arrivalIATA
+    );
+
+    // Draw route on earth
+    drawFlightRoute(
+      viewer,
+      trip.departureCity,
+      IATAtoCoordinates(trip.departureIATA),
+      trip.arrivalCity,
+      IATAtoCoordinates(trip.arrivalIATA)
     );
 
     // TODO: get airline code
@@ -109,8 +118,8 @@ document
     newRow.insertCell(1).textContent = trip.arrivalIATA;
     newRow.insertCell(2).textContent = trip.departureCity;
     newRow.insertCell(3).textContent = trip.arrivalCity;
-    newRow.insertCell(4).textContent = trip.takeOffTime.replace("T"," ");
-    newRow.insertCell(5).textContent = trip.landingTime.replace("T"," ");
+    newRow.insertCell(4).textContent = trip.takeOffTime.replace("T", " ");
+    newRow.insertCell(5).textContent = trip.landingTime.replace("T", " ");
     newRow.insertCell(6).textContent = trip.duration;
     newRow.insertCell(7).textContent = trip.distance;
     newRow.insertCell(8).textContent = trip.airline;

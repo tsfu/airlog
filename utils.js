@@ -8,9 +8,9 @@ async function getAirportDataAsync() {
     // Step 1: Fetch CSV data using $.ajax wrapped in a promise
     const csvData = await new Promise((resolve, reject) => {
       $.ajax({
-        url: csvFilePath,  
+        url: csvFilePath,
         success: (data) => resolve(data),
-        error: (err) => reject(err)
+        error: (err) => reject(err),
       });
     });
 
@@ -18,17 +18,16 @@ async function getAirportDataAsync() {
     const parsedData = await new Promise((resolve, reject) => {
       Papa.parse(csvData, {
         header: true,
-        complete: (results) => resolve(results.data), 
-        error: (err) => reject(err)
+        complete: (results) => resolve(results.data),
+        error: (err) => reject(err),
       });
     });
 
     // Step 3: Store parsed data in the map
-    parsedData.forEach(airport => {
+    parsedData.forEach((airport) => {
       airportDataMap.set(airport.iata, airport);
     });
-    return airportDataMap
-    
+    return airportDataMap;
   } catch (error) {
     console.error("Error occurred while building airport data map:", error);
   }
@@ -36,15 +35,15 @@ async function getAirportDataAsync() {
 
 // Helper: map IATA code to GPS coordinates
 function IATAtoCoordinates(iataCode) {
-  const airport = airportDataMap.get(iataCode.trim().toUpperCase())
-  if (airport) { 
+  const airport = airportDataMap.get(iataCode.trim().toUpperCase());
+  if (airport) {
     return {
       latitude: parseFloat(airport.latitude),
-      longitude: parseFloat(airport.longitude)
-    }
+      longitude: parseFloat(airport.longitude),
+    };
   } else {
-    console.log("error: IATA code not found.")
-    return null
+    console.log("error: IATA code not found.");
+    return null;
   }
 }
 
@@ -65,29 +64,94 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
 
 // Calculate flight distance between 2 airports
 function getDistance(departureIATA, arrivalIATA) {
-  const departureCoords = IATAtoCoordinates(departureIATA)
-  const arrivalCoords = IATAtoCoordinates(arrivalIATA)
+  const departureCoords = IATAtoCoordinates(departureIATA);
+  const arrivalCoords = IATAtoCoordinates(arrivalIATA);
   const distance = haversineDistance(
     departureCoords.latitude,
     departureCoords.longitude,
     arrivalCoords.latitude,
     arrivalCoords.longitude
-  )
-  return distance.toFixed(2) + "km"
+  );
+  return distance.toFixed(2) + "km";
 }
 
 // Calculate flight duration
 async function getDuration(takeoff, landing, departureIATA, arrivalIATA) {
   // consider timezone offset given IATA code
-  const departureCoords = IATAtoCoordinates(departureIATA)
-  const arrivalCoords = IATAtoCoordinates(arrivalIATA)
-  
-  const departureTZ = await GeoTZ.find(departureCoords.latitude, departureCoords.longitude)
-  const arrivalTZ = await GeoTZ.find(arrivalCoords.latitude, arrivalCoords.longitude)
+  const departureCoords = IATAtoCoordinates(departureIATA);
+  const arrivalCoords = IATAtoCoordinates(arrivalIATA);
+
+  const departureTZ = await GeoTZ.find(
+    departureCoords.latitude,
+    departureCoords.longitude
+  );
+  const arrivalTZ = await GeoTZ.find(
+    arrivalCoords.latitude,
+    arrivalCoords.longitude
+  );
 
   const departureDate = DateTime.fromISO(takeoff, { zone: departureTZ[0] });
   const arrivalDate = DateTime.fromISO(landing, { zone: arrivalTZ[0] });
-  
-  const duration = arrivalDate.diff(departureDate, ['hours', 'minutes']);
+
+  const duration = arrivalDate.diff(departureDate, ["hours", "minutes"]);
   return duration.hours + "h " + duration.minutes + "min";
+}
+
+// Function to draw flight route on the globe using CesiumJS
+function drawFlightRoute(viewer, depature, departureCoords, arrival, arrivalCoords) {
+  const departureCartesian = Cesium.Cartesian3.fromDegrees(
+    departureCoords.longitude,
+    departureCoords.latitude
+  );
+  const arrivalCartesian = Cesium.Cartesian3.fromDegrees(
+    arrivalCoords.longitude,
+    arrivalCoords.latitude
+  );
+
+  viewer.entities.add({
+    polyline: {
+      positions: [departureCartesian, arrivalCartesian],
+      width: 4,
+      material: Cesium.Color.YELLOW,
+      clampToGround: false, // Keep it floating
+    },
+  });
+
+  // Add a dot at the departure city
+  viewer.entities.add({
+    position: departureCartesian,
+    point: {
+      pixelSize: 10,
+      color: Cesium.Color.RED,
+    },
+    label: {
+      text: "Departure - " + depature,
+      font: "16px sans-serif",
+      fillColor: Cesium.Color.WHITE,
+      outlineColor: Cesium.Color.BLACK,
+      outlineWidth: 2,
+      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset: new Cesium.Cartesian2(0, -15),
+    },
+  });
+
+  // Add a dot at the arrival city
+  viewer.entities.add({
+    position: arrivalCartesian,
+    point: {
+      pixelSize: 10,
+      color: Cesium.Color.RED,
+    },
+    label: {
+      text: "Arrival - " + arrival,
+      font: "16px sans-serif",
+      fillColor: Cesium.Color.WHITE,
+      outlineColor: Cesium.Color.BLACK,
+      outlineWidth: 2,
+      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset: new Cesium.Cartesian2(0, -15),
+    },
+  });
 }

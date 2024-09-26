@@ -65,12 +65,13 @@ TODO: Insert a data model diagram here.
 
 ## CHANGELOG
 ### Initial Setup - 2024.9
-- Intial Commit, first adoption of cesiumJS and nodeJS
+- Intial Commit, first adoption of cesiumJS
 - Added airport data in data/airports.csv
-- Wrote functions to calculate distance and duration from input
+- Wrote functions to calculate distance and duration from input!
+- Ability to draw a route on earth given depature/arrival!
 
 ## TODOs
- - Ablity to draw a route given 2 airports
+ - Enhance Ui on earth: small info cards on the route?
  - Grab Airline logos
  - Grab national flag icons
  - Complete the log table as data source for globe view
