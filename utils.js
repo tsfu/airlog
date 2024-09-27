@@ -1,7 +1,7 @@
 // Path to CSV file
 const csvFilePath = "./data/airports.csv";
 const airportDataMap = new Map();
-var DateTime = luxon.DateTime;
+const DateTime = luxon.DateTime;
 
 async function getAirportDataAsync() {
   try {
@@ -98,7 +98,13 @@ async function getDuration(takeoff, landing, departureIATA, arrivalIATA) {
 }
 
 // Function to draw flight route on the globe using CesiumJS
-function drawFlightRoute(viewer, depature, departureCoords, arrival, arrivalCoords) {
+function drawFlightRoute(
+  viewer,
+  depature,
+  departureCoords,
+  arrival,
+  arrivalCoords
+) {
   const departureCartesian = Cesium.Cartesian3.fromDegrees(
     departureCoords.longitude,
     departureCoords.latitude
@@ -111,7 +117,7 @@ function drawFlightRoute(viewer, depature, departureCoords, arrival, arrivalCoor
   viewer.entities.add({
     polyline: {
       positions: [departureCartesian, arrivalCartesian],
-      width: 4,
+      width: 3,
       material: Cesium.Color.YELLOW,
       clampToGround: false, // Keep it floating
     },
@@ -125,14 +131,14 @@ function drawFlightRoute(viewer, depature, departureCoords, arrival, arrivalCoor
       color: Cesium.Color.RED,
     },
     label: {
-      text: "Departure - " + depature,
+      text: depature,
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
       outlineWidth: 2,
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      pixelOffset: new Cesium.Cartesian2(0, -15),
+      pixelOffset: new Cesium.Cartesian2(0, -20),
     },
   });
 
@@ -144,14 +150,14 @@ function drawFlightRoute(viewer, depature, departureCoords, arrival, arrivalCoor
       color: Cesium.Color.RED,
     },
     label: {
-      text: "Arrival - " + arrival,
+      text: arrival,
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
       outlineWidth: 2,
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      pixelOffset: new Cesium.Cartesian2(0, -15),
+      pixelOffset: new Cesium.Cartesian2(0, -20),
     },
   });
 }

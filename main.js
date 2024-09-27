@@ -100,9 +100,9 @@ document
     // Draw route on earth
     drawFlightRoute(
       viewer,
-      trip.departureCity,
+      trip.departureIATA,
       IATAtoCoordinates(trip.departureIATA),
-      trip.arrivalCity,
+      trip.arrivalIATA,
       IATAtoCoordinates(trip.arrivalIATA)
     );
 

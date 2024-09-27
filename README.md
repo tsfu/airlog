@@ -90,4 +90,4 @@ TODO: Insert a data model diagram here.
    - Get stats for different regions 
    - Collection: Aircraft, Country, Continents, etc... 
    - Progress: total hours, distance, ratio to the moon, etc.
- - Long term, add support for trians?
+ - Long term, add support for trains?
