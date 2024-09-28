@@ -54,6 +54,8 @@ All data is obtained from user or public available resources. This app only oper
 
 This is a pure client side app, which means we do not save or keep your data. The trips you added are stored within your web browser's `localStorage`. The LocalStorage data remains saved until it's explicitly cleared by the user(you). Closing browser or powering off your computer will not clear it. However, you should NOT assume the data is 100% safely stored or won't get lost.
 
+This also means that your data will not sync between devices. It's client specific. Using 2 broswers on a same devices will not share data as well. Before external data storage is implemented (nowhere close), I recommend keep a local copy of your trips data in a `.json` file.  
+
 You may delete the locally saved data from your browser's developer tool UI, or use script. The storage usage of a typical user's trips would normally be smaller than 1MB.
 
 ### DataSource
@@ -106,7 +108,7 @@ For each trip, the object looks like this:
 - fix delete data from storage
 
 ## TODOs
- - Enhance Ui on earth: small info cards on the route?
+ - Enhance UI on earth: small info cards on the route?
  - Grab Airline logos
  - Grab national flag icons
  - Complete the log table as data source for globe view

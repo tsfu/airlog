@@ -118,7 +118,7 @@ function drawFlightRoute(
   viewer.entities.add({
     polyline: {
       positions: [departureCartesian, arrivalCartesian],
-      width: 3,
+      width: 2,
       material: Cesium.Color.YELLOW,
       clampToGround: false, // Keep it floating
     },
@@ -132,7 +132,7 @@ function drawFlightRoute(
       color: Cesium.Color.RED,
     },
     label: {
-      text: depature,
+      text: depature.toUpperCase(),
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
@@ -151,7 +151,7 @@ function drawFlightRoute(
       color: Cesium.Color.RED,
     },
     label: {
-      text: arrival,
+      text: arrival.toUpperCase(),
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,

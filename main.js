@@ -190,9 +190,9 @@ async function addTripRow(
   // Get the input values from the form
   let trip = {};
   trip.departureCity = departureCity;
-  trip.departureIATA = departureIATA;
+  trip.departureIATA = departureIATA.toUpperCase();
   trip.arrivalCity = arrivalCity;
-  trip.arrivalIATA = arrivalIATA;
+  trip.arrivalIATA = arrivalIATA.toUpperCase();
   trip.takeOffTime = takeOffTime;
   trip.landingTime = landingTime;
   trip.flightNumber = flightNumber;
