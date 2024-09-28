@@ -22,6 +22,7 @@
       <a href="#" class="tab-link" onclick="openTab(event, 'travel-stats')"
         >Travel Stats</a
       >
+      <a href="https://github.com/tsfu/TravelMap">About</a>
     </div>
 
     <!-- Globe View Content -->
@@ -30,7 +31,7 @@
 
     <!-- Travel Log Content -->
     <div id="travel-log" class="tab-content">
-      <h2>Travel Log</h2>
+      <h1>Travel Log</h1>
       <table id="travelLogTable">
         <thead>
           <tr>
@@ -53,14 +54,15 @@
         </thead>
         <tbody>
           <!-- Add log here dynamically from trips -->
-
         </tbody>
       </table>
       <!-- Add Trip Button -->
       <button id="addTripButton">Add Trip</button>
-      <button id="importFileButton">Import Trips from File</button>
-
-
+      <button id="importFileButton">Import Trips from JSON File</button>
+      <input type="file" id="json-input" accept=".json" style="display: none;"/>
+      <h4>You may use "Add Trip" to log one trip, or upload a JSON file to batch import your records.</h4>
+      <h4>For JSON file format, please see <i>README</i> or <i>sample_trips.json</i> on Github repo.</h4>
+      
       <!-- Trip Details Form (hidden initially) -->
       <form id="tripForm" class="trip-form hidden">
         <h3>Enter Your Trip Details:</h3>
@@ -117,7 +119,8 @@
 
     <!-- Travel Stats Content -->
     <div id="travel-stats" class="tab-content">
-      <h2>Travel Stats</h2>
+      <h1>Travel Stats</h1>
+      <h2>NOTE: This page is under development. Below are just sample contents.</h2>
       <p>Achievements</p>
       <ul>
         <li>Total Flights: 5</li>

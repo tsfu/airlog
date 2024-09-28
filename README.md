@@ -10,7 +10,8 @@
   - [DataSource](#datasource)
   - [DataModel](#datamodel)
 - [CHANGELOG](#changelog)
-  - [Initial Setup - 2024.9](#initial-setup---20249)
+  - [Initial Setup - 2024.9.20](#initial-setup---2024920)
+  - [MVP0 - 2024.9.28](#mvp0---2024928)
 - [TODOs](#todos)
 
 ## Introduction
@@ -42,6 +43,8 @@ This is made possible by  `CesiumJS` library and ChatGPT JS coding.
 A table that holds your travel records, with detailed information you have added.
 This is the soure-of-truth data you provided and we use it to make visualization with other open source data and libraries.
 
+User may use form UI to add one trip, or upload JSON file to batch import trips.
+
 ### Stats
 Some useful stats for user's travel history. Rankings, collections, progress, etc.
 
@@ -59,16 +62,43 @@ These are the dataset or sources it currently uses:
   - Airline: user input (add auto-suggestion?)
   - Aircraft: user input (add auto-suggestion?)
   - Duration/Distance: Calculated upon user input using my helper methods in `airport.js`
+Under directory `/data`, you will find `airport.csv` for airport information used for calculation and drawing, and also `sample_trips.json` as a format guide for importing/manipulating trips.
 
 ### DataModel
-TODO: Insert a data model diagram here.
+For now, the trips of a user are stored in a JS array, which holds multiple "trip" objects.
+For each trip, the object looks like this: 
+```js client
+  {
+      "id": "CTUDOH201808220214",
+      "departureCity": "Chengdu",
+      "departureIATA": "CTU",
+      "arrivalCity": "Doha",
+      "arrivalIATA": "DOH",
+      "takeOffTime": "2018-08-22T02:14",
+      "landingTime": "2018-08-22T05:25",
+      "duration": "",
+      "distance": "",
+      "flightNumber": "QR861",
+      "airline": "Qatar Airways",
+      "aircraft": "Airbus A330-200",
+      "tailNumber": "A7-ACM",
+      "seatClass": "Economy",
+      "seatNumber": "32B"
+  }
+```
+The trip's unique identifier `id` will be generated automatically upon adding if absent
+The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## CHANGELOG
-### Initial Setup - 2024.9
+### Initial Setup - 2024.9.20
 - Intial Commit, first adoption of cesiumJS
 - Added airport data in data/airports.csv
 - Wrote functions to calculate distance and duration from input!
+### MVP0 - 2024.9.28
 - Ability to draw a route on earth given depature/arrival!
+- Store logs in LocalStorage
+- Upload a JSON file to add multiple trips!
+- fix delete data from storage
 
 ## TODOs
  - Enhance Ui on earth: small info cards on the route?
@@ -77,6 +107,7 @@ TODO: Insert a data model diagram here.
  - Complete the log table as data source for globe view
    - Edit a record 
    - Sort records by columns?
+   - Export .json file
  - Enhance LogView UI:
    - hover airport display full name
    - national flag icon next to city name

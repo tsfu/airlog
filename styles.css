@@ -37,8 +37,8 @@ body {
     height: calc(100vh - 50px);
 }
 
-/* Styling for the travel log table */
-#travel-log {
+/* Styling for the travel log tab */
+#travel-log, #travel-stats {
     margin: 10px;
 }
 table {
