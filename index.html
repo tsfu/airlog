@@ -34,8 +34,8 @@
       <table id="travelLogTable">
         <thead>
           <tr>
-            <th>FromIATA</th>
-            <th>ToIATA</th>
+            <th>From</th>
+            <th>To</th>
             <th>Departure City</th>
             <th>Arrival City</th>
             <th>Takeoff</th>
@@ -52,45 +52,14 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Add your log rows here -->
-          <tr>
-            <td>BOS</td>
-            <td>LHR</td>
-            <td>Boston, USA</td>
-            <td>London, GB</td>
-            <td>2024-06-26 19:38</td>
-            <td>2024-06-27 06:48</td>
-            <td>6h 10min</td>
-            <td>5241km</td>
-            <td>British Airways, BA/BAW</td>
-            <td>BA212</td>
-            <td>Airbus A380-800</td>
-            <td>G-XLEF</td>
-            <td>Economy</td>
-            <td>75A</td>
-            <td><button onclick="removeRow(this)">Delete</button></td>
-          </tr>
-          <tr>
-            <td>JFK</td>
-            <td>PVG</td>
-            <td>New York, USA</td>
-            <td>Shanghai, China</td>
-            <td>2019-05-16 01:45</td>
-            <td>2019-05-17 05:50</td>
-            <td>14h 46min</td>
-            <td>11873km</td>
-            <td>China Eastern, MU/CES</td>
-            <td>MU298</td>
-            <td>Boeing 777-300ER</td>
-            <td>B-2002</td>
-            <td>Economy</td>
-            <td>70A</td>
-            <td><button onclick="removeRow(this)">Delete</button></td>
-          </tr>
+          <!-- Add log here dynamically from trips -->
+
         </tbody>
       </table>
       <!-- Add Trip Button -->
       <button id="addTripButton">Add Trip</button>
+      <button id="importFileButton">Import Trips from File</button>
+
 
       <!-- Trip Details Form (hidden initially) -->
       <form id="tripForm" class="trip-form hidden">
@@ -137,7 +106,7 @@
         <input type="text" id="tailNumber" name="tailNumber" />
 
         <label for="class">Class</label>
-        <input type="text" id="class" name="class" />
+        <input type="text" id="seatClass" name="class" />
 
         <label for="seatNumber">Seat Number</label>
         <input type="text" id="seatNumber" name="seatNumber" />
@@ -166,9 +135,9 @@
       </ul>
     </div>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
-    <script src="http://unpkg.com/browser-geo-tz@latest/dist/geotz.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/browser-geo-tz@0.1.0/dist/geotz.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
     <script src="utils.js"></script>
     <script src="main.js"></script>

@@ -27,6 +27,7 @@ async function getAirportDataAsync() {
     parsedData.forEach((airport) => {
       airportDataMap.set(airport.iata, airport);
     });
+    console.log("INFO: Airport data map is now completed.")
     return airportDataMap;
   } catch (error) {
     console.error("Error occurred while building airport data map:", error);
