@@ -12,6 +12,7 @@
 - [CHANGELOG](#changelog)
   - [Initial Setup - 2024.9.20](#initial-setup---2024920)
   - [MVP0 - 2024.9.28](#mvp0---2024928)
+  - [MVP1 - 2024.9.30](#mvp1---2024930)
 - [TODOs](#todos)
 
 ## Introduction
@@ -33,7 +34,7 @@ With MVP now completed, this UI app is hosted on Github Pages (no server-side co
 
 There are 3 UI tabs for this app:
 - Globe view: Uses `CesiumJS` to visualize the routes of a user's past trips on 3D earth.
-- Log View: A table that holds all user input (display travel data and serve as data source). Use "Add Trip" to log a trip, or upload a JSON file to batch import trips. 
+- Log View: A table that holds all user input (display travel data and serve as data source). User can view, add, and edit trips. Use "Add Trip" to log a trip, or upload a JSON file to batch import trips. Use "Export Trips" to export trips to local file.
 - Stats: Get some fun rankings and aggregation from user's travel data.
 
 ### GlobeView
@@ -44,6 +45,8 @@ A table that holds your travel records, with detailed information you have added
 This is the soure-of-truth data you provided and we use it to make visualization with other open source data and libraries.
 
 User may use form UI to add one trip, or upload JSON file to batch import trips. See `/data/sample_trips.json` to follow the format when you use upload.
+
+To ensure data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
 
 ### Stats
 Some useful stats for user's travel history. Rankings, collections, progress, etc.
@@ -106,6 +109,9 @@ For each trip, the object looks like this:
 - Store logs in LocalStorage
 - Upload a JSON file to add multiple trips!
 - fix delete data from storage
+### MVP1 - 2024.9.30
+- Fix Distance/duration loading
+- Export trips to local JSON file
 
 ## TODOs
  - Enhance UI on earth: small info cards on the route?
@@ -114,7 +120,6 @@ For each trip, the object looks like this:
  - Complete the log table as data source for globe view
    - Edit a record 
    - Sort records by columns?
-   - Export .json file
  - Enhance LogView UI:
    - hover airport display full name
    - national flag icon next to city name
