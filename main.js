@@ -85,7 +85,7 @@ async function Test() {
 // "add trip" button
 document.getElementById("addTripButton").addEventListener("click", function () {
   const form = document.getElementById("tripForm");
-  form.classList.toggle("hidden");
+  modal.style.display = "block";
 });
 
 // "import from file" button
@@ -94,6 +94,19 @@ document
   .addEventListener("click", function () {
     document.getElementById("json-input").click();
   });
+
+// trip input modal
+const modal = document.getElementById("addTripModal");
+const closeSpan = document.getElementsByClassName("modal-close")[0];
+closeSpan.onclick = function() {
+  modal.style.display = "none"; // close modal
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 
 // handle form submission
 document
@@ -122,7 +135,7 @@ document
 
     // Reset the form and hide it after submission
     this.reset();
-    this.classList.add("hidden");
+    modal.style.display = "none";
   });
 
 // handle json import

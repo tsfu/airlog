@@ -32,8 +32,8 @@
     <!-- Travel Log Content -->
     <div id="travel-log" class="tab-content">
       <h1>Travel Log</h1>
-      <h4>Make sure you use the correct airport (IATA) code. Those are the source of all calculations.</h4>
-      <h4>Other fields are not required to be present or accurate.</h4>
+      <p><striong>Make sure you use the correct airport (IATA) code.</striong>Those are the source of all calculations.</p>
+      <p>Other fields are not required to be present or accurate.</p>
       <table id="travelLogTable">
         <thead>
           <tr>
@@ -62,61 +62,67 @@
       <button id="addTripButton">Add Trip</button>
       <button id="importFileButton">Import Trips from JSON File</button>
       <input type="file" id="json-input" accept=".json" style="display: none;"/>
-      <h4>You may use "Add Trip" to log one trip, or upload a JSON file to batch import your records.</h4>
-      <h4>For JSON file format, please see <i>README</i> or <i>sample_trips.json</i> on Github repo.</h4>
+      <p>You may use "Add Trip" to log one trip, or upload a JSON file to batch import your records.</p>
+      <p>For JSON file format, please see <i>README</i> or <i>sample_trips.json</i> on Github repo.</p>
       
-      <!-- Trip Details Form (hidden initially) -->
-      <form id="tripForm" class="trip-form hidden">
-        <h3>Enter Your Trip Details:</h3>
+      <!-- Trip Details Form (modal hidden initially) -->
+      <div id="addTripModal" class="modal">
+        <!-- Modal Content -->
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <form id="tripForm" class="trip-form">
+            <h2 id="tripFormTitle">Enter Your Trip Details</h2>
 
-        <label for="departureCity">Departure City</label>
-        <input type="text" id="departureCity" name="departureCity" required />
+            <label for="departureCity">Departure City</label>
+            <input type="text" id="departureCity" name="departureCity" required />
 
-        <label for="departureIATA">Departure IATA Code</label>
-        <input type="text" id="departureIATA" name="departureIATA" required />
+            <label for="departureIATA"><strong>Departure IATA Code</strong> (make sure it's correct)</label>
+            <input type="text" id="departureIATA" name="departureIATA" required />
 
-        <label for="arrivalCity">Arrival City</label>
-        <input type="text" id="arrivalCity" name="arrivalCity" required />
+            <label for="arrivalCity">Arrival City</label>
+            <input type="text" id="arrivalCity" name="arrivalCity" required />
 
-        <label for="arrivalIATA">Arrival IATA Code</label>
-        <input type="text" id="arrivalIATA" name="arrivalIATA" required />
+            <label for="arrivalIATA"><strong>Arrival IATA Code</strong> (make sure it's correct)</label>
+            <input type="text" id="arrivalIATA" name="arrivalIATA" required />
 
-        <label for="takeOffTime">Take Off Time (YYYY-MM-DD HH:MM)</label>
-        <input
-          type="datetime-local"
-          id="takeOffTime"
-          name="takeOffTime"
-          required
-        />
+            <label for="takeOffTime">Take Off Time (YYYY-MM-DD HH:MM)</label>
+            <input
+              type="datetime-local"
+              id="takeOffTime"
+              name="takeOffTime"
+              required
+            />
 
-        <label for="landingTime">Landing Time</label>
-        <input
-          type="datetime-local"
-          id="landingTime"
-          name="landingTime"
-          required
-        />
+            <label for="landingTime">Landing Time</label>
+            <input
+              type="datetime-local"
+              id="landingTime"
+              name="landingTime"
+              required
+            />
 
-        <label for="flightNumber">Flight Number</label>
-        <input type="text" id="flightNumber" name="flightNumber" />
+            <label for="flightNumber">Flight Number</label>
+            <input type="text" id="flightNumber" name="flightNumber" />
 
-        <label for="airline">Airline</label>
-        <input type="text" id="airline" name="airline" />
+            <label for="airline">Airline</label>
+            <input type="text" id="airline" name="airline" />
 
-        <label for="aircraft">Aircraft</label>
-        <input type="text" id="aircraft" name="aircraft" />
+            <label for="aircraft">Aircraft</label>
+            <input type="text" id="aircraft" name="aircraft" />
 
-        <label for="tailNumber">Tail Number</label>
-        <input type="text" id="tailNumber" name="tailNumber" />
+            <label for="tailNumber">Tail Number</label>
+            <input type="text" id="tailNumber" name="tailNumber" />
 
-        <label for="class">Class</label>
-        <input type="text" id="seatClass" name="class" />
+            <label for="class">Class</label>
+            <input type="text" id="seatClass" name="class" />
 
-        <label for="seatNumber">Seat Number</label>
-        <input type="text" id="seatNumber" name="seatNumber" />
+            <label for="seatNumber">Seat Number</label>
+            <input type="text" id="seatNumber" name="seatNumber" />
 
-        <button type="submit">Submit</button>
-      </form>
+            <button id="submitTripButton" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <!-- Travel Stats Content -->
