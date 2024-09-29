@@ -195,6 +195,8 @@ async function addTripRow(
   trip.arrivalIATA = arrivalIATA.toUpperCase();
   trip.takeOffTime = takeOffTime;
   trip.landingTime = landingTime;
+  trip.duration = duration;
+  trip.distance = distance;
   trip.flightNumber = flightNumber;
   trip.airline = airline;
   trip.aircraft = aircraft;
@@ -203,7 +205,7 @@ async function addTripRow(
   trip.seatNumber = seatNumber;
 
   // Calculate duration and distance using airport.js methods
-  if (!duration || duration == "") {
+  if (duration == null || duration == "") {
     trip.duration = await getDuration(
       trip.takeOffTime + ":00",
       trip.landingTime + ":00",
@@ -211,7 +213,7 @@ async function addTripRow(
       trip.arrivalIATA
     );
   }
-  if (!distance || distance == "") {
+  if (distance == null || distance == "") {
     trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
   }
   if (trip.id == null || trip.id == "") {
@@ -239,16 +241,22 @@ async function addTripRow(
     '<button id="' + trip.id + '" onclick="removeRow(this)">Delete</button>'; // TODO: add edit row (trip) button
 
   // Insert new cells and populate them with the input values
-  newRow.insertCell(0).textContent = trip.departureIATA;
-  newRow.insertCell(1).textContent = trip.arrivalIATA;
-  newRow.insertCell(2).textContent = trip.departureCity;
-  newRow.insertCell(3).textContent = trip.arrivalCity;
+  newRow.insertCell(0).textContent = trip.departureCity;
+  const cell2 = newRow.insertCell(1);
+  cell2.textContent = trip.departureIATA;
+  cell2.classList.add('bold-text');
+  newRow.insertCell(2).textContent = trip.arrivalCity;
+  const cell4 = newRow.insertCell(3);
+  cell4.textContent = trip.arrivalIATA;
+  cell4.classList.add('bold-text');
   newRow.insertCell(4).textContent = trip.takeOffTime.replace("T", " ");
   newRow.insertCell(5).textContent = trip.landingTime.replace("T", " ");
   newRow.insertCell(6).textContent = trip.duration;
   newRow.insertCell(7).textContent = trip.distance;
   newRow.insertCell(8).textContent = trip.airline;
-  newRow.insertCell(9).textContent = trip.flightNumber;
+  const cell9 = newRow.insertCell(9);
+  cell9.textContent = trip.flightNumber;
+  cell9.classList.add('bold-text');
   newRow.insertCell(10).textContent = trip.aircraft;
   newRow.insertCell(11).textContent = trip.tailNumber;
   newRow.insertCell(12).textContent = trip.seatClass;

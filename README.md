@@ -15,20 +15,20 @@
 - [TODOs](#todos)
 
 ## Introduction
-This app is a travel log tool. It keeps track of and visualizes your past trips. (flights, and hopefully we can support trains later). 
+This app is a travel log tool. It keeps track of and visualizes your past trips. (flights, we may support trains in the future). 
 
-On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, is shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This will combine web development, UI design, and GIS stuff, which are the topics I am most interested in.
+On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This will combine web development, UI design, and GIS stuff, which are the topics I am most interested in.
 
 
 The design and idea of this site is inspired by `App In the Air`  and `Flighty`. 
 This app is my personal project only. Not for commercial use.
 
 ## Usage
-This is a pure frontend project. I used CDNs instead of node modules. There is no server-side code(nodeJS, npm, express, sqlite, etc), also to keep this simple there is no framework in use. Therefore, this app does not store your data on server-side. Your added trips are stored client-side only. (This is not likely to change in the short term)
+This is a pure frontend project. I use CDNs for JS libraries instead of node modules. There is no server-side code(nodeJS, npm, express, sqlite, etc). Also, to keep this simple, there is no framework in use. Therefore, this app does not store your data on a server. Your added trips are stored client-side (in your browser) only. This is not likely to change in the short term.
 
-When at least an MVP is complete, I will likely host this site on Github Pages (that's why no server-side code). But to test or run this app locally, you may use `git clone` to grab the code, then:
+With MVP now completed, this UI app is hosted on Github Pages (no server-side code supported). You may visit the link shown on this repo. To test the app locally, you may use `git clone` to grab the code, then:
  - Run `npm install -g http-server`, or use some other light-weight demo server locally.
- - Open terminal and run ` http-server .` to start server.
+ - Open terminal and run ` http-server .` to start local server.
  - Go to the prompted address in your browser to view the project site.
 
 There are 3 UI tabs for this app:
@@ -54,7 +54,7 @@ All data is obtained from user or public available resources. This app only oper
 
 This is a pure client side app, which means we do not save or keep your data. The trips you added are stored within your web browser's `localStorage`. The LocalStorage data remains saved until it's explicitly cleared by the user(you). Closing browser or powering off your computer will not clear it. However, you should NOT assume the data is 100% safely stored or won't get lost.
 
-This also means that your data will not sync between devices. It's client specific. Using 2 broswers on a same devices will not share data as well. Before external data storage is implemented (nowhere close), I recommend keep a local copy of your trips data in a `.json` file.  
+This also means that your data will not sync between devices. It's client specific. Using 2 broswers on a same device will not share data as well. Before external data storage is implemented (nowhere close), I recommend keep a local copy of your trips data in a `.json` file.  
 
 You may delete the locally saved data from your browser's developer tool UI, or use script. The storage usage of a typical user's trips would normally be smaller than 1MB.
 
