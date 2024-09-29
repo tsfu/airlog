@@ -92,6 +92,7 @@ document.getElementById("importButton").addEventListener("click", function () {
   document.getElementById("json-input").click();
 });
 
+// "export trips" button
 document.getElementById("exportButton").onclick = exportToJSON;
 
 // trip input modal
@@ -107,7 +108,7 @@ window.onclick = function (event) {
   }
 };
 
-// handle form submission
+// handle form submission when adding a trip
 document
   .getElementById("tripForm")
   .addEventListener("submit", async function (event) {
@@ -136,6 +137,9 @@ document
     this.reset();
     modal.style.display = "none";
   });
+
+// handle form submission when editing a trip
+document.getElementById("updateTripButton").onclick = updateEditTrip;
 
 // handle json import
 document
@@ -249,33 +253,51 @@ async function addTripRow(
   // Create a new row in the travel log table
   const table = document.getElementById("travelLogTable");
   const newRow = table.insertRow(-1); // Insert a new row at the end of the table
+  
+  const editButtonHTML = 
+    '<button id="' +
+    trip.id + "e" +
+    '" class="rowEditButton" onclick="editRow(this)">&plus;</button>'; 
   const deleteButtonHTML =
     '<button id="' +
     trip.id +
-    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>'; // TODO: add edit row (trip) button
+    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>'; 
 
   // Insert new cells and populate them with the input values
   newRow.insertCell(0).textContent = trip.departureCity;
-  const cell2 = newRow.insertCell(1);
-  cell2.textContent = trip.departureIATA;
-  cell2.classList.add("bold-text");
+  
+  const cell1 = newRow.insertCell(1);
+  cell1.textContent = trip.departureIATA;
+  cell1.classList.add("bold-text");
+  
   newRow.insertCell(2).textContent = trip.arrivalCity;
-  const cell4 = newRow.insertCell(3);
-  cell4.textContent = trip.arrivalIATA;
-  cell4.classList.add("bold-text");
+  
+  const cell3 = newRow.insertCell(3);
+  cell3.textContent = trip.arrivalIATA;
+  cell3.classList.add("bold-text");
+  
   newRow.insertCell(4).textContent = trip.takeOffTime.replace("T", " ");
   newRow.insertCell(5).textContent = trip.landingTime.replace("T", " ");
   newRow.insertCell(6).textContent = trip.duration;
   newRow.insertCell(7).textContent = trip.distance;
   newRow.insertCell(8).textContent = trip.airline;
+  
   const cell9 = newRow.insertCell(9);
   cell9.textContent = trip.flightNumber;
   cell9.classList.add("bold-text");
+  
   newRow.insertCell(10).textContent = trip.aircraft;
   newRow.insertCell(11).textContent = trip.tailNumber;
   newRow.insertCell(12).textContent = trip.seatClass;
   newRow.insertCell(13).textContent = trip.seatNumber;
-  newRow.insertCell(14).innerHTML = deleteButtonHTML;
+  // edit/delete buttons within row
+  const cell14 = newRow.insertCell(14);
+  cell14.innerHTML = editButtonHTML;
+  cell14.classList.add("actionCol");
+  const cell15 = newRow.insertCell(15);
+  cell15.innerHTML = deleteButtonHTML;
+  cell15.classList.add("actionCol");
+  
   // update global var of user's trips
   trips.push(trip);
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
@@ -291,6 +313,95 @@ function removeRow(evt) {
   const deleteIdx = trips.findIndex((obj) => obj.id == deleteTripID);
   trips.splice(deleteIdx, 1);
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
+}
+
+// prepare to edit a row
+function editRow(evt) {
+  const editRowIndex = evt.parentElement.parentElement.rowIndex;
+  const editTripID = evt.id.slice(0, -1);
+  let trip = trips.find((obj) => obj.id == editTripID);
+  
+  // pre-fill the current values in form
+  document.getElementById("departureCity").value = trip.departureCity;
+  document.getElementById("departureIATA").value = trip.departureIATA;
+  document.getElementById("arrivalCity").value = trip.arrivalCity;
+  document.getElementById("arrivalIATA").value = trip.arrivalIATA;
+  document.getElementById("takeOffTime").value = trip.takeOffTime;
+  document.getElementById("landingTime").value = trip.landingTime;
+  document.getElementById("flightNumber").value = trip.flightNumber;
+  document.getElementById("airline").value = trip.airline;
+  document.getElementById("aircraft").value = trip.aircraft;
+  document.getElementById("tailNumber").value = trip.tailNumber;
+  document.getElementById("seatClass").value = trip.seatClass;
+  document.getElementById("seatNumber").value = trip.seatNumber;
+
+  // temporarily save trip and row id that is being edited until update clicked. 
+  sessionStorage.setItem("editTripID", editTripID);
+  sessionStorage.setItem("editRowIndex", editRowIndex)
+  // show edit modal, will do updateEditTrip() when submit
+  document.getElementById("submitTripButton").setAttribute("hidden", "hidden");
+  document.getElementById("updateTripButton").removeAttribute("hidden");
+  modal.style.display = "block";
+}
+
+// update trip for both UI and storage from input
+async function updateEditTrip() {
+  // re-fetch the IDs for editing
+  const editTripID = sessionStorage.getItem("editTripID");
+  const editRowIndex = sessionStorage.getItem("editRowIndex");
+  sessionStorage.removeItem("editTripID");
+  sessionStorage.removeItem("editRowIndex");
+  
+  // record the updated values in form input
+  let trip = trips.find((obj) => obj.id == editTripID); 
+  trip.departureCity = document.getElementById("departureCity").value;
+  trip.departureIATA = document.getElementById("departureIATA").value;
+  trip.arrivalCity = document.getElementById("arrivalCity").value;
+  trip.arrivalIATA = document.getElementById("arrivalIATA").value;
+  trip.takeOffTime = document.getElementById("takeOffTime").value;
+  trip.landingTime = document.getElementById("landingTime").value;
+  trip.flightNumber = document.getElementById("flightNumber").value;
+  trip.airline = document.getElementById("airline").value;
+  trip.aircraft = document.getElementById("aircraft").value;
+  trip.tailNumber = document.getElementById("tailNumber").value;
+  trip.seatClass = document.getElementById("seatClass").value;
+  trip.seatNumber = document.getElementById("seatNumber").value;
+  // always re-calculate these upon update
+  trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
+  trip.duration = await getDuration(
+    trip.takeOffTime + ":00",
+    trip.landingTime + ":00",
+    trip.departureIATA,
+    trip.arrivalIATA
+  );
+  
+  // update table row in place
+  const row = document.getElementById("travelLogTable").rows[editRowIndex];
+  row.cells[0].textContent = trip.departureCity;
+  row.cells[1].textContent = trip.departureIATA;
+  row.cells[2].textContent = trip.arrivalCity;
+  row.cells[3].textContent = trip.arrivalIATA;   
+  row.cells[4].textContent = trip.takeOffTime.replace("T", " ");
+  row.cells[5].textContent = trip.landingTime.replace("T", " ");
+  row.cells[6].textContent = trip.duration;
+  row.cells[7].textContent = trip.distance;
+  row.cells[8].textContent = trip.airline;
+  row.cells[9].textContent = trip.flightNumber;
+  row.cells[10].textContent = trip.aircraft;
+  row.cells[11].textContent = trip.tailNumber;
+  row.cells[12].textContent = trip.seatClass;
+  row.cells[13].textContent = trip.seatNumber;
+  
+  // update trip object
+  const tripsIndex = trips.findIndex((obj) => obj.id == editTripID);
+  trips[tripsIndex] = trip;
+  localStorage.setItem(tripStorageKey, JSON.stringify(trips));
+
+  // reset add/update button status in modal
+  document.getElementById("tripForm").reset();
+  document.getElementById("submitTripButton").removeAttribute("hidden");
+  document.getElementById("updateTripButton").setAttribute("hidden", "hidden");
+  modal.style.display = "none";
 }
 
 // export trips to file

@@ -81,6 +81,10 @@ th {
     border-bottom: none;
 }
 
+.actionCol {
+    padding: 5px;
+}
+
 td {
     background-color: #ffffff;
     border-bottom: none;
@@ -188,8 +192,13 @@ button {
     font-size: 18px;
     font-weight: bold;
 }
+.rowEditButton {
+    font-size: 18px;
+    font-weight: bold;
+}
 
-#submitTripButton {
+#submitTripButton,
+#updateTripButton {
     padding: 10px 20px;
     margin-top: 20px;
 }
