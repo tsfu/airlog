@@ -1,8 +1,17 @@
-// Path to CSV file
 const csvFilePath = "./data/airports.csv";
 const airportDataMap = new Map();
 const DateTime = luxon.DateTime;
 
+// generate a unique ID for trip
+function constructID(trip) {
+  const ID =
+    trip.departureIATA +
+    trip.arrivalIATA +
+    trip.takeOffTime.replace(/\D/g, "");
+  return ID;
+}
+
+// use airport.csv to construct info map
 async function getAirportDataAsync() {
   try {
     // Step 1: Fetch CSV data using $.ajax wrapped in a promise
@@ -119,7 +128,7 @@ function drawFlightRoute(
     polyline: {
       positions: [departureCartesian, arrivalCartesian],
       width: 2,
-      material: Cesium.Color.YELLOW,
+      material: Object.freeze(Cesium.Color.fromCssColorString("#e7fd7d")),
       clampToGround: false, // Keep it floating
     },
   });
@@ -128,15 +137,17 @@ function drawFlightRoute(
   viewer.entities.add({
     position: departureCartesian,
     point: {
-      pixelSize: 10,
-      color: Cesium.Color.RED,
+      pixelSize: 8,
+      color: Cesium.Color.CORNFLOWERBLUE,
+      outlineColor: Cesium.Color.WHITE,
+      outlineWidth: 2,
     },
     label: {
       text: depature.toUpperCase(),
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
-      outlineWidth: 2,
+      outlineWidth: 1,
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, -20),
@@ -147,15 +158,17 @@ function drawFlightRoute(
   viewer.entities.add({
     position: arrivalCartesian,
     point: {
-      pixelSize: 10,
-      color: Cesium.Color.RED,
+      pixelSize: 8,
+      color: Cesium.Color.CORNFLOWERBLUE,
+      outlineColor: Cesium.Color.WHITE,
+      outlineWidth: 2,
     },
     label: {
       text: arrival.toUpperCase(),
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
-      outlineWidth: 2,
+      outlineWidth: 1,
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, -20),

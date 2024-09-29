@@ -84,29 +84,28 @@ async function Test() {
 
 // "add trip" button
 document.getElementById("addTripButton").addEventListener("click", function () {
-  const form = document.getElementById("tripForm");
   modal.style.display = "block";
 });
 
 // "import from file" button
-document
-  .getElementById("importFileButton")
-  .addEventListener("click", function () {
-    document.getElementById("json-input").click();
-  });
+document.getElementById("importButton").addEventListener("click", function () {
+  document.getElementById("json-input").click();
+});
+
+document.getElementById("exportButton").onclick = exportToJSON;
 
 // trip input modal
 const modal = document.getElementById("addTripModal");
 const closeSpan = document.getElementsByClassName("modal-close")[0];
-closeSpan.onclick = function() {
+closeSpan.onclick = function () {
   modal.style.display = "none"; // close modal
-}
+};
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
-}
+};
 
 // handle form submission
 document
@@ -251,17 +250,19 @@ async function addTripRow(
   const table = document.getElementById("travelLogTable");
   const newRow = table.insertRow(-1); // Insert a new row at the end of the table
   const deleteButtonHTML =
-    '<button id="' + trip.id + '" onclick="removeRow(this)">Delete</button>'; // TODO: add edit row (trip) button
+    '<button id="' +
+    trip.id +
+    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>'; // TODO: add edit row (trip) button
 
   // Insert new cells and populate them with the input values
   newRow.insertCell(0).textContent = trip.departureCity;
   const cell2 = newRow.insertCell(1);
   cell2.textContent = trip.departureIATA;
-  cell2.classList.add('bold-text');
+  cell2.classList.add("bold-text");
   newRow.insertCell(2).textContent = trip.arrivalCity;
   const cell4 = newRow.insertCell(3);
   cell4.textContent = trip.arrivalIATA;
-  cell4.classList.add('bold-text');
+  cell4.classList.add("bold-text");
   newRow.insertCell(4).textContent = trip.takeOffTime.replace("T", " ");
   newRow.insertCell(5).textContent = trip.landingTime.replace("T", " ");
   newRow.insertCell(6).textContent = trip.duration;
@@ -269,7 +270,7 @@ async function addTripRow(
   newRow.insertCell(8).textContent = trip.airline;
   const cell9 = newRow.insertCell(9);
   cell9.textContent = trip.flightNumber;
-  cell9.classList.add('bold-text');
+  cell9.classList.add("bold-text");
   newRow.insertCell(10).textContent = trip.aircraft;
   newRow.insertCell(11).textContent = trip.tailNumber;
   newRow.insertCell(12).textContent = trip.seatClass;
@@ -280,28 +281,37 @@ async function addTripRow(
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
 }
 
-// Generate a unique ID for trip
-function constructID(trip) {
-  const ID =
-    trip.departureIATA +
-    trip.arrivalIATA +
-    trip.takeOffTime.replace(/\D/g, "");
-  return ID;
-}
-
 // delete a row
 function removeRow(evt) {
   const deleteRowIndex = evt.parentElement.parentElement.rowIndex;
-  const deleteTripID = evt.id
+  const deleteTripID = evt.id;
   // delete row in table
   document.getElementById("travelLogTable").deleteRow(deleteRowIndex);
   // delete trip from storage
-  const deleteIdx = trips.findIndex(obj => obj.id == deleteTripID);
-  trips.splice(deleteIdx, 1)
+  const deleteIdx = trips.findIndex((obj) => obj.id == deleteTripID);
+  trips.splice(deleteIdx, 1);
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
 }
 
+// export trips to file
+function exportToJSON() {
+  const trips = JSON.parse(localStorage.getItem(tripStorageKey)) || [];
+  if (trips.length < 1) {
+    alert("Warning: you don't have trips currently stored.");
+    return;
+  }
+  const jsonData = JSON.stringify(trips, null, 2); // Pretty print with 2 spaces
+  const blob = new Blob([jsonData], { type: "application/json" });
 
+  // Create a download link
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "travel-log.json"; // The file name for the download
+  link.click(); // Programmatically click the download link
 
-// Main entry JS
+  // Clean up and revoke the object URL
+  URL.revokeObjectURL(link.href);
+}
+
+// Main Entry
 init();

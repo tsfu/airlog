@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Map</title>
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-    <!-- Need CesiumJS lib -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <script src="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Cesium.js"></script>
-    <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css" />
+    <link
+      rel="stylesheet"
+      href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -25,15 +27,21 @@
       <a href="https://github.com/tsfu/TravelMap">About</a>
     </div>
 
-    <!-- Globe View Content -->
     <!-- CesiumJS globe rendering here -->
     <div id="cesiumContainer" class="tab-content active"></div>
 
     <!-- Travel Log Content -->
     <div id="travel-log" class="tab-content">
-      <h1>Travel Log</h1>
-      <p><striong>Make sure you use the correct airport (IATA) code.</striong>Those are the source of all calculations.</p>
-      <p>Other fields are not required to be present or accurate.</p>
+      <h1 id="travelLogTitle">Travel Log</h1>
+      <p class="top-info">
+        <strong
+          >Make sure to use the correct airport IATA code when you add
+          trip(s).</strong
+        > Those are the source of all calculations.
+      </p>
+      <p class="top-info">
+        Other fields of your trips are not required to be present or accurate.
+      </p>
       <table id="travelLogTable">
         <thead>
           <tr>
@@ -41,14 +49,14 @@
             <th></th>
             <th>To</th>
             <th></th>
-            <th>Takeoff</th>
+            <th>Take-off</th>
             <th>Landing</th>
             <th>Duration</th>
             <th>Distance</th>
             <th>Airline</th>
             <th>Flight</th>
             <th>Aircraft</th>
-            <th>Tail Number</th>
+            <th>Tail No.</th>
             <th>Class</th>
             <th>Seat</th>
             <th><!-- for delete --></th>
@@ -58,13 +66,21 @@
           <!-- Add log here dynamically from trips -->
         </tbody>
       </table>
-      <!-- Add Trip Button -->
+      <!-- Button groups for trip management-->
       <button id="addTripButton">Add Trip</button>
-      <button id="importFileButton">Import Trips from JSON File</button>
-      <input type="file" id="json-input" accept=".json" style="display: none;"/>
-      <p>You may use "Add Trip" to log one trip, or upload a JSON file to batch import your records.</p>
-      <p>For JSON file format, please see <i>README</i> or <i>sample_trips.json</i> on Github repo.</p>
-      
+      <button id="importButton">Import from JSON File</button>
+      <button id="exportButton">Export Trips</button>
+      <input type="file" id="json-input" accept=".json" style="display: none" />
+      <p>
+        Hit "Add Trip" to log one trip, or upload a JSON file to batch import
+        your records. For JSON file format, please see <i>README</i> or
+        <i>sample_trips.json</i> on Github repo.
+      </p>
+      <p>
+        Exporting your trips to JSON file is recommended to ensure you don't
+        lose data.
+      </p>
+
       <!-- Trip Details Form (modal hidden initially) -->
       <div id="addTripModal" class="modal">
         <!-- Modal Content -->
@@ -74,15 +90,27 @@
             <h2 id="tripFormTitle">Enter Your Trip Details</h2>
 
             <label for="departureCity">Departure City</label>
-            <input type="text" id="departureCity" name="departureCity" required />
+            <input
+              type="text"
+              id="departureCity"
+              name="departureCity"
+              required
+            />
 
-            <label for="departureIATA"><strong>Departure IATA Code</strong> (make sure it's correct)</label>
-            <input type="text" id="departureIATA" name="departureIATA" required />
+            <label for="departureIATA"
+              ><strong>Departure IATA Code</strong></label
+            >
+            <input
+              type="text"
+              id="departureIATA"
+              name="departureIATA"
+              required
+            />
 
             <label for="arrivalCity">Arrival City</label>
             <input type="text" id="arrivalCity" name="arrivalCity" required />
 
-            <label for="arrivalIATA"><strong>Arrival IATA Code</strong> (make sure it's correct)</label>
+            <label for="arrivalIATA"><strong>Arrival IATA Code</strong></label>
             <input type="text" id="arrivalIATA" name="arrivalIATA" required />
 
             <label for="takeOffTime">Take Off Time (YYYY-MM-DD HH:MM)</label>
@@ -128,7 +156,9 @@
     <!-- Travel Stats Content -->
     <div id="travel-stats" class="tab-content">
       <h1>Travel Stats</h1>
-      <h2>NOTE: This page is under development. Below are just sample contents.</h2>
+      <h2>
+        NOTE: This page is under development. Below are just sample contents.
+      </h2>
       <h3>Achievements</h3>
       <ul>
         <li>Total Flights: 5</li>
@@ -146,8 +176,18 @@
       </ul>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"
+      integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/browser-geo-tz@0.1.0/dist/geotz.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
     <script src="utils.js"></script>
