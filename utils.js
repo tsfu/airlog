@@ -108,13 +108,10 @@ async function getDuration(takeoff, landing, departureIATA, arrivalIATA) {
 }
 
 // Function to draw flight route on the globe using CesiumJS
-function drawFlightRoute(
-  viewer,
-  depature,
-  departureCoords,
-  arrival,
-  arrivalCoords
-) {
+function drawFlightRoute(viewer, trip) {
+  const departureCoords = IATAtoCoordinates(trip.departureIATA);
+  const arrivalCoords = IATAtoCoordinates(trip.arrivalIATA);
+
   const departureCartesian = Cesium.Cartesian3.fromDegrees(
     departureCoords.longitude,
     departureCoords.latitude
@@ -125,6 +122,7 @@ function drawFlightRoute(
   );
 
   viewer.entities.add({
+    id: "route-" + trip.id,
     polyline: {
       positions: [departureCartesian, arrivalCartesian],
       width: 2,
@@ -135,6 +133,7 @@ function drawFlightRoute(
 
   // Add a dot at the departure city
   viewer.entities.add({
+    id: "departure-" + trip.id,
     position: departureCartesian,
     point: {
       pixelSize: 8,
@@ -143,11 +142,9 @@ function drawFlightRoute(
       outlineWidth: 2,
     },
     label: {
-      text: depature.toUpperCase(),
+      text: trip.departureIATA,
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
-      outlineColor: Cesium.Color.BLACK,
-      outlineWidth: 1,
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, -20),
@@ -156,6 +153,7 @@ function drawFlightRoute(
 
   // Add a dot at the arrival city
   viewer.entities.add({
+    id: "arrival-" + trip.id,
     position: arrivalCartesian,
     point: {
       pixelSize: 8,
@@ -164,14 +162,18 @@ function drawFlightRoute(
       outlineWidth: 2,
     },
     label: {
-      text: arrival.toUpperCase(),
+      text: trip.arrivalIATA,
       font: "16px sans-serif",
       fillColor: Cesium.Color.WHITE,
-      outlineColor: Cesium.Color.BLACK,
-      outlineWidth: 1,
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, -20),
     },
   });
+}
+
+function removeFlightRoute(viewer, tripID) {
+  viewer.entities.removeById("route-" + tripID);       // Remove the flight route
+  viewer.entities.removeById("departure-" + tripID); // Remove the departure dot
+  viewer.entities.removeById("arrival-" + tripID);   // Remove the arrival dot
 }

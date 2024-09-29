@@ -239,13 +239,7 @@ async function addTripRow(
   }
 
   // Draw route on earth
-  drawFlightRoute(
-    viewer,
-    trip.departureIATA,
-    IATAtoCoordinates(trip.departureIATA),
-    trip.arrivalIATA,
-    IATAtoCoordinates(trip.arrivalIATA)
-  );
+  drawFlightRoute(viewer, trip);
 
   // TODO: get airline code
   // TODO: get aircraft code/name from dropdown suggestion
@@ -309,6 +303,8 @@ function removeRow(evt) {
   const deleteTripID = evt.id;
   // delete row in table
   document.getElementById("travelLogTable").deleteRow(deleteRowIndex);
+  // delete route on earth
+  removeFlightRoute(viewer, deleteTripID);
   // delete trip from storage
   const deleteIdx = trips.findIndex((obj) => obj.id == deleteTripID);
   trips.splice(deleteIdx, 1);
@@ -391,6 +387,10 @@ async function updateEditTrip() {
   row.cells[11].textContent = trip.tailNumber;
   row.cells[12].textContent = trip.seatClass;
   row.cells[13].textContent = trip.seatNumber;
+
+  // re-draw route on earth
+  removeFlightRoute(viewer, editTripID);
+  drawFlightRoute(viewer, trip);
   
   // update trip object
   const tripsIndex = trips.findIndex((obj) => obj.id == editTripID);

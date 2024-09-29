@@ -38,7 +38,7 @@ There are 3 UI tabs for this app:
 - Stats: Get some fun rankings and aggregation from user's travel data.
 
 ### GlobeView
-This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark depature/arrival info. When you delete a trip record, for now you need to refresh the page to see the route disappear.
+This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark depature/arrival info. When you edit/delete a trip record, the route changes accordingly. The loading of Cesium graphics may be lagging sometimes due to networks.
 
 ### LogView
 A table that holds your travel records, with detailed information you have added.
@@ -112,13 +112,14 @@ For each trip, the object looks like this:
 ### MVP1 - 2024.9.30
 - Fix Distance/duration loading
 - Export trips to local JSON file
+- Edit a trip
+- Update the route on earth along with trip
 
 ## TODOs
  - Enhance UI on earth: small info cards on the route?
  - Grab Airline logos
  - Grab national flag icons
  - Complete the log table as data source for globe view
-   - Edit a record 
    - Sort records by columns?
  - Enhance LogView UI:
    - hover airport display full name
