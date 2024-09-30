@@ -4,10 +4,13 @@ const DateTime = luxon.DateTime;
 
 // generate a unique ID for trip
 function constructID(trip) {
-  const ID =
+  let ID =
     trip.departureIATA +
     trip.arrivalIATA +
     trip.takeOffTime.replace(/\D/g, "");
+    if (trips.find((obj) => obj.id == ID)) {
+      ID = ID + "1";
+    }
   return ID;
 }
 

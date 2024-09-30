@@ -96,7 +96,7 @@ For each trip, the object looks like this:
       "seatNumber": "32B"
   }
 ```
- - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include this in your json data for import.
+ - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include `id`s in your json data for your initial import.
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## CHANGELOG
@@ -114,6 +114,8 @@ For each trip, the object looks like this:
 - Export trips to local JSON file
 - Edit a trip
 - Update the route on earth along with trip
+- Check ID uniqueness
+- Fix mobile table UI x-overflow
 
 ## TODOs
  - Enhance UI on earth: small info cards on the route?

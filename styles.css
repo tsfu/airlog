@@ -67,6 +67,15 @@ table {
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* On smaller screens, allow horizontal scrolling */
+@media (max-width: 768px) {
+    table {
+        display: block;          /* Makes the table scrollable */
+        overflow-x: auto;        /* Enable horizontal scrolling */
+        white-space: nowrap;     /* Prevent table from breaking rows */
+    }
+}
+
 th,
 td {
     padding: 10px;
@@ -184,7 +193,7 @@ button {
     font-weight: bold;
     margin-right: 5px;
     margin-top: 10px;
-    padding: 10px 20px;
+    padding: 10px 15px;
 }
 
 .rowDeleteButton {
