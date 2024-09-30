@@ -40,6 +40,8 @@ There are 3 UI tabs for this app:
 ### GlobeView
 This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark depature/arrival info. When you edit/delete a trip record, the route changes accordingly. The loading of Cesium graphics may be lagging sometimes due to networks.
 
+When creating a Cesium 3D earth viewer, get access token at `https://ion.cesium.com/tokens`.
+
 ### LogView
 A table that holds your travel records, with detailed information you have added.
 This is the soure-of-truth data you provided and we use it to make visualization with other open source data and libraries.
