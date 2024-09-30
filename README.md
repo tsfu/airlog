@@ -118,6 +118,7 @@ For each trip, the object looks like this:
 - Update the route on earth along with trip
 - Check ID uniqueness
 - Fix mobile table UI x-overflow
+- Remove unused things and warning info from Cesium viewer
 
 ## TODOs
  - Enhance UI on earth: small info cards on the route?
