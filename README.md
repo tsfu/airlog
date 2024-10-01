@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# AirMap
+# AirLog
 
 - [Introduction](#introduction)
 - [Usage](#usage)
@@ -12,7 +12,7 @@
 - [TODOs](#todos)
 
 ## Introduction
-AirMap is an air travel log tool. It keeps track of and visualizes your past trips in the air (flights logging). 
+AirLog is an air travel log tool. It keeps track of and visualizes your past trips in the air (flights logging). 
 
 On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This will combine web development, UI design, and GIS stuff, which are the topics I am most interested in.
 
@@ -23,7 +23,7 @@ This app is my personal project only. Not for commercial use.
 ## Usage
 This is a pure frontend project. I use CDNs for JS libraries instead of node modules. There is no server-side code(nodeJS, npm, express, sqlite, etc). Also, to keep it simple, there is no framework in use. Therefore, this app does not store your data on a server. Your trips are stored client-side (in your browser) only. This is not likely to change in the short term.
 
-This UI app is hosted on Github Pages (no server-side code supported). You may visit the app here: [AirMap](https://tsfu.github.io/AirMap/). 
+This UI app is hosted on Github Pages (no server-side code supported). You may visit the app here: [AirLog](https://tsfu.github.io/airlog/). 
 
 To test the app locally, you may use `git clone` to grab the code, then:
  - Run `npm install -g http-server`, or use some other light-weight demo server locally.

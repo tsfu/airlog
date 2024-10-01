@@ -1,4 +1,4 @@
-# AirMap Changelog
+# AirLog Changelog
 
 
 ## [WIP- 1.0.0] - Target 2024.10.20
@@ -8,6 +8,8 @@
 
 ### Added
 - UI and color improvements.
+- Airline and aircrafts code information in `/data`, airline logos and banners in `/assets`
+- Functions to calculate stats (not includinf airline and aircraft)
 
 ### Fixed
 
@@ -39,5 +41,5 @@
 
 ### Added
 - Intial Commit, first adoption of cesiumJS
-- Added airport data in data/airports.csv
+- Added airport data in `/data/airports.csv`
 - Wrote functions to calculate distance and duration from input
