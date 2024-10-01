@@ -3,8 +3,8 @@
 
 - [Introduction](#introduction)
 - [Usage](#usage)
-  - [GlobeView](#globeview)
-  - [LogView](#logview)
+  - [Globe](#globe)
+  - [Trips](#trips)
   - [Stats](#stats)
 - [Data](#data)
   - [Data Source](#data-source)
@@ -12,7 +12,7 @@
 - [TODOs](#todos)
 
 ## Introduction
-This app is an air travel log tool. It keeps track of and visualizes your past trips in the air (flights logging). 
+AirMap is an air travel log tool. It keeps track of and visualizes your past trips in the air (flights logging). 
 
 On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This will combine web development, UI design, and GIS stuff, which are the topics I am most interested in.
 
@@ -21,24 +21,26 @@ The design and idea of this site is inspired by `App In the Air`  and `Flighty`.
 This app is my personal project only. Not for commercial use.
 
 ## Usage
-This is a pure frontend project. I use CDNs for JS libraries instead of node modules. There is no server-side code(nodeJS, npm, express, sqlite, etc). Also, to keep this simple, there is no framework in use. Therefore, this app does not store your data on a server. Your added trips are stored client-side (in your browser) only. This is not likely to change in the short term.
+This is a pure frontend project. I use CDNs for JS libraries instead of node modules. There is no server-side code(nodeJS, npm, express, sqlite, etc). Also, to keep it simple, there is no framework in use. Therefore, this app does not store your data on a server. Your trips are stored client-side (in your browser) only. This is not likely to change in the short term.
 
-With MVP now completed, this UI app is hosted on Github Pages (no server-side code supported). You may visit the link shown on this repo. To test the app locally, you may use `git clone` to grab the code, then:
+This UI app is hosted on Github Pages (no server-side code supported). You may visit the app here: [AirMap](https://tsfu.github.io/AirMap/). 
+
+To test the app locally, you may use `git clone` to grab the code, then:
  - Run `npm install -g http-server`, or use some other light-weight demo server locally.
  - Open terminal and run ` http-server .` to start local server.
  - Go to the prompted address in your browser to view the project site.
 
 There are 3 UI tabs for this app:
-- Globe view: Uses `CesiumJS` to visualize the routes of a user's past trips on 3D earth.
-- Log View: A table that holds all user input (display travel data and serve as data source). User can view, add, and edit trips. Use "Add Trip" to log a trip, or upload a JSON file to batch import trips. Use "Export Trips" to export trips to local file.
+- Globe (3D earth view): Uses `CesiumJS` to visualize the routes of a user's past trips on 3D earth.
+- Trips (log view): A table that holds all user input (display travel data and serve as data source). User can view, add, and edit trips. Use "Add Trip" to log a trip, or upload a JSON file to batch import trips. Use "Export Trips" to export trips to local file.
 - Stats: Get some fun rankings and aggregation from user's travel data.
 
-### GlobeView
+### Globe
 This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark depature/arrival info. When you edit/delete a trip record, the route changes accordingly. The loading of Cesium graphics may be lagging sometimes due to networks.
 
 When creating a Cesium 3D earth viewer, get access token at `https://ion.cesium.com/tokens`.
 
-### LogView
+### Trips
 A table that holds your travel records, with detailed information you have added.
 This is the soure-of-truth data you provided and we use it to make visualization with other open source data and libraries.
 
@@ -64,13 +66,19 @@ This app uses open source data on the internet to complete and visualize your tr
 These are the dataset or sources it currently uses:
 
   - Trips: user data
-  - Airport: https://github.com/ip2location/ip2location-iata-icao
+  - Airport: csv file available thanks to [Github: ip2location/ip2location-iata-icao](https://github.com/ip2location/ip2location-iata-icao)
   - Flight: user input only
-  - Airline: user input (may add auto-suggestion later)
-  - Aircraft: user input (may add auto-suggestion later)
+  - Airline: user input is compared to data at [Github: npow/airline-codes](https://github.com/npow/airline-codes/blob/master/airlines.json)
+  - Aircraft: user input is compared to data at [Aircraft Type Designators Wikipedia](https://en.wikipedia.org/wiki/List_of_aircraft_type_designators)
   - Duration/Distance: Calculated from IATA codes upon user input using functions in `utils.js`. Also used `luxon` and `geotz` libraries to do timezone diff.
+  - Airline logos and banners are made available thanks to [Github: Jxck-S/airline-logos](https://github.com/Jxck-S/airline-logos/)
+  - National flag icons are made available by requesting CDN CSS thanks to [Github: lipis/flag-icons](https://github.com/lipis/flag-icons)
 
-Under directory `/data`, you will find `airports.csv` for airport information used for calculation above and drawing, and also `sample_trips.json` as a format guide for importing/manipulating trips. 
+Under directory `/data`, you will find:
+ -  `airports.csv` for airport information used for calculations and drawing.  
+ -  `aircrafts.json` for aircraft type designators data.
+ -  `airlines.json` for airlines IATA/ICAO information (including inactive carriers).
+ -  and `sample_trips.json` as a format guide for importing/manipulating trips. 
 
 ### Data Model
 For now, the trips of a user are stored in a JS array, which holds multiple "trip" objects.
@@ -98,24 +106,22 @@ For each trip, the object looks like this:
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## TODOs
- - Enhance UI on earth: small info cards on the route?
- - Grab Airline logos
- - Grab national flag icons
- - Complete the log table as data source for globe view
-   - Sort records by columns?
- - Enhance LogView UI:
+
+ - build airline map
+ - build aircraft map
+ - Complete the table and its Form input:
+   - Sort records by columns desc or asec
+   - Datalist - autocomplete for airport, aircraft and airline input
+ - Enhance Trips(LogView) UI:
    - hover airport display full name
    - national flag icon next to city name
    - carrier logo next to airline   
- - Complete basic Global view:
-   - Add basic flight info on the route, show as a card when hover on line
-   - Add more info from log when expand the flight info card
  - Stats Page:
-   - Get stats for route, airline, airport, aircraft ranking
-   - Get stats for different time ranges
-   - Get stats for different regions 
-   - Collection: Aircraft, Country, Continents, etc... 
-   - Progress: total hours, distance, ratio to the moon, etc.
+   - Get stats for total flights, distance, time, airport, airline, aircrafts.
+   - Get rankings for most frequent route, airline, airport, aircraft
+   - UI: colorful cards for stats
+   - Collection: Aircraft, Country, Continents, etc.
  - Long term:
    -  Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail).
    -  Get aircraft model pictures.
+   -  Enhance UI on earth: show info card on the route when hover over

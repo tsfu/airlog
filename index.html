@@ -10,6 +10,10 @@
       rel="stylesheet"
       href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css"
     />
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -114,7 +118,7 @@
             <label for="arrivalIATA"><strong>Arrival IATA Code</strong></label>
             <input type="text" id="arrivalIATA" name="arrivalIATA" required />
 
-            <label for="takeOffTime">Take Off Time (YYYY-MM-DD HH:MM)</label>
+            <label for="takeOffTime">Take Off Time</label>
             <input
               type="datetime-local"
               id="takeOffTime"
@@ -157,10 +161,10 @@
 
     <!-- Travel Stats Content -->
     <div id="travel-stats" class="tab-content">
-      <h1>Travel Stats</h1>
-      <h2>
+      <h1 id="travelStatsTitle">Your Travel Summary</h1>
+      <p class="top-info">
         NOTE: This page is under development. Below are just sample contents.
-      </h2>
+      </p>
       <h3>Achievements</h3>
       <ul>
         <li>Total Flights: 5</li>
@@ -169,7 +173,7 @@
         <li>Countries Visited: 7</li>
         <li>Airports Visited: 39</li>
       </ul>
-      <h3>Leaderboard</h3>
+      <h3>Your Favorites</h3>
       <ul>
         <li>Favorite Airlines: Delta Airlines, 12 times</li>
         <li>Favorite Airport: Mianyang Nanjiao Airport, 13 times</li>
@@ -193,6 +197,7 @@
     <script src="https://cdn.jsdelivr.net/npm/browser-geo-tz@0.1.0/dist/geotz.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
     <script src="utils.js"></script>
+    <script src="stats.js"></script>
     <script src="main.js"></script>
   </body>
 </html>

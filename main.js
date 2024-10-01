@@ -35,6 +35,8 @@ function openTab(event, tabName) {
 async function init() {
   await getAirportDataAsync();
   await populateLogFromStorage();
+  
+  loadStats();
   // Test();   // enable test for helper functions
 }
 
