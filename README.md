@@ -9,10 +9,6 @@
 - [Data](#data)
   - [Data Source](#data-source)
   - [Data Model](#data-model)
-- [CHANGELOG](#changelog)
-  - [Initial Setup - 2024.9.20](#initial-setup---2024920)
-  - [MVP0 - 2024.9.28](#mvp0---2024928)
-  - [MVP1 - 2024.9.30](#mvp1---2024930)
 - [TODOs](#todos)
 
 ## Introduction
@@ -100,25 +96,6 @@ For each trip, the object looks like this:
 ```
  - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include `id`s in your json data for your initial import.
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
-
-## CHANGELOG
-### Initial Setup - 2024.9.20
-- Intial Commit, first adoption of cesiumJS
-- Added airport data in data/airports.csv
-- Wrote functions to calculate distance and duration from input!
-### MVP0 - 2024.9.28
-- Ability to draw a route on earth given depature/arrival!
-- Store logs in LocalStorage
-- Upload a JSON file to add multiple trips!
-- fix delete data from storage
-### MVP1 - 2024.9.30
-- Fix Distance/duration loading
-- Export trips to local JSON file
-- Edit a trip
-- Update the route on earth along with trip
-- Check ID uniqueness
-- Fix mobile table UI x-overflow
-- Remove unused things and warning info from Cesium viewer
 
 ## TODOs
  - Enhance UI on earth: small info cards on the route?
