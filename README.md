@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# TravelMap
+# AirMap
 
 - [Introduction](#introduction)
 - [Usage](#usage)
@@ -7,8 +7,8 @@
   - [LogView](#logview)
   - [Stats](#stats)
 - [Data](#data)
-  - [DataSource](#datasource)
-  - [DataModel](#datamodel)
+  - [Data Source](#data-source)
+  - [Data Model](#data-model)
 - [CHANGELOG](#changelog)
   - [Initial Setup - 2024.9.20](#initial-setup---2024920)
   - [MVP0 - 2024.9.28](#mvp0---2024928)
@@ -16,7 +16,7 @@
 - [TODOs](#todos)
 
 ## Introduction
-This app is a travel log tool. It keeps track of and visualizes your past trips. (flights, we may support trains in the future). 
+This app is an air travel log tool. It keeps track of and visualizes your past trips in the air (flights logging). 
 
 On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This will combine web development, UI design, and GIS stuff, which are the topics I am most interested in.
 
@@ -46,9 +46,9 @@ When creating a Cesium 3D earth viewer, get access token at `https://ion.cesium.
 A table that holds your travel records, with detailed information you have added.
 This is the soure-of-truth data you provided and we use it to make visualization with other open source data and libraries.
 
-User may use form UI to add one trip, or upload JSON file to batch import trips. See `/data/sample_trips.json` to follow the format when you use upload.
+User may use UI to add one trip, or upload JSON file to batch import trips. See `/data/sample_trips.json` to follow the format when you use upload.
 
-To ensure data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
+To ensure your data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
 
 ### Stats
 Some useful stats for user's travel history. Rankings, collections, progress, etc.
@@ -63,7 +63,7 @@ This also means that your data will not sync between devices. It's client specif
 
 You may delete the locally saved data from your browser's developer tool UI, or use script. The storage usage of a typical user's trips would normally be smaller than 1MB.
 
-### DataSource
+### Data Source
 This app uses open source data on the internet to complete and visualize your trips.
 These are the dataset or sources it currently uses:
 
@@ -76,7 +76,7 @@ These are the dataset or sources it currently uses:
 
 Under directory `/data`, you will find `airports.csv` for airport information used for calculation above and drawing, and also `sample_trips.json` as a format guide for importing/manipulating trips. 
 
-### DataModel
+### Data Model
 For now, the trips of a user are stored in a JS array, which holds multiple "trip" objects.
 For each trip, the object looks like this: 
 ```js client
@@ -139,4 +139,6 @@ For each trip, the object looks like this:
    - Get stats for different regions 
    - Collection: Aircraft, Country, Continents, etc... 
    - Progress: total hours, distance, ratio to the moon, etc.
- - Long term, add support for trains?
+ - Long term:
+   -  Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail).
+   -  Get aircraft model pictures.

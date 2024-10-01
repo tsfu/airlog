@@ -1,6 +1,8 @@
 /* Basic styling for the navbar */
 body {
+    width: 100%;
     font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
     margin: 0;
     padding: 0;
 }
@@ -10,21 +12,33 @@ body {
     display: flex;
     background-color: #333;
     justify-content: flex-start;
-    padding: 5px;
+    align-items: center;
     height: 40px;
+    width: 100%;
+    padding: 5px 0;
+}
+
+#logo {
+    color: rgb(200, 200, 200);
+    font-size: 20px;
+    font-weight: bolder;
+    padding-left: 10px;
 }
 
 .navbar a {
     color: rgb(228, 227, 227);
+    font-size: 18px;
+    font-weight: bold;
     text-decoration: none;
     text-align: center;
     border-radius: 3px;
-    padding: 10px;
+    padding: 10px 8px;
 }
 
-.navbar a:hover {
+.tab-link:hover, .tab-link-ex:hover {
     background-color: #575757;
 }
+
 
 /* For switching tabs */
 .tab-content {
@@ -63,17 +77,8 @@ table {
     border-collapse: separate;
     border-spacing: 0 10px;
     margin-bottom: 20px;
-    background-color: #f9f9f9;
+    background-color: #f5f5f5;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* On smaller screens, allow horizontal scrolling */
-@media (max-width: 768px) {
-    table {
-        display: block;          /* Makes the table scrollable */
-        overflow-x: auto;        /* Enable horizontal scrolling */
-        white-space: nowrap;     /* Prevent table from breaking rows */
-    }
 }
 
 th,
@@ -83,9 +88,9 @@ td {
 }
 
 th {
-    background-color: #e6f2ff;
+    background-color: #edfff7;
     font-weight: bold;
-    color: #101d7e;
+    color: #023022;
     font-size: 16px;
     border-bottom: none;
 }
@@ -95,7 +100,7 @@ th {
 }
 
 td {
-    background-color: #ffffff;
+    background-color: #fafafa;
     border-bottom: none;
     color: #555;
     font-size: 14px;
@@ -214,4 +219,13 @@ button {
 
 button:hover {
     filter: brightness(85%);
+}
+
+/* On smaller screens, allow horizontal scrolling */
+@media (max-width: 768px) {
+    table {
+        display: block;          /* Makes the table scrollable */
+        overflow-x: auto;        /* Enable horizontal scrolling */
+        white-space: nowrap;     /* Prevent table from breaking rows */
+    }
 }

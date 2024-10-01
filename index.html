@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Map</title>
+    <title>AirMap</title>
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <script src="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Cesium.js"></script>
     <link
@@ -15,20 +15,21 @@
   <body>
     <!-- Nav Bar -->
     <div class="navbar">
+      <a id="logo"><i>AirMap </i></a>
       <a href="#" class="tab-link" onclick="openTab(event, 'cesiumContainer')"
-        >Globe View</a
+        >Globe</a
       >
       <a href="#" class="tab-link" onclick="openTab(event, 'travel-log')"
-        >Travel Log</a
+        >Trips</a
       >
       <a href="#" class="tab-link" onclick="openTab(event, 'travel-stats')"
-        >Travel Stats</a
+        >Stats</a
       >
-      <a href="https://github.com/tsfu/TravelMap">About</a>
+      <a href="https://github.com/tsfu/TravelMap" class="tab-link-ex">About</a>
     </div>
 
     <!-- CesiumJS globe rendering here -->
-    <div id="cesiumContainer" class="tab-content active"></div>
+    <div id="cesiumContainer" class="tab-content active" style="width: 100%;"></div>
 
     <!-- Travel Log Content -->
     <div id="travel-log" class="tab-content">
@@ -37,10 +38,10 @@
         <strong
           >Make sure to use the correct airport IATA code when you add
           trip(s).</strong
-        > Those are the source of all calculations.
+        > Those are the sources of calculations. Other fields are not required to be accurate.
       </p>
       <p class="top-info">
-        Other fields of your trips are not required to be present or accurate.
+        If you have layover(s), please enter the flights separately.
       </p>
       <table id="travelLogTable">
         <thead>
@@ -74,12 +75,11 @@
       <input type="file" id="json-input" accept=".json" style="display: none" />
       <p>
         Hit "Add Trip" to log one trip, or upload a JSON file to batch import
-        your records. For JSON file format, please see <i>README</i> or
+        records. For JSON format, please see <i>README</i> or
         <i>sample_trips.json</i> on Github repo.
       </p>
       <p>
-        Exporting your trips to JSON file is recommended to ensure you don't
-        lose data.
+        RECOMMENDED: Export your trips so you don't lose data.
       </p>
 
       <!-- Trip Details Form (modal hidden initially) -->
