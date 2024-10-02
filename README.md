@@ -120,10 +120,8 @@ For each trip, the object looks like this:
    - national flag icon next to city name
    - carrier logo next to airline   
  - Stats Page:
-   - Get stats for total flights, distance, time, airport, airline, aircrafts.
-   - Get rankings for most frequent route, airline, airport, aircraft
-   - UI: colorful cards for stats
-   - Collection: Aircraft, Country, Continents, etc.
+   - Get stats from trips data.
+   - Collection: Aircrafts and airlines when they have ID implemented.
  - Long term:
    -  Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail).
    -  Get aircraft model pictures.

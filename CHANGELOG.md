@@ -3,18 +3,24 @@
 
 ## [WIP- 1.0.0] - Target 2024.10.20
 
+#### Added
 
-## [WIP- MVP2] - 2024.10.
+#### Fixed
+
+
+## [MVP-2] - 2024.10.3
 
 #### Added
-- UI and color improvements.
+- General UI and color improvements.
 - Airline and aircrafts code information in `/data`
 - airline logos and banners in `/assets`
 - Functions to calculate stats (not includinf airline and aircraft)
+- New reponsive cards UI for stats tab
 
 #### Fixed
 - Now use IATA/ICAO codes for airline and aircraft IDs
 - Remove invalid base-layer providers from Cesium picker
+- Fix relative path to assets on host
 
 ## [MVP-1] - 2024.9.30
 
