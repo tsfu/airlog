@@ -110,15 +110,14 @@ For each trip, the object looks like this:
 
 ## TODOs
 
- - build airline map
- - build aircraft map
  - Complete the table and its Form input:
    - Sort records by columns desc or asec
    - Datalist - autocomplete for airport, aircraft and airline input
  - Enhance Trips(LogView) UI:
    - hover airport display full name
+   - hover aircraft code display full name
    - national flag icon next to city name
-   - carrier logo next to airline   
+   - carrier logo next to airline, hover for names   
  - Stats Page:
    - Get stats from trips data.
    - Collection: Aircrafts and airlines when they have ID implemented.

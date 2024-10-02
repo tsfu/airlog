@@ -46,7 +46,10 @@ function openTab(event, tabName) {
 
 // load airport info into map
 async function init() {
+  // load data & build index
   await getAirportDataAsync();
+  await getAirlineDataAsync();
+  await getAircraftDataAsync();
   await populateLogFromStorage();
   
   loadStats();
@@ -77,6 +80,7 @@ async function populateLogFromStorage() {
       trip.seatNumber
     );
   }
+  console.log("INFO: Trips data successfully retrieved.")
 }
 
 // console log testing basic functions

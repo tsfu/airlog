@@ -1,5 +1,11 @@
 const csvFilePath = "./data/airports.csv";
+const airlineJsonPath = "./data/airlines.json";
+const aircraftJsonPath = "./data/aircrafts.json";
+
 const airportDataMap = new Map();
+const airlineDataMap = new Map();
+const aircraftDataMap = new Map();
+
 const DateTime = luxon.DateTime;
 
 // generate a unique ID for trip
@@ -39,11 +45,58 @@ async function getAirportDataAsync() {
     parsedData.forEach((airport) => {
       airportDataMap.set(airport.iata, airport);
     });
-    console.log("INFO: Airport data map is now completed.")
-    return airportDataMap;
+    console.log("INFO: Airport data map is now completed. Index:IATA")
   } catch (error) {
     console.error("Error occurred while building airport data map:", error);
   }
+}
+
+
+async function getAirlineDataAsync() {
+  try {
+    // fetch airlines json data 
+    const airlineData = await new Promise((resolve, reject) => {
+      $.ajax({
+        url: airlineJsonPath,
+        success: (data) => resolve(data),
+        error: (err) => reject(err),
+      });
+    });
+    // k-v map based on airline IATA
+    airlineData.forEach((airline) => {
+      if (airline.iata) {
+        airlineDataMap.set(airline.iata, airline); // drop those without IATA
+      }
+    });
+    console.log("INFO: Airline data map is now completed. Index:IATA")
+    console.log(airlineDataMap)
+  } catch (error) {
+    console.error("Error occurred while building airline data map:", error);
+  }
+}
+
+async function getAircraftDataAsync() {
+  try {
+    // fetch aircraft json data
+    const aircraftData = await new Promise((resolve, reject) => {
+      $.ajax({
+        url: aircraftJsonPath,
+        success: (data) => resolve(data),
+        error: (err) => reject(err),
+      });
+    });
+    // k-v map based on aircraft ICAO
+    aircraftData.forEach((aircraft) => {
+      if (aircraft.icao_code) {
+        aircraftDataMap.set(aircraft.icao_code, aircraft); // drop those without IATA
+      }
+    });
+    console.log("INFO: Aircraft data map is now completed. Index:ICAO")
+    console.log(aircraftDataMap)
+  } catch (error) {
+    console.error("Error occurred while building aircraft data map:", error);
+  }
+
 }
 
 // Helper: map IATA code to GPS coordinates
