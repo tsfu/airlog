@@ -229,4 +229,8 @@ button:hover {
         overflow-x: auto;        /* Enable horizontal scrolling */
         white-space: nowrap;     /* Prevent table from breaking rows */
     }
+
+    .navbar {
+        justify-content: space-around;
+    }
 }
