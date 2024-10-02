@@ -1,3 +1,4 @@
+// configure Cesium ion
 Cesium.Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5NmYzOGI3YS1hNTJmLTQxMDgtODk2OC1jNDAzZWJkZTA2NTYiLCJpZCI6MjQyOTgwLCJpYXQiOjE3MjY4NDU5MDd9.P4ba4zMM5yLj4ppDe-YrpX0IOcR8AkwvKV5tjCrbY5s";
 
@@ -5,6 +6,18 @@ const viewer = new Cesium.Viewer("cesiumContainer",{
   animation: false,           // Removes the animation widget
   timeline: false,            // Removes the timeline widget
 });
+// remove invalid imagery/terrain providers from base-layer picker
+viewer.baseLayerPicker.viewModel.terrainProviderViewModels.shift();
+let providers = viewer.baseLayerPicker.viewModel.imageryProviderViewModels;
+let newProviders = [];
+for (let i = 0; i < providers.length; i++) {
+  const provider = providers[i];
+  if (!(provider.name == "Blue Marble" || provider._category != "Cesium ion")) {
+    newProviders.push(provider);
+  }
+}
+viewer.baseLayerPicker.viewModel.imageryProviderViewModels = newProviders;
+
 const tripStorageKey = "tripsStorage";
 
 // hold user's trips

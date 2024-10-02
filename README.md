@@ -38,7 +38,9 @@ There are 3 UI tabs for this app:
 ### Globe
 This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark depature/arrival info. When you edit/delete a trip record, the route changes accordingly. The loading of Cesium graphics may be lagging sometimes due to networks.
 
-When creating a Cesium 3D earth viewer, get access token at `https://ion.cesium.com/tokens`.
+You can use a basic search bar, a reset button, a 2D/3D switch, and a base-layer image provider picker that all come from default Cesium ion.
+
+When creating a Cesium 3D earth viewer, get an access token at `https://ion.cesium.com/tokens` and you may set your own configurations with your assets.
 
 ### Trips
 A table that holds your travel records, with detailed information you have added.
@@ -95,14 +97,15 @@ For each trip, the object looks like this:
       "duration": "",
       "distance": "",
       "flightNumber": "QR861",
-      "airline": "Qatar Airways",
-      "aircraft": "Airbus A330-200",
+      "airline": "QR",
+      "aircraft": "A332",
       "tailNumber": "A7-ACM",
       "seatClass": "Economy",
       "seatNumber": "32B"
   }
 ```
  - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include `id`s in your json data for your initial import.
+ - The `departureIATA`, `arrivalIATA` are IATA airports codes, `airline` is airline IATA code, and `aircraft` is ICAO aircraft designator code. These will be IDs for corresponding fields and calculations.
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## TODOs

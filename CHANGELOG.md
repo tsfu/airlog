@@ -6,42 +6,43 @@
 
 ## [WIP- MVP2] - 2024.10.
 
-### Added
+#### Added
 - UI and color improvements.
 - Airline and aircrafts code information in `/data`
 - airline logos and banners in `/assets`
 - Functions to calculate stats (not includinf airline and aircraft)
 
-### Fixed
-
+#### Fixed
+- Now use IATA/ICAO codes for airline and aircraft IDs
+- Remove invalid base-layer providers from Cesium picker
 
 ## [MVP-1] - 2024.9.30
 
-### Added
+#### Added
 - Export trips to local JSON file
 - Edit a trip (UI and data)
 - Update the route on earth real time
 
-### Fixed
+#### Fixed
 - Check ID uniqueness
-- Fix Distance/duration loading
+- Fix distance/duration loading
 - Fix mobile table UI x-overflow
 - Remove unused things and warning info from Cesium viewer
 
 ## [MVP-0] - 2024.9.28
 
-### Added 
+#### Added 
 - Ability to draw a route on earth given depature/arrival
 - Store logs in LocalStorage
 - Upload a JSON file to add multiple trips
 - Table and buttons UI enhancements
   
-### Fixed
+#### Fixed
 - Fix delete data from storage
 
 ## [Initial-Setup] - 2024.9.20
 
-### Added
+#### Added
 - Intial Commit, first adoption of cesiumJS
 - Added airport data in `/data/airports.csv`
 - Wrote functions to calculate distance and duration from input
