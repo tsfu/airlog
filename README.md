@@ -89,35 +89,32 @@ For each trip, the object looks like this:
   {
       "id": "CTUDOH201808220214",
       "departureCity": "Chengdu",
-      "departureIATA": "CTU",
+      "departureIATA": "CTU",     // IATA
       "arrivalCity": "Doha",
-      "arrivalIATA": "DOH",
+      "arrivalIATA": "DOH",       // IATA
       "takeOffTime": "2018-08-22T02:14",
       "landingTime": "2018-08-22T05:25",
       "duration": "",
       "distance": "",
       "flightNumber": "QR861",
-      "airline": "QR",
-      "aircraft": "A332",
+      "airline": "QTR",   // ICAO
+      "aircraft": "332",  // IATA
       "tailNumber": "A7-ACM",
       "seatClass": "Economy",
       "seatNumber": "32B"
   }
 ```
  - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include `id`s in your json data for your initial import.
- - The `departureIATA`, `arrivalIATA` are IATA airports codes, `airline` is airline IATA code, and `aircraft` is ICAO aircraft designator code. These will be IDs for corresponding fields and calculations.
+ - The `departureIATA`, `arrivalIATA` are IATA airports codes, `airline` is airline ICAO (3-letter) code, and `aircraft` is IATA aircraft designator code. These will be IDs for corresponding fields and calculations. 
+ - Did not use more well known IATA airline code or ICAO aircraft code (the other way), because we need to make ID unique.
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## TODOs
 
  - Complete the table and its Form input:
    - Sort records by columns desc or asec
-   - Datalist - autocomplete for airport, aircraft and airline input
  - Enhance Trips(LogView) UI:
-   - hover airport display full name
-   - hover aircraft code display full name
-   - national flag icon next to city name
-   - carrier logo next to airline, hover for names   
+   - national flag icon next to city names?
  - Stats Page:
    - Get stats from trips data.
    - Collection: Aircrafts and airlines when they have ID implemented.

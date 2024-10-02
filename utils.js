@@ -20,7 +20,7 @@ function constructID(trip) {
   return ID;
 }
 
-// use airport.csv to construct info map
+// construct ID code indexed map for airports/airlines/aircrafts
 async function getAirportDataAsync() {
   try {
     // Step 1: Fetch CSV data using $.ajax wrapped in a promise
@@ -45,12 +45,12 @@ async function getAirportDataAsync() {
     parsedData.forEach((airport) => {
       airportDataMap.set(airport.iata, airport);
     });
+    
     console.log("INFO: Airport data map is now completed. Index:IATA")
   } catch (error) {
     console.error("Error occurred while building airport data map:", error);
   }
 }
-
 
 async function getAirlineDataAsync() {
   try {
@@ -63,13 +63,15 @@ async function getAirlineDataAsync() {
       });
     });
     // k-v map based on airline IATA
+    let count = 0
     airlineData.forEach((airline) => {
+      // drop those without IATA, but use ICAO (unique) as key
       if (airline.iata) {
-        airlineDataMap.set(airline.iata, airline); // drop those without IATA
+        airlineDataMap.set(airline.icao, airline); 
       }
     });
-    console.log("INFO: Airline data map is now completed. Index:IATA")
-    console.log(airlineDataMap)
+
+    console.log("INFO: Airline data map is now completed. Index:ICAO")
   } catch (error) {
     console.error("Error occurred while building airline data map:", error);
   }
@@ -87,16 +89,48 @@ async function getAircraftDataAsync() {
     });
     // k-v map based on aircraft ICAO
     aircraftData.forEach((aircraft) => {
+      // drop those without ICAO
       if (aircraft.icao_code) {
-        aircraftDataMap.set(aircraft.icao_code, aircraft); // drop those without IATA
+        // note that one ICAO code can have several aircraft models, so it's a k - [v,v,v] map.
+        // we still use ICAO because the unique IATA code is not well-known
+        aircraftDataMap.set(aircraft.iata_code, aircraft); 
       }
     });
+
     console.log("INFO: Aircraft data map is now completed. Index:ICAO")
-    console.log(aircraftDataMap)
   } catch (error) {
     console.error("Error occurred while building aircraft data map:", error);
   }
 
+}
+
+// populate autocomplete options for datalist (for trip Form input)
+function populateInputOptions() {
+  const airportDataList = document.getElementById("airportIATA");
+  const airlineDataList = document.getElementById("airlineIATA");
+  const aircraftDataList = document.getElementById("aircraftICAO");
+
+  airportDataMap.forEach((v,k)=> {
+      const option = document.createElement('option');
+      const item = v.iata + " (" + v.airport + ")"; // option value = "BOS (Logan Airport)"
+      option.value = item;
+      airportDataList.appendChild(option);
+  })
+
+  airlineDataMap.forEach((v,k)=> {
+    const option = document.createElement('option');
+    const item = v.name + " (" + v.iata + "/" + v.icao + ")"; // option value = "Delta Airlines (DL/DAL)"
+    option.value = item;
+    airlineDataList.appendChild(option);
+  })
+
+  aircraftDataMap.forEach((v,k)=> {
+    const option = document.createElement('option');
+    const item = v.name + " (" + v.icao_code + "/" + v.iata_code + ")"; // option value = "Airbus A380-800 (A388/388)"
+    option.value = item;
+    aircraftDataList.appendChild(option);
+  })
+  console.log("INFO: airports/airlines/aircarfts input options constructed.")
 }
 
 // Helper: map IATA code to GPS coordinates
@@ -111,6 +145,12 @@ function IATAtoCoordinates(iataCode) {
     console.log("error: IATA code not found.");
     return null;
   }
+}
+
+function airlineToLogoHTML(airlineICAO) {
+  const imgPath = "./assets/airline_logos/" + airlineICAO + ".png";
+  const html = "<img src=\"" + imgPath + "\" height=\"30px\" width=\"30px\"/>"
+  return html;
 }
 
 // Helper: calculate p2p distance on earth

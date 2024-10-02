@@ -52,7 +52,8 @@ async function init() {
   await getAircraftDataAsync();
   await populateLogFromStorage();
   
-  loadStats();
+  populateInputOptions() // for input autocomplete
+  loadStats(); // for stats calc
   // Test();   // enable test for helper functions
 }
 
@@ -143,16 +144,16 @@ document
     await addTripRow(
       "", // no ID from input, will auto-generate
       document.getElementById("departureCity").value,
-      document.getElementById("departureIATA").value,
+      document.getElementById("departureIATA").value.substring(0,3),
       document.getElementById("arrivalCity").value,
-      document.getElementById("arrivalIATA").value,
+      document.getElementById("arrivalIATA").value.substring(0,3),
       document.getElementById("takeOffTime").value,
       document.getElementById("landingTime").value,
       "", // no duration from input, will calc
       "", // no distance from input, will calc
       document.getElementById("flightNumber").value,
-      document.getElementById("airline").value,
-      document.getElementById("aircraft").value,
+      document.getElementById("airline").value.slice(-4).substring(0,3),  // airline ICAO
+      document.getElementById("aircraft").value.slice(-4).substring(0,3), // aircraft IATA
       document.getElementById("tailNumber").value,
       document.getElementById("seatClass").value,
       document.getElementById("seatNumber").value
@@ -210,7 +211,7 @@ document
     }
   });
 
-// Add a single row
+// Add a single row in table UI, also save a trip data object
 async function addTripRow(
   id,
   departureCity,
@@ -266,9 +267,6 @@ async function addTripRow(
   // Draw route on earth
   drawFlightRoute(viewer, trip);
 
-  // TODO: get airline code
-  // TODO: get aircraft code/name from dropdown suggestion
-
   // Create a new row in the travel log table
   const table = document.getElementById("travelLogTable");
   const newRow = table.insertRow(-1); // Insert a new row at the end of the table
@@ -288,35 +286,49 @@ async function addTripRow(
 
   const cell1 = newRow.insertCell(1);
   cell1.textContent = trip.departureIATA;
-  cell1.classList.add("bold-text");
+  cell1.classList.add("thinCol");
+  cell1.classList.add("tooltip-cell");
+  cell1.setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
 
   newRow.insertCell(2).textContent = trip.arrivalCity;
 
   const cell3 = newRow.insertCell(3);
   cell3.textContent = trip.arrivalIATA;
-  cell3.classList.add("bold-text");
+  cell3.classList.add("thinCol");
+  cell3.classList.add("tooltip-cell");
+  cell3.setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
 
   newRow.insertCell(4).textContent = trip.takeOffTime.replace("T", " ");
   newRow.insertCell(5).textContent = trip.landingTime.replace("T", " ");
   newRow.insertCell(6).textContent = trip.duration;
   newRow.insertCell(7).textContent = trip.distance;
-  newRow.insertCell(8).textContent = trip.airline;
+
+  const cell8 = newRow.insertCell(8);
+  cell8.innerHTML = airlineToLogoHTML(trip.airline);
+  cell8.classList.add("thinCol");
+  cell8.classList.add("tooltip-cell");
+  cell8.setAttribute("data-tooltip", airlineDataMap.get(trip.airline).name)
 
   const cell9 = newRow.insertCell(9);
   cell9.textContent = trip.flightNumber;
-  cell9.classList.add("bold-text");
+  cell9.classList.add("thinCol");
 
-  newRow.insertCell(10).textContent = trip.aircraft;
+  const cell10 = newRow.insertCell(10);
+  cell10.textContent = aircraftDataMap.get(trip.aircraft).icao_code;
+  cell10.classList.add("thinCol");
+  cell10.classList.add("tooltip-cell");
+  cell10.setAttribute("data-tooltip", aircraftDataMap.get(trip.aircraft).name)
+  
   newRow.insertCell(11).textContent = trip.tailNumber;
   newRow.insertCell(12).textContent = trip.seatClass;
   newRow.insertCell(13).textContent = trip.seatNumber;
   // edit/delete buttons within row
   const cell14 = newRow.insertCell(14);
   cell14.innerHTML = editButtonHTML;
-  cell14.classList.add("actionCol");
+  cell14.classList.add("thinCol");
   const cell15 = newRow.insertCell(15);
   cell15.innerHTML = deleteButtonHTML;
-  cell15.classList.add("actionCol");
+  cell15.classList.add("thinCol");
 
   // update global var of user's trips
   trips.push(trip);
@@ -374,20 +386,42 @@ async function updateEditTrip() {
   sessionStorage.removeItem("editTripID");
   sessionStorage.removeItem("editRowIndex");
 
-  // record the updated values in form input
+  // record the updated text values in form input
   let trip = trips.find((obj) => obj.id == editTripID);
   trip.departureCity = document.getElementById("departureCity").value;
-  trip.departureIATA = document.getElementById("departureIATA").value;
   trip.arrivalCity = document.getElementById("arrivalCity").value;
-  trip.arrivalIATA = document.getElementById("arrivalIATA").value;
   trip.takeOffTime = document.getElementById("takeOffTime").value;
   trip.landingTime = document.getElementById("landingTime").value;
   trip.flightNumber = document.getElementById("flightNumber").value;
-  trip.airline = document.getElementById("airline").value;
-  trip.aircraft = document.getElementById("aircraft").value;
   trip.tailNumber = document.getElementById("tailNumber").value;
   trip.seatClass = document.getElementById("seatClass").value;
   trip.seatNumber = document.getElementById("seatNumber").value;
+  
+  let newDIATA = document.getElementById("departureIATA").value;
+  let newAIATA = document.getElementById("arrivalIATA").value;
+  let newAirline = document.getElementById("airline").value;
+  let newAircraft = document.getElementById("aircraft").value;
+  console.log(newAircraft)
+
+  // if they change these values by choosing from options, need to truncate again
+  if (newDIATA.length > 3) {
+    newDIATA = newDIATA.substring(0,3);
+  }
+  if (newAIATA.length > 3) {
+    newAIATA = newAIATA.substring(0,3);
+  }
+  if (newAirline.length > 2) {
+    newAirline = newAirline.slice(-4).substring(0,3);  // ICAO
+  }
+  if (newAircraft.length > 4) {
+    newAircraft = newAircraft.slice(-4).substring(0,3);  // IATA
+  }
+  
+  trip.departureIATA = newDIATA;
+  trip.arrivalIATA = newAIATA;
+  trip.airline = newAirline;
+  trip.aircraft = newAircraft;
+  
   // always re-calculate these upon update
   trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
   trip.duration = await getDuration(
@@ -397,19 +431,28 @@ async function updateEditTrip() {
     trip.arrivalIATA
   );
 
-  // update table row in place
+  // update table row UI in place
   const row = document.getElementById("travelLogTable").rows[editRowIndex];
   row.cells[0].textContent = trip.departureCity;
   row.cells[1].textContent = trip.departureIATA;
+  row.cells[1].setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
+  
   row.cells[2].textContent = trip.arrivalCity;
   row.cells[3].textContent = trip.arrivalIATA;
+  row.cells[3].setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
+  
   row.cells[4].textContent = trip.takeOffTime.replace("T", " ");
   row.cells[5].textContent = trip.landingTime.replace("T", " ");
   row.cells[6].textContent = trip.duration;
   row.cells[7].textContent = trip.distance;
-  row.cells[8].textContent = trip.airline;
+
+  row.cells[8].innerHTML = airlineToLogoHTML(trip.airline);
+  row.cells[8].setAttribute("data-tooltip", airlineDataMap.get(trip.airline).name);
+  
   row.cells[9].textContent = trip.flightNumber;
-  row.cells[10].textContent = trip.aircraft;
+  
+  row.cells[10].textContent = aircraftDataMap.get(trip.aircraft).icao_code;
+  row.cells[10].setAttribute("data-tooltip", aircraftDataMap.get(trip.aircraft).name);
   row.cells[11].textContent = trip.tailNumber;
   row.cells[12].textContent = trip.seatClass;
   row.cells[13].textContent = trip.seatNumber;

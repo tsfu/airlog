@@ -61,11 +61,6 @@ body {
     margin: 10px;
 }
 
-.bold-text {
-    font-weight: bold;
-    font-size: 16px;
-}
-
 #travelLogTitle,
 #travelStatsTitle {
     font-size: 2.75rem;
@@ -89,8 +84,8 @@ table {
 
 th,
 td {
-    padding: 10px;
-    text-align: left;
+    padding: 10px;  
+    text-align: center;
 }
 
 th {
@@ -101,8 +96,10 @@ th {
     border-bottom: none;
 }
 
-.actionCol {
+.thinCol {
     padding: 5px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 td {
@@ -122,6 +119,34 @@ tr {
 tr:hover td {
     background-color: #d7f5e1;
     color: #333;
+}
+
+/* tooltip styling */
+.tooltip-cell {
+    position: relative;
+}
+  
+.tooltip-cell::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -12px; /* Adjust depending on how far you want the tooltip to appear from the cell */
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #e4e4e4;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+    z-index: 1;
+}
+
+.tooltip-cell:hover::after {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* The trip input modal (background) */

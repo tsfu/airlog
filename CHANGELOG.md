@@ -16,11 +16,14 @@
 - airline logos and banners in `/assets`
 - Functions to calculate stats (not includinf airline and aircraft)
 - New reponsive cards UI for stats tab
+- Use code/ID for airlines/aircrafts
+- Enhance table UI: airline logos + hover to see full names for airport/airline/aircraft
 
 #### Fixed
 - Now use IATA/ICAO codes for airline and aircraft IDs
 - Remove invalid base-layer providers from Cesium picker
 - Fix relative path to assets on host
+- Fix original data for A337 and PKX.
 
 ## [MVP-1] - 2024.9.30
 

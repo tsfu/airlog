@@ -42,9 +42,9 @@
     <!-- Travel Log Content -->
     <div id="travel-log" class="tab-content">
       <h1 id="travelLogTitle">Travel Log</h1>
-      <p class="text-center"><b>
-          Make sure you use the correct airport codes.
-      </b></p>
+      <p class="text-center">
+        <b> Make sure you use the correct airport codes. </b>
+      </p>
       <p class="text-center">AirLog calculations are based on IATA codes.</p>
       <p class="text-center">
         <b>Please enter connecting flights separately.</b>
@@ -88,9 +88,7 @@
         records. For JSON format, please see <i>README</i> or
         <i>sample_trips.json</i> on Github repo.
       </p>
-      <p class="text-center">
-        Recommend export the trips to secure your data.
-      </p>
+      <p class="text-center">Recommend export the trips to secure your data.</p>
 
       <!-- Trip Details Form (modal hidden initially) -->
       <div id="addTripModal" class="modal">
@@ -108,11 +106,9 @@
               required
             />
 
-            <label for="departureIATA"
-              ><strong>Departure IATA Code</strong></label
-            >
+            <label for="departureIATA"><strong>Departure IATA Code</strong></label>
             <input
-              type="text"
+              list="airportIATA"
               id="departureIATA"
               name="departureIATA"
               required
@@ -122,7 +118,7 @@
             <input type="text" id="arrivalCity" name="arrivalCity" required />
 
             <label for="arrivalIATA"><strong>Arrival IATA Code</strong></label>
-            <input type="text" id="arrivalIATA" name="arrivalIATA" required />
+            <input list="airportIATA" id="arrivalIATA" name="arrivalIATA" required />
 
             <label for="takeOffTime">Take Off Time</label>
             <input
@@ -144,10 +140,10 @@
             <input type="text" id="flightNumber" name="flightNumber" />
 
             <label for="airline">Airline</label>
-            <input type="text" id="airline" name="airline" />
+            <input list="airlineIATA" id="airline" name="airline" />
 
             <label for="aircraft">Aircraft</label>
-            <input type="text" id="aircraft" name="aircraft" />
+            <input list="aircraftICAO" id="aircraft" name="aircraft" />
 
             <label for="tailNumber">Tail Number</label>
             <input type="text" id="tailNumber" name="tailNumber" />
@@ -163,6 +159,9 @@
           </form>
         </div>
       </div>
+      <datalist id="airportIATA"></datalist>
+      <datalist id="airlineIATA"></datalist>
+      <datalist id="aircraftICAO"></datalist>
     </div>
 
     <!-- Travel Stats Content -->
@@ -190,7 +189,9 @@
             <b class="stats-card-value text-white">PHL</b>
           </p>
           <p class="stats-card-text">
-            <b class="text-white" id="top-airport-fullname">Philadelphia International Airport</b>
+            <b class="text-white" id="top-airport-fullname"
+              >Philadelphia International Airport</b
+            >
           </p>
           <hr />
           <p class="stats-card-text">Your No.1 Route</p>
@@ -261,11 +262,9 @@
             <b class="stats-card-value text-white">20</b> aircrafts flied
           </p>
           <p class="stats-card-text">Top Aircraft</p>
-          <p><img
-            src="./assets/boeing-logo.png"
-            width="240px"
-            height="60px"
-          /></p>
+          <p>
+            <img src="./assets/boeing-logo.png" width="240px" height="60px" />
+          </p>
           <p class="stats-card-value-smaller text-white">
             Boeing 737-800 - B738
           </p>
@@ -274,11 +273,13 @@
             <b class="stats-card-value text-white">23</b> airlines flied
           </p>
           <p class="stats-card-text">Top Airline</p>
-          <p><img
-            src="./assets/airline_banners/CSC.png"
-            width="225px"
-            height="60px"
-          /></p>
+          <p>
+            <img
+              src="./assets/airline_banners/CSC.png"
+              width="225px"
+              height="60px"
+            />
+          </p>
           <p class="stats-card-value-smaller text-white">
             Sichuan Airlines - 3U/CSC
           </p>
