@@ -15,7 +15,7 @@
 - 
 
 #### Fixed
-- 
+- ID be unique when adding same trip many times.
 
 ## [MVP-2] - 2024.10.3
 

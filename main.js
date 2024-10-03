@@ -279,11 +279,7 @@ async function addTripRow(
   if (distance == null || distance == "") {
     trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
   }
-  if (trip.id == null || trip.id == "") {
-    trip.id = constructID(trip);
-  } else {
-    trip.id = id;
-  }
+  trip.id = constructID(trip);
 
   // Draw route on earth
   drawFlightRoute(viewer, trip);

@@ -10,14 +10,20 @@ const DateTime = luxon.DateTime;
 
 // generate a unique ID for trip
 function constructID(trip) {
-  let ID =
-    trip.departureIATA +
-    trip.arrivalIATA +
-    trip.takeOffTime.replace(/\D/g, "");
-    if (trips.find((obj) => obj.id == ID)) {
+  if (trip.id == null || trip.id == "") {
+    let ID =
+      trip.departureIATA +
+      trip.arrivalIATA +
+      trip.takeOffTime.replace(/\D/g, "");
+    while (trips.find((obj) => obj.id == ID)) {
       ID = ID + "1";
     }
-  return ID;
+    return ID;
+  }
+  while (trips.find((obj) => obj.id == trip.id)) {
+    trip.id = trip.id + "1";
+  }
+  return trip.id;
 }
 
 // construct ID code indexed map for airports/airlines/aircrafts

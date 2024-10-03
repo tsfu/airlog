@@ -115,10 +115,11 @@ For each trip, the object looks like this:
    - One click demo button to populate sample trips 
    - Sort records by columns desc or asec
  - Stats Page:
-   - Get stats from trips data.
-   - Collection: Aircrafts and airlines totals and rankings when they have ID implemented.
- - Refactor code to use ONE UI/Data population for trip.  
+   - Get stats from trips data
+   - Collection: Aircrafts and airlines top & totals
+   - Top 5 rankings for country, airport, airline, aircraft
+ - Refactor code to use ONE UI/data population for trip. 
  - Long term:
-   -  Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail).
-   -  Get aircraft model pictures.
+   -  Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail)
+   -  Get aircraft models' pictures
    -  Enhance UI on earth: show pop-up info card on the route when hover over
