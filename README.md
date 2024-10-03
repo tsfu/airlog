@@ -112,6 +112,7 @@ For each trip, the object looks like this:
 
 ## TODOs
  - Trips Page:
+   - One click demo button to populate sample trips 
    - Sort records by columns desc or asec
  - Stats Page:
    - Get stats from trips data.
