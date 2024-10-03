@@ -98,37 +98,34 @@
           <form id="tripForm" class="trip-form">
             <h2 id="tripFormTitle">Enter Your Trip Details</h2>
 
-            <label for="departureCity">Departure City</label>
-            <input
-              type="text"
-              id="departureCity"
-              name="departureCity"
-              required
-            />
-
-            <label for="departureIATA"><strong>Departure IATA Code</strong></label>
+            <label for="departureIATA"><b>Departure IATA Code</b></label>
             <input
               list="airportIATA"
               id="departureIATA"
               name="departureIATA"
               required
             />
+            <label for="departureCity">Departure City</label>
+            <input type="text" id="departureCity" name="departureCity" />
 
+            <label for="arrivalIATA"><b>Arrival IATA Code</b></label>
+            <input
+              list="airportIATA"
+              id="arrivalIATA"
+              name="arrivalIATA"
+              required
+            />
             <label for="arrivalCity">Arrival City</label>
-            <input type="text" id="arrivalCity" name="arrivalCity" required />
+            <input type="text" id="arrivalCity" name="arrivalCity" />
 
-            <label for="arrivalIATA"><strong>Arrival IATA Code</strong></label>
-            <input list="airportIATA" id="arrivalIATA" name="arrivalIATA" required />
-
-            <label for="takeOffTime">Take Off Time</label>
+            <label for="takeOffTime"><b>Take Off Time</b></label>
             <input
               type="datetime-local"
               id="takeOffTime"
               name="takeOffTime"
               required
             />
-
-            <label for="landingTime">Landing Time</label>
+            <label for="landingTime"><b>Landing Time</b></label>
             <input
               type="datetime-local"
               id="landingTime"

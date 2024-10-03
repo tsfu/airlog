@@ -282,21 +282,21 @@ async function addTripRow(
     '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';
 
   // Insert new cells and populate them with the input values
-  newRow.insertCell(0).textContent = trip.departureCity;
+  const cell0 = newRow.insertCell(0);
+  cell0.textContent = trip.departureIATA;
+  cell0.classList.add("thinCol");
+  cell0.classList.add("tooltip-cell");
+  cell0.setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
+  
+  newRow.insertCell(1).textContent = trip.departureCity;
 
-  const cell1 = newRow.insertCell(1);
-  cell1.textContent = trip.departureIATA;
-  cell1.classList.add("thinCol");
-  cell1.classList.add("tooltip-cell");
-  cell1.setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
+  const cell2 = newRow.insertCell(2);
+  cell2.textContent = trip.arrivalIATA;
+  cell2.classList.add("thinCol");
+  cell2.classList.add("tooltip-cell");
+  cell2.setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
 
-  newRow.insertCell(2).textContent = trip.arrivalCity;
-
-  const cell3 = newRow.insertCell(3);
-  cell3.textContent = trip.arrivalIATA;
-  cell3.classList.add("thinCol");
-  cell3.classList.add("tooltip-cell");
-  cell3.setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
+  newRow.insertCell(3).textContent = trip.arrivalCity;
 
   newRow.insertCell(4).textContent = trip.takeOffTime.replace("T", " ");
   newRow.insertCell(5).textContent = trip.landingTime.replace("T", " ");
@@ -433,13 +433,13 @@ async function updateEditTrip() {
 
   // update table row UI in place
   const row = document.getElementById("travelLogTable").rows[editRowIndex];
-  row.cells[0].textContent = trip.departureCity;
-  row.cells[1].textContent = trip.departureIATA;
-  row.cells[1].setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
+  row.cells[0].textContent = trip.departureIATA;
+  row.cells[0].setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
+  row.cells[1].textContent = trip.departureCity;
   
-  row.cells[2].textContent = trip.arrivalCity;
-  row.cells[3].textContent = trip.arrivalIATA;
-  row.cells[3].setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
+  row.cells[2].textContent = trip.arrivalIATA;
+  row.cells[2].setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
+  row.cells[3].textContent = trip.arrivalCity;
   
   row.cells[4].textContent = trip.takeOffTime.replace("T", " ");
   row.cells[5].textContent = trip.landingTime.replace("T", " ");
