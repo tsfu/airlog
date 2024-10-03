@@ -18,12 +18,18 @@
 - New reponsive cards UI for stats tab
 - Use code/ID for airlines/aircrafts
 - Enhance table UI: airline logos + hover to see full names for airport/airline/aircraft
+- Support omitting city names. Showing IATA codes before names in UI now.
+- Add national flag icon next to IATA code.
 
 #### Fixed
 - Now use IATA/ICAO codes for airline and aircraft IDs
 - Remove invalid base-layer providers from Cesium picker
 - Fix relative path to assets on host
 - Fix original data for A337 and PKX.
+- Fix empty values handling for airline and aircarft.
+- Fix unknown/invalid IATA/ICAO codes handling upon submission.
+- Fix sessionStorage get cleared too soon during editing.
+- Fix some id codes are not converting to upper case for indexing.
 
 ## [MVP-1] - 2024.9.30
 

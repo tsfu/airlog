@@ -104,6 +104,18 @@ async function getAircraftDataAsync() {
 
 }
 
+function isValidAirport(iata) {
+  return airportDataMap.has(iata);
+}
+
+function optionToCode(option) {
+  // when user select the option it would be "FullName (XXX/ABC)" where we need ABC.
+  if(option.length > 3) {
+    return option.slice(-4).substring(0,3).toUpperCase();
+  }
+  return option.toUpperCase();
+}
+
 // populate autocomplete options for datalist (for trip Form input)
 function populateInputOptions() {
   const airportDataList = document.getElementById("airportIATA");
@@ -148,8 +160,18 @@ function IATAtoCoordinates(iataCode) {
 }
 
 function airlineToLogoHTML(airlineICAO) {
+  if (!airlineICAO) {
+    return "<img src=\"./assets/unknown.png\" height=\"30px\" width=\"30px\"/>"
+  }
   const imgPath = "./assets/airline_logos/" + airlineICAO + ".png";
   const html = "<img src=\"" + imgPath + "\" height=\"30px\" width=\"30px\"/>"
+  return html;
+}
+
+function airportToCountryIconHTML(airportIATA) {
+  // Note that airport IATA should already got validated here.
+  const countryCode = airportDataMap.get(airportIATA).country_code.toLowerCase();
+  const html = "<span class=\"fi fi-" + countryCode + "\"></span> ";
   return html;
 }
 

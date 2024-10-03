@@ -88,12 +88,12 @@ For each trip, the object looks like this:
 ```js client
   {
       "id": "CTUDOH201808220214",
+      "departureIATA": "CTU",     // IATA, required
+      "arrivalIATA": "DOH",       // IATA, required
       "departureCity": "Chengdu",
-      "departureIATA": "CTU",     // IATA
       "arrivalCity": "Doha",
-      "arrivalIATA": "DOH",       // IATA
-      "takeOffTime": "2018-08-22T02:14",
-      "landingTime": "2018-08-22T05:25",
+      "takeOffTime": "2018-08-22T02:14",    // local time, required
+      "landingTime": "2018-08-22T05:25",    // local time, required 
       "duration": "",
       "distance": "",
       "flightNumber": "QR861",
@@ -104,21 +104,20 @@ For each trip, the object looks like this:
       "seatNumber": "32B"
   }
 ```
- - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include `id`s in your json data for your initial import.
+ - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include `id`s in your json data for the initial import.
+ - Required: `departureIATA`, `arrivalIATA`, `takeOffTime`, `landingTime`.
  - The `departureIATA`, `arrivalIATA` are IATA airports codes, `airline` is airline ICAO (3-letter) code, and `aircraft` is IATA aircraft designator code. These will be IDs for corresponding fields and calculations. 
  - Did not use more well known IATA airline code or ICAO aircraft code (the other way), because we need to make ID unique.
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## TODOs
-
- - Complete the table and its Form input:
+ - Trips Page:
    - Sort records by columns desc or asec
- - Enhance Trips(LogView) UI:
-   - national flag icon next to city names?
  - Stats Page:
    - Get stats from trips data.
-   - Collection: Aircrafts and airlines when they have ID implemented.
+   - Collection: Aircrafts and airlines totals and rankings when they have ID implemented.
+ - Refactor code to use ONE UI/Data population for trip.  
  - Long term:
    -  Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail).
    -  Get aircraft model pictures.
-   -  Enhance UI on earth: show info card on the route when hover over
+   -  Enhance UI on earth: show pop-up info card on the route when hover over

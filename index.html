@@ -103,6 +103,7 @@
               list="airportIATA"
               id="departureIATA"
               name="departureIATA"
+              autocomplete="off"
               required
             />
             <label for="departureCity">Departure City</label>
@@ -113,6 +114,7 @@
               list="airportIATA"
               id="arrivalIATA"
               name="arrivalIATA"
+              autocomplete="off"
               required
             />
             <label for="arrivalCity">Arrival City</label>
@@ -137,10 +139,10 @@
             <input type="text" id="flightNumber" name="flightNumber" />
 
             <label for="airline">Airline</label>
-            <input list="airlineIATA" id="airline" name="airline" />
+            <input list="airlineIATA" id="airline" name="airline" autocomplete="off" />
 
             <label for="aircraft">Aircraft</label>
-            <input list="aircraftICAO" id="aircraft" name="aircraft" />
+            <input list="aircraftICAO" id="aircraft" name="aircraft" autocomplete="off" />
 
             <label for="tailNumber">Tail Number</label>
             <input type="text" id="tailNumber" name="tailNumber" />
