@@ -177,6 +177,7 @@ document
     }
     // Reset the form and hide it after submission
     this.reset();
+    toggleDemoButton()
     modal.style.display = "none";
   });
 
@@ -224,6 +225,7 @@ document
                 trip.seatClass,
                 trip.seatNumber
               );
+              toggleDemoButton()
             }
           } else {
             alert(
