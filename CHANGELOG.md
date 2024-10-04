@@ -12,7 +12,8 @@
 ## WIP [MVP-3] - Target 2024.10.14
 
 #### Added
-- 
+- One-click demo button to show sample trips
+- Trips page text and buttons new placement.
 
 #### Fixed
 - ID be unique when adding same trip many times.
