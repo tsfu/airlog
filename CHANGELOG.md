@@ -14,10 +14,11 @@
 #### Added
 - One-click demo button to show sample trips.
 - Trips page text and buttons new placement.
+- function to compare and count route of trips.
 
 #### Fixed
 - ID be unique when adding same trip many times.
-- Fix toggle table diaplay on mobile.
+- Fix toggle table display on mobile.
 
 ## [MVP-2] - 2024.10.3
 
