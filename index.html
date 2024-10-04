@@ -33,23 +33,33 @@
     </div>
 
     <!-- CesiumJS globe rendering here -->
-    <div
-      id="cesiumContainer"
-      class="tab-content active"
-      style="width: 100%"
-    ></div>
+    <div id="cesiumContainer" class="tab-content" style="width:100%"></div>
 
     <!-- Travel Log Content -->
-    <div id="travel-log" class="tab-content">
+    <div id="travel-log" class="tab-content active">
       <h1 id="travelLogTitle">Travel Log</h1>
-      <p class="text-center">
-        <b> Make sure you use the correct airport codes. </b>
-      </p>
-      <p class="text-center">AirLog calculations are based on IATA codes.</p>
-      <p class="text-center">
-        <b>Please enter connecting flights separately.</b>
+      <h3 class="text-center">Add, view, and manage your air travel logs.</h3>
+      <p class="text-center" style="display: none">
+        <button id="demoButton" class="wideButton">Demo AirLog</button>
       </p>
 
+      <!-- Button groups for trip management-->
+      <p class="text-center">Add one trip, or upload your trips.</p>
+      <p class="text-center">Recommend export the trips to secure your data.</p>
+      <div class="buttonContainer">
+        <button class="wideButton" id="addTripButton">Add Trip</button>
+        <button
+          class="wideButton tooltip-cell"
+          id="importButton"
+          data-tooltip=" Go to &quot;About&quot; for JSON file format. "
+        >
+          Import from JSON
+        </button>
+        <button class="wideButton" id="exportButton">Export Trips</button>
+      </div>
+      <input type="file" id="json-input" accept=".json" style="display: none" />
+
+      <!-- travel log table -->
       <table id="travelLogTable">
         <thead>
           <tr>
@@ -75,28 +85,19 @@
           <!-- Add log here dynamically from trips -->
         </tbody>
       </table>
-      <!-- Button groups for trip management-->
-      <div class="buttonContainer">
-        <button id="addTripButton">Add Trip</button>
-        <button id="importButton">Import from JSON</button>
-        <button id="exportButton">Export Trips</button>
-      </div>
-      <input type="file" id="json-input" accept=".json" style="display: none" />
-
-      <p class="text-center">
-        Hit "Add Trip" to log one trip, or upload a JSON file to batch import
-        records. For JSON format, please see <i>README</i> or
-        <i>sample_trips.json</i> on Github repo.
-      </p>
-      <p class="text-center">Recommend export the trips to secure your data.</p>
 
       <!-- Trip Details Form (modal hidden initially) -->
       <div id="addTripModal" class="modal">
-        <!-- Modal Content -->
         <div class="modal-content">
           <span class="modal-close">&times;</span>
           <form id="tripForm" class="trip-form">
-            <h2 id="tripFormTitle">Enter Your Trip Details</h2>
+            <h2 id="form-title">Enter Your Trip Details</h2>
+            <p class="form-info">
+              <b> Please use correct airport codes. </b>
+            </p>
+            <p class="form-info" style="margin-bottom: 30px">
+              Enter connecting flights separately.
+            </p>
 
             <label for="departureIATA"><b>Departure IATA Code</b></label>
             <input
@@ -139,10 +140,20 @@
             <input type="text" id="flightNumber" name="flightNumber" />
 
             <label for="airline">Airline</label>
-            <input list="airlineIATA" id="airline" name="airline" autocomplete="off" />
+            <input
+              list="airlineIATA"
+              id="airline"
+              name="airline"
+              autocomplete="off"
+            />
 
             <label for="aircraft">Aircraft</label>
-            <input list="aircraftICAO" id="aircraft" name="aircraft" autocomplete="off" />
+            <input
+              list="aircraftICAO"
+              id="aircraft"
+              name="aircraft"
+              autocomplete="off"
+            />
 
             <label for="tailNumber">Tail Number</label>
             <input type="text" id="tailNumber" name="tailNumber" />
@@ -158,6 +169,8 @@
           </form>
         </div>
       </div>
+
+      <!-- populated auto suggestion options -->
       <datalist id="airportIATA"></datalist>
       <datalist id="airlineIATA"></datalist>
       <datalist id="aircraftICAO"></datalist>

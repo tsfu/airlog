@@ -52,9 +52,10 @@ async function init() {
   await getAircraftDataAsync();
   await populateLogFromStorage();
   
-  populateInputOptions() // for input autocomplete
-  loadStats(); // for stats calc
-  // Test();   // enable test for helper functions
+  populateInputOptions();   // for input autocomplete
+  loadStats();              // for stats calc
+  toggleDemoButton();       // display demo button if no trips
+  // Test();              // enable test for helper functions
 }
 
 // populate table in "Log View" with trips in local storage

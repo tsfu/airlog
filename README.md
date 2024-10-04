@@ -10,6 +10,8 @@
   - [Data Source](#data-source)
   - [Data Model](#data-model)
 - [TODOs](#todos)
+  - [Planned](#planned)
+  - [Long term](#long-term)
 
 ## Introduction
 AirLog is an air travel log tool. It keeps track of and visualizes your past trips in the air (flights logging). 
@@ -111,6 +113,7 @@ For each trip, the object looks like this:
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## TODOs
+  ### Planned
  - Trips Page:
    - One click demo button to populate sample trips 
    - Sort records by columns desc or asec
@@ -119,7 +122,11 @@ For each trip, the object looks like this:
    - Collection: Aircrafts and airlines top & totals
    - Top 5 rankings for country, airport, airline, aircraft
  - Refactor code to use ONE UI/data population for trip. 
- - Long term:
-   -  Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail)
-   -  Get aircraft models' pictures
-   -  Enhance UI on earth: show pop-up info card on the route when hover over
+  ### Long term
+   - Separate page or modal: single trip view
+   - Table pagination? (TBD)
+   - Better table UI for mobile (display some columns)
+   - Better nav bar UI
+   - Get aircraft models' pictures
+   - Enhance UI on earth: show pop-up info card on the route when hover over
+   - Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail)

@@ -63,7 +63,7 @@ body {
 
 #travelLogTitle,
 #travelStatsTitle {
-    font-size: 2.75rem;
+    font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
     color: #12694f;
@@ -195,8 +195,14 @@ tr:hover td {
     margin: 20px auto;
 }
 
-#tripFormTitle {
-    margin: 0 0 30px;
+#form-title {
+    color: #12694f;
+    margin-bottom: 20px;
+}
+
+.form-info {
+    font-size: 14px;
+    margin-left: 10px;
 }
 
 .trip-form label {
@@ -231,12 +237,21 @@ button {
     margin: 20px auto;
 }
 
+.wideButton {
+    font-weight: bold;
+    padding: 10px 15px;
+}
+
 #addTripButton,
 #importButton,
 #exportButton {
     background-color: #12694f;
-    font-weight: bold;
-    padding: 10px 15px;
+}
+
+#demoButton{
+    background-color: #4d06b2;
+    font-size: 20px;
+    margin: 30px;
 }
 
 .rowDeleteButton {

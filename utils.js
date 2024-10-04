@@ -8,6 +8,23 @@ const aircraftDataMap = new Map();
 
 const DateTime = luxon.DateTime;
 
+// when there is no trip at all, show "demo" button, otherwise hide it
+function toggleDemoButton() {
+  const demo = document.getElementById("demoButton").parentElement;
+  if (trips.length < 1) {
+    console.log("INFO: No trip loaded, showing demo option.");
+    demo.style.display = "block";
+  } else {
+    demo.style.display = "none";
+  }
+}
+
+// import demo files for diaply
+function demo() {
+
+    // remove demo button from main page.
+}
+
 // generate a unique ID for trip
 function constructID(trip) {
   if (trip.id == null || trip.id == "") {
