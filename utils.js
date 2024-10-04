@@ -15,6 +15,7 @@ function toggleDemoButton() {
     console.log("INFO: No trip loaded, showing demo option.");
     demo.style.display = "block";
   } else {
+    console.log("INFO: trips loaded, hidding demo option.");
     demo.style.display = "none";
   }
 }
@@ -29,10 +30,42 @@ function toggleTableDisplay() {
   table.style.display= "table";
 }
 
-// import demo files for diaply
-function demo() {
-
-    // remove demo button from main page.
+// import demo trips for diaply
+async function demo() {
+  console.log("INFO: importing demo trips...");
+  try {
+    const response = await fetch("./data/more_sample_trips.json");
+    if (!response.ok) {
+      throw new Error(`Fetch error, status: ${response.status}`);
+    }
+    // Parse the JSON data
+    const importedTrips = await response.json();
+    for (const importedTrip of importedTrips) {
+      await addTripRow(
+        importedTrip.id,
+        importedTrip.departureCity,
+        importedTrip.departureIATA,
+        importedTrip.arrivalCity,
+        importedTrip.arrivalIATA,
+        importedTrip.takeOffTime,
+        importedTrip.landingTime,
+        importedTrip.duration,
+        importedTrip.distance,
+        importedTrip.flightNumber,
+        importedTrip.airline,
+        importedTrip.aircraft,
+        importedTrip.tailNumber,
+        importedTrip.seatClass,
+        importedTrip.seatNumber
+      );    
+    }
+    // remove demo button and show table
+    toggleTableDisplay();
+    toggleDemoButton();
+  } catch (error) {
+    console.error('Error loading or parsing JSON File:', error);
+  }
+  console.log("INFO: Successfully loaded demo trips.");
 }
 
 // generate a unique ID for trip

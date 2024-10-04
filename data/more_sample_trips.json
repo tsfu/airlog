@@ -153,6 +153,23 @@
     "id": "SFOEWR201901070104"
   },
   {
+    "departureIATA": "AMS",
+    "arrivalIATA": "XIY",
+    "departureCity": "Amsterdam",
+    "arrivalCity": "Xi'an",
+    "takeOffTime": "2024-05-04T21:15",
+    "landingTime": "2024-05-05T14:45",
+    "duration": "11h 30min",
+    "distance": "7893.76km",
+    "flightNumber": "KL988",
+    "airline": "KLM",
+    "aircraft": "77W",
+    "tailNumber": "K9898",
+    "seatClass": "First",
+    "seatNumber": "3A",
+    "id": "AMSXIY202405042115"
+  },
+  {
     "departureIATA": "PHL",
     "arrivalIATA": "DFW",
     "departureCity": "Philly",

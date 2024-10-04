@@ -117,6 +117,9 @@ async function Test() {
   console.log("Test duration JFK-LAX: " + dur2);
 }
 
+// demo button
+document.getElementById("demoButton").onclick = demo;
+
 // "add trip" button
 document.getElementById("addTripButton").addEventListener("click", function () {
   modal.style.display = "block";
