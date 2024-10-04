@@ -20,6 +20,18 @@ function toggleDemoButton() {
   }
 }
 
+// change table display while resizing
+const mobileView = window.matchMedia("(max-width: 768px)");
+mobileView.addEventListener("change", function(){
+  const table = document.getElementById("travelLogTable");
+  if (mobileView.matches) {
+    table.style.display= "block";
+  }
+  else {
+    table.style.display= "table";
+  }
+});
+
 // with no trips hide table
 function toggleTableDisplay() {
   const table = document.getElementById("travelLogTable");
@@ -27,6 +39,11 @@ function toggleTableDisplay() {
     table.style.display= "none";
     return;
   } 
+  // if toggle table display on mobile
+  if (mobileView.matches) {
+    table.style.display= "block";
+    return;
+  }
   table.style.display= "table";
 }
 
