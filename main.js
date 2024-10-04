@@ -2,9 +2,9 @@
 Cesium.Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5NmYzOGI3YS1hNTJmLTQxMDgtODk2OC1jNDAzZWJkZTA2NTYiLCJpZCI6MjQyOTgwLCJpYXQiOjE3MjY4NDU5MDd9.P4ba4zMM5yLj4ppDe-YrpX0IOcR8AkwvKV5tjCrbY5s";
 
-const viewer = new Cesium.Viewer("cesiumContainer",{
-  animation: false,           // Removes the animation widget
-  timeline: false,            // Removes the timeline widget
+const viewer = new Cesium.Viewer("cesiumContainer", {
+  animation: false, // Removes the animation widget
+  timeline: false, // Removes the timeline widget
 });
 // remove invalid imagery/terrain providers from base-layer picker
 viewer.baseLayerPicker.viewModel.terrainProviderViewModels.shift();
@@ -50,12 +50,20 @@ async function init() {
   await getAirportDataAsync();
   await getAirlineDataAsync();
   await getAircraftDataAsync();
+
+  // get localStorage stored trips
   await populateLogFromStorage();
-  
-  populateInputOptions();   // for input autocomplete
-  loadStats();              // for stats calc
-  toggleDemoButton();       // display demo button if no trips
-  // Test();              // enable test for helper functions
+  // Set display for demo button and table header 
+  toggleTableDisplay();
+  toggleDemoButton();
+
+  // for stats calc
+  loadStats();
+  // for input autocomplete
+  populateInputOptions();
+
+  // enable test in console for helper functions
+  // Test();
 }
 
 // populate table in "Log View" with trips in local storage
@@ -82,7 +90,7 @@ async function populateLogFromStorage() {
       trip.seatNumber
     );
   }
-  console.log("INFO: Trips data successfully retrieved.")
+  console.log("INFO: Trips data successfully retrieved.");
 }
 
 // console log testing basic functions
@@ -142,25 +150,25 @@ document
     event.preventDefault(); // Prevent the form from submitting the traditional way
 
     // Add one row from HTML Form
-    try{
+    try {
       await addTripRow(
         "", // no ID from input, will auto-generate
         document.getElementById("departureCity").value,
-        document.getElementById("departureIATA").value.substring(0,3),
+        document.getElementById("departureIATA").value.substring(0, 3),
         document.getElementById("arrivalCity").value,
-        document.getElementById("arrivalIATA").value.substring(0,3),
+        document.getElementById("arrivalIATA").value.substring(0, 3),
         document.getElementById("takeOffTime").value,
         document.getElementById("landingTime").value,
         "", // no duration from input, will calc
         "", // no distance from input, will calc
         document.getElementById("flightNumber").value,
-        document.getElementById("airline").value,    // will process later
-        document.getElementById("aircraft").value,   // will process later
+        document.getElementById("airline").value, // will process later
+        document.getElementById("aircraft").value, // will process later
         document.getElementById("tailNumber").value,
         document.getElementById("seatClass").value,
         document.getElementById("seatNumber").value
-      );  
-    }catch(err){
+      );
+    } catch (err) {
       alert("ERROR: Cannot add trip: " + err.message);
       return;
     }
@@ -185,9 +193,15 @@ document
           const trips = JSON.parse(jsonContent);
           if (Array.isArray(trips)) {
             for (const trip of trips) {
-              const valid = (trip.departureIATA || trip.arrivalIATA || trip.takeOffTime || trip.landingTime);
+              const valid =
+                trip.departureIATA ||
+                trip.arrivalIATA ||
+                trip.takeOffTime ||
+                trip.landingTime;
               if (!valid) {
-                alert ("Invalid JSON format. Missing required information in trip.\n Please check with README file.");
+                alert(
+                  "Invalid JSON format. Missing required information in trip.\n Please check with README file."
+                );
                 return;
               }
               await addTripRow(
@@ -243,11 +257,14 @@ async function addTripRow(
   let trip = {};
   trip.departureIATA = departureIATA.toUpperCase();
   trip.arrivalIATA = arrivalIATA.toUpperCase();
-  
+
   // Input has to be correct IATAs to cintune
-  const validIATA = isValidAirport(trip.departureIATA) && isValidAirport(trip.arrivalIATA);
-  if (!validIATA){   
-    throw new Error("airport not found. \nPlease check your airport IATA codes or use suggested values.");
+  const validIATA =
+    isValidAirport(trip.departureIATA) && isValidAirport(trip.arrivalIATA);
+  if (!validIATA) {
+    throw new Error(
+      "airport not found. \nPlease check your airport IATA codes or use suggested values."
+    );
   }
 
   trip.departureCity = departureCity;
@@ -258,16 +275,16 @@ async function addTripRow(
   trip.distance = distance;
   trip.flightNumber = flightNumber.toUpperCase();
 
-  airline = optionToCode(airline);   // trim to ICAO
-  aircraft = optionToCode(aircraft); // trim to IATA 
+  airline = optionToCode(airline); // trim to ICAO
+  aircraft = optionToCode(aircraft); // trim to IATA
   // If airline or aircraft not valid, just drop and use empty values.
   trip.airline = airlineDataMap.has(airline) ? airline : "";
   trip.aircraft = aircraftDataMap.has(aircraft) ? aircraft : "";
-  
+
   trip.tailNumber = tailNumber;
   trip.seatClass = seatClass;
   trip.seatNumber = seatNumber;
-  
+
   // Calculate duration and distance using airport.js methods
   if (duration == null || duration == "") {
     trip.duration = await getDuration(
@@ -301,18 +318,26 @@ async function addTripRow(
 
   // Insert new cells and populate them with the input values
   const cell0 = newRow.insertCell(0);
-  cell0.innerHTML = airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
+  cell0.innerHTML =
+    airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
   cell0.classList.add("thinCol");
   cell0.classList.add("tooltip-cell");
-  cell0.setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
-  
+  cell0.setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.departureIATA).airport
+  );
+
   newRow.insertCell(1).textContent = trip.departureCity;
 
   const cell2 = newRow.insertCell(2);
-  cell2.innerHTML = airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
+  cell2.innerHTML =
+    airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
   cell2.classList.add("thinCol");
   cell2.classList.add("tooltip-cell");
-  cell2.setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
+  cell2.setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.arrivalIATA).airport
+  );
 
   newRow.insertCell(3).textContent = trip.arrivalCity;
 
@@ -325,8 +350,8 @@ async function addTripRow(
   cell8.classList.add("thinCol");
   cell8.classList.add("tooltip-cell");
   cell8.innerHTML = airlineToLogoHTML(trip.airline);
-  if(trip.airline){
-    cell8.setAttribute("data-tooltip", airlineDataMap.get(trip.airline).name)
+  if (trip.airline) {
+    cell8.setAttribute("data-tooltip", airlineDataMap.get(trip.airline).name);
   } else {
     cell8.setAttribute("data-tooltip", "Unknown Airline");
   }
@@ -337,14 +362,17 @@ async function addTripRow(
 
   const cell10 = newRow.insertCell(10);
   cell10.classList.add("thinCol");
-  if(trip.aircraft){
+  if (trip.aircraft) {
     cell10.textContent = aircraftDataMap.get(trip.aircraft).icao_code;
     cell10.classList.add("tooltip-cell");
-    cell10.setAttribute("data-tooltip", aircraftDataMap.get(trip.aircraft).name)
+    cell10.setAttribute(
+      "data-tooltip",
+      aircraftDataMap.get(trip.aircraft).name
+    );
   } else {
     cell10.textContent = "Unknown";
   }
-  
+
   newRow.insertCell(11).textContent = trip.tailNumber;
   newRow.insertCell(12).textContent = trip.seatClass;
   newRow.insertCell(13).textContent = trip.seatNumber;
@@ -358,6 +386,9 @@ async function addTripRow(
 
   // update global var of user's trips
   trips.push(trip);
+  // if trips count went from 0 to 1 then display table
+  toggleTableDisplay();
+  // update storage
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
 }
 
@@ -373,6 +404,8 @@ function removeRow(evt) {
   const deleteIdx = trips.findIndex((obj) => obj.id == deleteTripID);
   trips.splice(deleteIdx, 1);
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
+  // if trips count dropped to 0 then hide table
+  toggleTableDisplay();
 }
 
 // prepare to edit a row
@@ -409,7 +442,9 @@ async function updateEditTrip() {
   // if form not valid yet, alert and return doing nothing
   // since we are not using same submit as adding here, need to do this explicitly.
   if (document.getElementById("tripForm").checkValidity() == false) {
-    alert("Please fill in all required fields (marked bold).\n Check airport IATA codes and takeoff/landing time.");
+    alert(
+      "Please fill in all required fields (marked bold).\n Check airport IATA codes and takeoff/landing time."
+    );
     return;
   }
   // re-fetch the IDs for editing
@@ -417,7 +452,7 @@ async function updateEditTrip() {
   const editRowIndex = sessionStorage.getItem("editRowIndex");
 
   // record the updated text values in form input
-  let trip = trips.find((obj) => obj.id == editTripID); 
+  let trip = trips.find((obj) => obj.id == editTripID);
   let newDIATA = document.getElementById("departureIATA").value;
   let newAIATA = document.getElementById("arrivalIATA").value;
   let newAirline = document.getElementById("airline").value;
@@ -425,36 +460,40 @@ async function updateEditTrip() {
 
   // if they change these values by choosing from options, need to truncate again
   if (newDIATA.length > 3) {
-    newDIATA = newDIATA.substring(0,3);
+    newDIATA = newDIATA.substring(0, 3);
   }
   if (newAIATA.length > 3) {
-    newAIATA = newAIATA.substring(0,3);
+    newAIATA = newAIATA.substring(0, 3);
   }
   // Updated IATA has to be correct before continue
   const validIATA = isValidAirport(newDIATA) && isValidAirport(newAIATA);
-  if (!validIATA){   
-    alert("ERROR: Airport not found. \nPlease check your airport IATA codes or use suggested values.");
+  if (!validIATA) {
+    alert(
+      "ERROR: Airport not found. \nPlease check your airport IATA codes or use suggested values."
+    );
     return;
   }
   trip.departureIATA = newDIATA;
   trip.arrivalIATA = newAIATA;
-  
-  newAirline = optionToCode(newAirline);  // trim to ICAO again
-  newAircraft = optionToCode(newAircraft);  // trim to IATA again
+
+  newAirline = optionToCode(newAirline); // trim to ICAO again
+  newAircraft = optionToCode(newAircraft); // trim to IATA again
   // validate airline and aircraft, if not just make them empty
   trip.airline = airlineDataMap.has(newAirline) ? newAirline : "";
   trip.aircraft = aircraftDataMap.has(newAircraft) ? newAircraft : "";
-  
+
   // update text values at last in case something went wrong before but these get updated.
   trip.departureCity = document.getElementById("departureCity").value;
   trip.arrivalCity = document.getElementById("arrivalCity").value;
   trip.takeOffTime = document.getElementById("takeOffTime").value;
   trip.landingTime = document.getElementById("landingTime").value;
-  trip.flightNumber = document.getElementById("flightNumber").value.toUpperCase();
+  trip.flightNumber = document
+    .getElementById("flightNumber")
+    .value.toUpperCase();
   trip.tailNumber = document.getElementById("tailNumber").value;
   trip.seatClass = document.getElementById("seatClass").value;
   trip.seatNumber = document.getElementById("seatNumber").value;
-  
+
   // always re-calculate these upon update
   trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
   trip.duration = await getDuration(
@@ -463,36 +502,50 @@ async function updateEditTrip() {
     trip.departureIATA,
     trip.arrivalIATA
   );
-  
+
   // the trip object has already been updated in place at this point
   // now update table row UI in place
   const row = document.getElementById("travelLogTable").rows[editRowIndex];
-  row.cells[0].innerHTML = airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
-  row.cells[0].setAttribute("data-tooltip", airportDataMap.get(trip.departureIATA).airport);
+  row.cells[0].innerHTML =
+    airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
+  row.cells[0].setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.departureIATA).airport
+  );
   row.cells[1].textContent = trip.departureCity;
-  
-  row.cells[2].innerHTML = airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
-  row.cells[2].setAttribute("data-tooltip", airportDataMap.get(trip.arrivalIATA).airport);
+
+  row.cells[2].innerHTML =
+    airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
+  row.cells[2].setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.arrivalIATA).airport
+  );
   row.cells[3].textContent = trip.arrivalCity;
-  
+
   row.cells[4].textContent = trip.takeOffTime.replace("T", " ");
   row.cells[5].textContent = trip.landingTime.replace("T", " ");
   row.cells[6].textContent = trip.duration;
   row.cells[7].textContent = trip.distance;
 
   row.cells[8].innerHTML = airlineToLogoHTML(trip.airline);
-  if (trip.airline){
-    row.cells[8].setAttribute("data-tooltip", airlineDataMap.get(trip.airline).name);
-  }else {
+  if (trip.airline) {
+    row.cells[8].setAttribute(
+      "data-tooltip",
+      airlineDataMap.get(trip.airline).name
+    );
+  } else {
     row.cells[8].setAttribute("data-tooltip", "Unknown Airline");
   }
 
   row.cells[9].textContent = trip.flightNumber;
-  
+
   if (trip.aircraft) {
     row.cells[10].textContent = aircraftDataMap.get(trip.aircraft).icao_code;
     row.cells[10].classList.add("tooltip-cell");
-    row.cells[10].setAttribute("data-tooltip", aircraftDataMap.get(trip.aircraft).name);
+    row.cells[10].setAttribute(
+      "data-tooltip",
+      aircraftDataMap.get(trip.aircraft).name
+    );
   } else {
     row.cells[10].textContent = "unknown";
     row.cells[10].classList.remove("tooltip-cell");

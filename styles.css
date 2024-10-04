@@ -73,7 +73,8 @@ body {
     text-align: center;
 }
 
-table {
+#travelLogTable {
+    display: none;
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 10px;

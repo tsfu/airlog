@@ -19,6 +19,16 @@ function toggleDemoButton() {
   }
 }
 
+// with no trips hide table
+function toggleTableDisplay() {
+  const table = document.getElementById("travelLogTable");
+  if (trips.length == 0) {
+    table.style.display= "none";
+    return;
+  } 
+  table.style.display= "table";
+}
+
 // import demo files for diaply
 function demo() {
 
