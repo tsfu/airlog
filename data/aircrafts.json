@@ -610,6 +610,11 @@
         "name": "British Aerospace (BAC) One Eleven"
     },
     {
+        "icao_code": "BAC",
+        "iata_code": "SSC",
+        "name": "BAC Concorde Supersonic"
+    },
+    {
         "icao_code": "BCS1",
         "iata_code": "221",
         "name": "Airbus A220-100"
@@ -680,8 +685,18 @@
         "name": "Lockheed Martin C-130J Hercules"
     },
     {
+        "icao_code": "C17",
+        "iata_code": "MBG",
+        "name": "McDonnell Douglas / Boeing C-17 Globemaster III"
+    },
+    {
+        "icao_code": "C5",
+        "iata_code": "LOG",
+        "name": "Lockheed C-5M Super Galaxy"
+    },
+    {
         "icao_code": "C5M",
-        "iata_code": "N/A",
+        "iata_code": "LOS",
         "name": "Lockheed C-5M Super Galaxy"
     },
     {
@@ -738,6 +753,11 @@
         "icao_code": "C919",
         "iata_code": "919",
         "name": "COMAC C919"
+    },
+    {
+        "icao_code": "C929",
+        "iata_code": "929",
+        "name": "COMAC C929"
     },
     {
         "icao_code": "CL2T",
