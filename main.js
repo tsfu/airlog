@@ -26,19 +26,15 @@ let trips = [];
 // switch between tabs
 function openTab(event, tabName) {
   // Get all elements with class="tab-content" and hide them
-  var tabContents = document.getElementsByClassName("tab-content");
-  for (var i = 0; i < tabContents.length; i++) {
-    tabContents[i].classList.remove("active");
-  }
+  const tabContents = $(".tab-content");
+  tabContents.removeClass("active");
 
   // Show the current tab and add "active" class to the clicked tab
-  document.getElementById(tabName).classList.add("active");
+  $("#" + tabName).addClass("active");
 
   // Remove active state from all links
-  var tabLinks = document.getElementsByClassName("tab-link");
-  for (var i = 0; i < tabLinks.length; i++) {
-    tabLinks[i].classList.remove("active");
-  }
+  const tabLinks = $(".tab-link");
+  tabLinks.removeClass("active");
 
   // Add active state to the clicked tab link
   event.currentTarget.classList.add("active");
@@ -53,7 +49,7 @@ async function init() {
 
   // get localStorage stored trips
   await populateLogFromStorage();
-  // Set display for demo button and table header 
+  // Set display for demo button and table header
   toggleTableDisplay();
   toggleDemoButton();
 
@@ -72,7 +68,7 @@ async function populateLogFromStorage() {
   if (tripsStorage == null || tripsStorage.length == 0) return;
 
   for (const trip of tripsStorage) {
-    await addTripRow(
+    await addTrip(
       trip.id,
       trip.departureCity,
       trip.departureIATA,
@@ -117,131 +113,134 @@ async function Test() {
   console.log("Test duration JFK-LAX: " + dur2);
 }
 
-// demo button
-document.getElementById("demoButton").onclick = demo;
-
-// "add trip" button
-document.getElementById("addTripButton").addEventListener("click", function () {
-  modal.style.display = "block";
-});
-
-// "import from file" button
-document.getElementById("importButton").addEventListener("click", function () {
-  document.getElementById("json-input").click();
-});
-
-// "export trips" button
-document.getElementById("exportButton").onclick = exportToJSON;
-
 // trip input modal
-const modal = document.getElementById("addTripModal");
-const closeSpan = document.getElementsByClassName("modal-close")[0];
-closeSpan.onclick = function () {
-  modal.style.display = "none"; // close modal
-};
-// When the user clicks anywhere outside of the modal, close it
+const modal = $("#addTripModal");
+
+// close modal
+$(".modal-close").on("click", function () {
+  $("#submitTripButton").removeAttr("hidden");
+  $("#updateTripButton").attr("hidden", "hidden");
+  modal.hide(); 
+});
+
+// When the user clicks anywhere outside of the modal close it
 window.onclick = function (event) {
   if (event.target == modal) {
-    modal.style.display = "none";
+    $("#submitTripButton").removeAttr("hidden");
+    $("#updateTripButton").attr("hidden", "hidden");
+    modal.hide();
   }
 };
 
-// handle form submission when adding a trip
-document
-  .getElementById("tripForm")
-  .addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
+// demo button
+$("#demoButton").on("click", demo);
 
-    // Add one row from HTML Form
-    try {
-      await addTripRow(
-        "", // no ID from input, will auto-generate
-        document.getElementById("departureCity").value,
-        document.getElementById("departureIATA").value.substring(0, 3),
-        document.getElementById("arrivalCity").value,
-        document.getElementById("arrivalIATA").value.substring(0, 3),
-        document.getElementById("takeOffTime").value,
-        document.getElementById("landingTime").value,
-        "", // no duration from input, will calc
-        "", // no distance from input, will calc
-        document.getElementById("flightNumber").value,
-        document.getElementById("airline").value, // will process later
-        document.getElementById("aircraft").value, // will process later
-        document.getElementById("tailNumber").value,
-        document.getElementById("seatClass").value,
-        document.getElementById("seatNumber").value
-      );
-    } catch (err) {
-      alert("ERROR: Cannot add trip: " + err.message);
-      return;
-    }
-    // Reset the form and hide it after submission
-    this.reset();
-    toggleDemoButton()
-    modal.style.display = "none";
-  });
+// "add trip" button
+$("#addTripButton").on("click", function () {
+  // clear form which may have values left from closed edits
+  $("#tripForm")[0].reset();
+  modal.show();
+});
+
+// "import from file" button
+$("#importButton").on("click", function () {
+  $("#json-input").trigger("click");
+});
+
+// "export trips" button
+$("#exportButton").on("click", exportToJSON);
 
 // handle form submission when editing a trip
-document.getElementById("updateTripButton").onclick = updateEditTrip;
+$("#updateTripButton").on("click", updateTrip);
+
+// handle form submission when adding a trip
+$("#tripForm").on("submit", async function (event) {
+  event.preventDefault(); // Prevent the form from submitting the traditional way
+  // Add one trip/row from HTML Form
+  try {
+    await addTrip(
+      "", // no ID from input, will auto-generate
+      $("#departureCity").val(),
+      $("#departureIATA").val().substring(0, 3),
+      $("#arrivalCity").val(),
+      $("#arrivalIATA").val().substring(0, 3),
+      $("#takeOffTime").val(),
+      $("#landingTime").val(),
+      "", // no duration from input, will calc
+      "", // no distance from input, will calc
+      $("#flightNumber").val(),
+      $("#airline").val(), // will process later
+      $("#aircraft").val(), // will process later
+      $("#tailNumber").val(),
+      $("#seatClass").val(),
+      $("#seatNumber").val()
+    );
+  } catch (err) {
+    alert("ERROR: Cannot add trip: " + err.message);
+    return;
+  }
+  // Reset the form and hide it after submission
+  this.reset();
+  toggleDemoButton();
+  modal.hide();
+});
 
 // handle json import
-document
-  .getElementById("json-input")
-  .addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async function (e) {
-        const jsonContent = e.target.result;
-        try {
-          const trips = JSON.parse(jsonContent);
-          if (Array.isArray(trips)) {
-            for (const trip of trips) {
-              const valid =
-                trip.departureIATA ||
-                trip.arrivalIATA ||
-                trip.takeOffTime ||
-                trip.landingTime;
-              if (!valid) {
-                alert(
-                  "Invalid JSON format. Missing required information in trip.\n Please check with README file."
-                );
-                return;
-              }
-              await addTripRow(
-                trip.id,
-                trip.departureCity,
-                trip.departureIATA,
-                trip.arrivalCity,
-                trip.arrivalIATA,
-                trip.takeOffTime,
-                trip.landingTime,
-                trip.duration,
-                trip.distance,
-                trip.flightNumber,
-                trip.airline,
-                trip.aircraft,
-                trip.tailNumber,
-                trip.seatClass,
-                trip.seatNumber
+$("#json-input").on("change", function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      const jsonContent = e.target.result;
+      try {
+        const trips = JSON.parse(jsonContent);
+        if (Array.isArray(trips)) {
+          for (const trip of trips) {
+            const valid =
+              trip.departureIATA ||
+              trip.arrivalIATA ||
+              trip.takeOffTime ||
+              trip.landingTime;
+            if (!valid) {
+              alert(
+                "Invalid JSON format. Missing required information in trip.\n Please check with README file."
               );
-              toggleDemoButton()
+              return;
             }
-          } else {
-            alert(
-              "Invalid JSON format. Please upload an Array of valid trips.\nSee README for more info."
+            await addTrip(
+              trip.id,
+              trip.departureCity,
+              trip.departureIATA,
+              trip.arrivalCity,
+              trip.arrivalIATA,
+              trip.takeOffTime,
+              trip.landingTime,
+              trip.duration,
+              trip.distance,
+              trip.flightNumber,
+              trip.airline,
+              trip.aircraft,
+              trip.tailNumber,
+              trip.seatClass,
+              trip.seatNumber
             );
           }
-        } catch (err) {
-          alert("Error parsing JSON file: " + err.message);
+          toggleDemoButton();
+        } else {
+          alert(
+            "Invalid JSON format. Please upload an Array of valid trips.\nSee README for more info."
+          );
         }
-      };
-      reader.readAsText(file);
-    }
-  });
+      } catch (err) {
+        alert("Error parsing JSON file: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+});
 
 // Add a single row in table UI, also save a trip data object
-async function addTripRow(
+async function addTrip(
   id,
   departureCity,
   departureIATA,
@@ -308,86 +307,12 @@ async function addTripRow(
   drawFlightRoute(viewer, trip);
 
   // Create a new row in the travel log table
-  const table = document.getElementById("travelLogTable");
+  const table = $("#travelLogTable")[0];
   const newRow = table.insertRow(-1); // Insert a new row at the end of the table
-
-  const editButtonHTML =
-    '<button id="' +
-    trip.id +
-    "e" +
-    '" class="rowEditButton" onclick="editRow(this)">&plus;</button>';
-  const deleteButtonHTML =
-    '<button id="' +
-    trip.id +
-    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';
-
-  // Insert new cells and populate them with the input values
-  const cell0 = newRow.insertCell(0);
-  cell0.innerHTML =
-    airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
-  cell0.classList.add("thinCol");
-  cell0.classList.add("tooltip-cell");
-  cell0.setAttribute(
-    "data-tooltip",
-    airportDataMap.get(trip.departureIATA).airport
-  );
-
-  newRow.insertCell(1).textContent = trip.departureCity;
-
-  const cell2 = newRow.insertCell(2);
-  cell2.innerHTML =
-    airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
-  cell2.classList.add("thinCol");
-  cell2.classList.add("tooltip-cell");
-  cell2.setAttribute(
-    "data-tooltip",
-    airportDataMap.get(trip.arrivalIATA).airport
-  );
-
-  newRow.insertCell(3).textContent = trip.arrivalCity;
-
-  newRow.insertCell(4).textContent = trip.takeOffTime.replace("T", " ");
-  newRow.insertCell(5).textContent = trip.landingTime.replace("T", " ");
-  newRow.insertCell(6).textContent = trip.duration;
-  newRow.insertCell(7).textContent = trip.distance;
-
-  const cell8 = newRow.insertCell(8);
-  cell8.classList.add("thinCol");
-  cell8.classList.add("tooltip-cell");
-  cell8.innerHTML = airlineToLogoHTML(trip.airline);
-  if (trip.airline) {
-    cell8.setAttribute("data-tooltip", airlineDataMap.get(trip.airline).name);
-  } else {
-    cell8.setAttribute("data-tooltip", "Unknown Airline");
+  for (let i = 0; i < 16; i++) { // Insert cells
+    newRow.insertCell(i);
   }
-
-  const cell9 = newRow.insertCell(9);
-  cell9.classList.add("thinCol");
-  cell9.textContent = trip.flightNumber;
-
-  const cell10 = newRow.insertCell(10);
-  cell10.classList.add("thinCol");
-  if (trip.aircraft) {
-    cell10.textContent = aircraftDataMap.get(trip.aircraft).icao_code;
-    cell10.classList.add("tooltip-cell");
-    cell10.setAttribute(
-      "data-tooltip",
-      aircraftDataMap.get(trip.aircraft).name
-    );
-  } else {
-    cell10.textContent = "Unknown";
-  }
-
-  newRow.insertCell(11).textContent = trip.tailNumber;
-  newRow.insertCell(12).textContent = trip.seatClass;
-  newRow.insertCell(13).textContent = trip.seatNumber;
-  // edit/delete buttons within row
-  const cell14 = newRow.insertCell(14);
-  cell14.innerHTML = editButtonHTML;
-  cell14.classList.add("thinCol");
-  const cell15 = newRow.insertCell(15);
-  cell15.innerHTML = deleteButtonHTML;
-  cell15.classList.add("thinCol");
+  populateRow(trip, newRow);
 
   // update global var of user's trips
   trips.push(trip);
@@ -397,12 +322,89 @@ async function addTripRow(
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
 }
 
+// fill a row in trips table UI using the trip object
+function populateRow(trip, row) {
+  const cells= row.cells;
+  // Insert new cells and populate them with the values in trip object
+  cells[0].innerHTML =
+    airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
+  cells[0].classList.add("thinCol");
+  cells[0].classList.add("tooltip-cell");
+  cells[0].setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.departureIATA).airport
+  );
+
+  cells[2].innerHTML =
+  airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
+  cells[2].classList.add("thinCol");
+  cells[2].classList.add("tooltip-cell");
+  cells[2].setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.arrivalIATA).airport
+  );
+
+  cells[1].textContent = trip.departureCity;
+  cells[3].textContent = trip.arrivalCity;
+  cells[4].textContent = trip.takeOffTime.replace("T", " ");
+  cells[5].textContent = trip.landingTime.replace("T", " ");
+  cells[6].textContent = trip.duration;
+  cells[7].textContent = trip.distance;
+
+  cells[8].innerHTML = airlineToLogoHTML(trip.airline);
+  cells[8].classList.add("thinCol");
+  cells[8].classList.add("tooltip-cell");
+  if (trip.airline) {
+    cells[8].setAttribute(
+      "data-tooltip",
+      airlineDataMap.get(trip.airline).name
+    );
+  } else {
+    cells[8].setAttribute("data-tooltip", "Unknown Airline");
+  }
+
+  cells[9].classList.add("thinCol");
+  cells[9].textContent = trip.flightNumber;
+
+  cells[10].classList.add("thinCol");
+  if (trip.aircraft) {
+    cells[10].textContent = aircraftDataMap.get(trip.aircraft).icao_code;
+    cells[10].classList.add("tooltip-cell");
+    cells[10].setAttribute(
+      "data-tooltip",
+      aircraftDataMap.get(trip.aircraft).name
+    );
+  } else {
+    cells[10].textContent = "unknown";
+    cells[10].classList.remove("tooltip-cell");
+    cells[10].removeAttribute("data-tooltip");
+  }
+
+  cells[11].textContent = trip.tailNumber;
+  cells[12].textContent = trip.seatClass;
+  cells[13].textContent = trip.seatNumber;  
+  // edit and delete buttons within row
+  const editButtonHTML =
+    '<button id="' +
+    trip.id +
+    "e" +
+    '" class="rowEditButton" onclick="editRow(this)">&plus;</button>';
+  const deleteButtonHTML =
+    '<button id="' +
+    trip.id +
+    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';   
+  cells[14].innerHTML = editButtonHTML;
+  cells[14].classList.add("thinCol");
+  cells[15].innerHTML = deleteButtonHTML;
+  cells[15].classList.add("thinCol");
+}
+
 // delete a row
 function removeRow(evt) {
   const deleteRowIndex = evt.parentElement.parentElement.rowIndex;
   const deleteTripID = evt.id;
   // delete row in table
-  document.getElementById("travelLogTable").deleteRow(deleteRowIndex);
+  $("#travelLogTable")[0].deleteRow(deleteRowIndex);
   // delete route on earth
   removeFlightRoute(viewer, deleteTripID);
   // delete trip from storage
@@ -420,33 +422,33 @@ function editRow(evt) {
   let trip = trips.find((obj) => obj.id == editTripID);
 
   // pre-fill the current values in form
-  document.getElementById("departureCity").value = trip.departureCity;
-  document.getElementById("departureIATA").value = trip.departureIATA;
-  document.getElementById("arrivalCity").value = trip.arrivalCity;
-  document.getElementById("arrivalIATA").value = trip.arrivalIATA;
-  document.getElementById("takeOffTime").value = trip.takeOffTime;
-  document.getElementById("landingTime").value = trip.landingTime;
-  document.getElementById("flightNumber").value = trip.flightNumber;
-  document.getElementById("airline").value = trip.airline;
-  document.getElementById("aircraft").value = trip.aircraft;
-  document.getElementById("tailNumber").value = trip.tailNumber;
-  document.getElementById("seatClass").value = trip.seatClass;
-  document.getElementById("seatNumber").value = trip.seatNumber;
+  $("#departureCity").val(trip.departureCity);
+  $("#departureIATA").val(trip.departureIATA);
+  $("#arrivalCity").val(trip.arrivalCity);
+  $("#arrivalIATA").val(trip.arrivalIATA);
+  $("#takeOffTime").val(trip.takeOffTime);
+  $("#landingTime").val(trip.landingTime);
+  $("#flightNumber").val(trip.flightNumber);
+  $("#airline").val(trip.airline);
+  $("#aircraft").val(trip.aircraft);
+  $("#tailNumber").val(trip.tailNumber);
+  $("#seatClass").val(trip.seatClass);
+  $("#seatNumber").val(trip.seatNumber);
 
   // temporarily save trip and row id that is being edited until update clicked.
   sessionStorage.setItem("editTripID", editTripID);
   sessionStorage.setItem("editRowIndex", editRowIndex);
-  // show edit modal, will do updateEditTrip() when submit
-  document.getElementById("submitTripButton").setAttribute("hidden", "hidden");
-  document.getElementById("updateTripButton").removeAttribute("hidden");
-  modal.style.display = "block";
+  // show edit modal, will do updateTrip() when submit
+  $("#submitTripButton").attr("hidden", "hidden");
+  $("#updateTripButton").removeAttr("hidden");
+  modal.show();
 }
 
 // update trip for both UI and storage from input
-async function updateEditTrip() {
+async function updateTrip() {
   // if form not valid yet, alert and return doing nothing
   // since we are not using same submit as adding here, need to do this explicitly.
-  if (document.getElementById("tripForm").checkValidity() == false) {
+  if ($("#tripForm")[0].checkValidity() == false) {
     alert(
       "Please fill in all required fields (marked bold).\n Check airport IATA codes and takeoff/landing time."
     );
@@ -458,10 +460,10 @@ async function updateEditTrip() {
 
   // record the updated text values in form input
   let trip = trips.find((obj) => obj.id == editTripID);
-  let newDIATA = document.getElementById("departureIATA").value;
-  let newAIATA = document.getElementById("arrivalIATA").value;
-  let newAirline = document.getElementById("airline").value;
-  let newAircraft = document.getElementById("aircraft").value;
+  let newDIATA = $("#departureIATA").val().toUpperCase();
+  let newAIATA = $("#arrivalIATA").val().toUpperCase();
+  let newAirline = $("#airline").val();
+  let newAircraft = $("#aircraft").val();
 
   // if they change these values by choosing from options, need to truncate again
   if (newDIATA.length > 3) {
@@ -488,16 +490,14 @@ async function updateEditTrip() {
   trip.aircraft = aircraftDataMap.has(newAircraft) ? newAircraft : "";
 
   // update text values at last in case something went wrong before but these get updated.
-  trip.departureCity = document.getElementById("departureCity").value;
-  trip.arrivalCity = document.getElementById("arrivalCity").value;
-  trip.takeOffTime = document.getElementById("takeOffTime").value;
-  trip.landingTime = document.getElementById("landingTime").value;
-  trip.flightNumber = document
-    .getElementById("flightNumber")
-    .value.toUpperCase();
-  trip.tailNumber = document.getElementById("tailNumber").value;
-  trip.seatClass = document.getElementById("seatClass").value;
-  trip.seatNumber = document.getElementById("seatNumber").value;
+  trip.departureCity = $("#departureCity").val();
+  trip.arrivalCity = $("#arrivalCity").val();
+  trip.takeOffTime = $("#takeOffTime").val();
+  trip.landingTime = $("#landingTime").val();
+  trip.flightNumber = $("#flightNumber").val().toUpperCase();
+  trip.tailNumber = $("#tailNumber").val();
+  trip.seatClass = $("#seatClass").val();
+  trip.seatNumber = $("#seatNumber").val();
 
   // always re-calculate these upon update
   trip.distance = getDistance(trip.departureIATA, trip.arrivalIATA);
@@ -510,56 +510,8 @@ async function updateEditTrip() {
 
   // the trip object has already been updated in place at this point
   // now update table row UI in place
-  const row = document.getElementById("travelLogTable").rows[editRowIndex];
-  row.cells[0].innerHTML =
-    airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
-  row.cells[0].setAttribute(
-    "data-tooltip",
-    airportDataMap.get(trip.departureIATA).airport
-  );
-  row.cells[1].textContent = trip.departureCity;
-
-  row.cells[2].innerHTML =
-    airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
-  row.cells[2].setAttribute(
-    "data-tooltip",
-    airportDataMap.get(trip.arrivalIATA).airport
-  );
-  row.cells[3].textContent = trip.arrivalCity;
-
-  row.cells[4].textContent = trip.takeOffTime.replace("T", " ");
-  row.cells[5].textContent = trip.landingTime.replace("T", " ");
-  row.cells[6].textContent = trip.duration;
-  row.cells[7].textContent = trip.distance;
-
-  row.cells[8].innerHTML = airlineToLogoHTML(trip.airline);
-  if (trip.airline) {
-    row.cells[8].setAttribute(
-      "data-tooltip",
-      airlineDataMap.get(trip.airline).name
-    );
-  } else {
-    row.cells[8].setAttribute("data-tooltip", "Unknown Airline");
-  }
-
-  row.cells[9].textContent = trip.flightNumber;
-
-  if (trip.aircraft) {
-    row.cells[10].textContent = aircraftDataMap.get(trip.aircraft).icao_code;
-    row.cells[10].classList.add("tooltip-cell");
-    row.cells[10].setAttribute(
-      "data-tooltip",
-      aircraftDataMap.get(trip.aircraft).name
-    );
-  } else {
-    row.cells[10].textContent = "unknown";
-    row.cells[10].classList.remove("tooltip-cell");
-    row.cells[10].removeAttribute("data-tooltip");
-  }
-
-  row.cells[11].textContent = trip.tailNumber;
-  row.cells[12].textContent = trip.seatClass;
-  row.cells[13].textContent = trip.seatNumber;
+  const row = $("#travelLogTable")[0].rows[editRowIndex];
+  populateRow(trip, row);
 
   // re-draw route on earth
   removeFlightRoute(viewer, editTripID);
@@ -572,10 +524,10 @@ async function updateEditTrip() {
   sessionStorage.removeItem("editRowIndex");
 
   // reset add/update button status in modal
-  document.getElementById("tripForm").reset();
-  document.getElementById("submitTripButton").removeAttribute("hidden");
-  document.getElementById("updateTripButton").setAttribute("hidden", "hidden");
-  modal.style.display = "none";
+  $("#tripForm")[0].reset();
+  $("#submitTripButton").removeAttr("hidden");
+  $("#updateTripButton").attr("hidden", "hidden");
+  modal.hide();
 }
 
 // export trips to file

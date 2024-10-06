@@ -10,20 +10,20 @@ const DateTime = luxon.DateTime;
 
 // when there is no trip at all, show "demo" button, otherwise hide it
 function toggleDemoButton() {
-  const demo = document.getElementById("demoButton").parentElement;
+  const demo = $("#demoButton").parent();
   if (trips.length < 1) {
     console.log("INFO: No trip loaded, showing demo option.");
-    demo.style.display = "block";
+    demo.show();
   } else {
     console.log("INFO: trips loaded, hidding demo option.");
-    demo.style.display = "none";
+    demo.hide();
   }
 }
 
 // change table display while resizing
 const mobileView = window.matchMedia("(max-width: 768px)");
 mobileView.addEventListener("change", function(){
-  const table = document.getElementById("travelLogTable");
+  const table = $("#travelLogTable")[0];
   if (mobileView.matches) {
     table.style.display= "block";
   }
@@ -34,7 +34,7 @@ mobileView.addEventListener("change", function(){
 
 // with no trips hide table
 function toggleTableDisplay() {
-  const table = document.getElementById("travelLogTable");
+  const table = $("#travelLogTable")[0];
   if (trips.length == 0) {
     table.style.display= "none";
     return;
@@ -58,7 +58,7 @@ async function demo() {
     // Parse the JSON data
     const importedTrips = await response.json();
     for (const importedTrip of importedTrips) {
-      await addTripRow(
+      await addTrip(
         importedTrip.id,
         importedTrip.departureCity,
         importedTrip.departureIATA,
@@ -201,29 +201,29 @@ function optionToCode(option) {
 
 // populate autocomplete options for datalist (for trip Form input)
 function populateInputOptions() {
-  const airportDataList = document.getElementById("airportIATA");
-  const airlineDataList = document.getElementById("airlineIATA");
-  const aircraftDataList = document.getElementById("aircraftICAO");
+  const airportDataList = $("#airportIATA");
+  const airlineDataList = $("#airlineIATA");
+  const aircraftDataList = $("#aircraftICAO");
 
   airportDataMap.forEach((v,k)=> {
       const option = document.createElement('option');
       const item = v.iata + " (" + v.airport + ")"; // option value = "BOS (Logan Airport)"
       option.value = item;
-      airportDataList.appendChild(option);
+      airportDataList.append(option);
   })
 
   airlineDataMap.forEach((v,k)=> {
     const option = document.createElement('option');
     const item = v.name + " (" + v.iata + "/" + v.icao + ")"; // option value = "Delta Airlines (DL/DAL)"
     option.value = item;
-    airlineDataList.appendChild(option);
+    airlineDataList.append(option);
   })
 
   aircraftDataMap.forEach((v,k)=> {
     const option = document.createElement('option');
     const item = v.name + " (" + v.icao_code + "/" + v.iata_code + ")"; // option value = "Airbus A380-800 (A388/388)"
     option.value = item;
-    aircraftDataList.appendChild(option);
+    aircraftDataList.append(option);
   })
   console.log("INFO: airports/airlines/aircarfts input options constructed.")
 }
