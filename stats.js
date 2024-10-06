@@ -88,25 +88,25 @@ function getAirportsSet() {
 }
 
 function getCountriesSet() {
-    // get country codes from airport map
-    const countrySet = new Set();
-    trips.forEach((trip) => {
-        const airport1 = trip.departureIATA
-        const airport2 = trip.arrivalIATA
-        const countryCode1 = airportDataMap.get(airport1).country_code;
-        const countryCode2 = airportDataMap.get(airport2).country_code;
-        countrySet.add(countryCode1);
-        countrySet.add(countryCode2)
-    });
-    return countrySet
+  // get country codes from airport map
+  const countrySet = new Set();
+  trips.forEach((trip) => {
+    const airport1 = trip.departureIATA;
+    const airport2 = trip.arrivalIATA;
+    const countryCode1 = airportDataMap.get(airport1).country_code;
+    const countryCode2 = airportDataMap.get(airport2).country_code;
+    countrySet.add(countryCode1);
+    countrySet.add(countryCode2);
+  });
+  return countrySet;
 }
 
 function getAirlinesSet() {
-    const airlineSet = new Set();
-    trips.forEach((trip) => {
-      airlineSet.add(trip.airline);
-    });
-    return airlineSet;
+  const airlineSet = new Set();
+  trips.forEach((trip) => {
+    airlineSet.add(trip.airline);
+  });
+  return airlineSet;
 }
 
 function getAircraftsSet() {
@@ -121,45 +121,136 @@ function getAircraftsSet() {
 
 function getRoutesRanking() {
   // unqiue route -> count map
-  let routeCountMap = new Map(); 
+  let routeCountMap = new Map();
   trips.forEach((trip) => {
     const key1 = trip.departureIATA + "-" + trip.arrivalIATA;
     const key2 = trip.arrivalIATA + "-" + trip.departureIATA;
     // switched departure/arrival counts as same route
-    if (routeCountMap.has(key1)){
+    if (routeCountMap.has(key1)) {
       routeCountMap.set(key1, routeCountMap.get(key1) + 1);
-    }
-    else if (routeCountMap.has(key2)){
+    } else if (routeCountMap.has(key2)) {
       routeCountMap.set(key2, routeCountMap.get(key2) + 1);
-    }
-    else {
+    } else {
       routeCountMap.set(key1, 1);
     }
   });
   // sort map by count (values) then put results in array
-  routeCountMap = new Map([...routeCountMap.entries()].sort((a, b) => b[1] - a[1]));
+  routeCountMap = new Map(
+    [...routeCountMap.entries()].sort((a, b) => b[1] - a[1])
+  );
   // put result in array so can use index as ranking
   let res = [];
-  routeCountMap.forEach((v,k)=> {
-    res.push({route: k, count: v});
-  })
+  routeCountMap.forEach((v, k) => {
+    res.push({ route: k, count: v });
+  });
   return res;
 }
 
 function getAirportsRanking() {
   let airportCountMap = new Map();
+  trips.forEach((trip) => {
+    const key1 = trip.departureIATA;
+    const key2 = trip.arrivalIATA;
+    // add count for both departure and arrival airports
+    if (airportCountMap.has(key1)) {
+      airportCountMap.set(key1, airportCountMap.get(key1) + 1);
+    } else {
+      airportCountMap.set(key1, 1);
+    }
+    if (airportCountMap.has(key2)) {
+      airportCountMap.set(key2, airportCountMap.get(key2) + 1);
+    } else {
+      airportCountMap.set(key2, 1);
+    }
+  });
+  // sort map by count (values) then put results in array
+  airportCountMap = new Map(
+    [...airportCountMap.entries()].sort((a, b) => b[1] - a[1])
+  );
+  // put result in array so can use index as ranking
+  let res = [];
+  airportCountMap.forEach((v, k) => {
+    res.push({ airport: k, count: v });
+  });
+  return res;
 }
 
 function getAirlinesRanking() {
   let airlineCountMap = new Map();
+  trips.forEach((trip) => {
+    const key = trip.airline;
+    if (airlineCountMap.has(key)) {
+      airlineCountMap.set(key, airlineCountMap.get(key) + 1);
+    } else {
+      airlineCountMap.set(key, 1);
+    }
+  });
+  // sort map by count (values) then put results in array
+  airlineCountMap = new Map(
+    [...airlineCountMap.entries()].sort((a, b) => b[1] - a[1])
+  );
+  // put result in array so can use index as ranking
+  let res = [];
+  airlineCountMap.forEach((v, k) => {
+    res.push({ airline: k, count: v });
+  });
+  return res;
 }
 
 function getAircraftsRanking() {
   let aircraftCountMap = new Map();
+  trips.forEach((trip) => {
+    const key = trip.aircraft;
+    if (aircraftCountMap.has(key)) {
+      aircraftCountMap.set(key, aircraftCountMap.get(key) + 1);
+    } else {
+      aircraftCountMap.set(key, 1);
+    }
+  });
+  // sort map by count (values) then put results in array
+  aircraftCountMap = new Map(
+    [...aircraftCountMap.entries()].sort((a, b) => b[1] - a[1])
+  );
+  // put result in array so can use index as ranking
+  let res = [];
+  aircraftCountMap.forEach((v, k) => {
+    res.push({ airline: k, count: v });
+  });
+  return res;
 }
 
-// TODO: sort() trips with a comparator func to get Top N longest flight (duration/distance)
+// sort() trips with a comparator func to get Top N longest flight (duration/distance)
+function getDurationRanking() {
+  let tripsByDuration = structuredClone(trips);
+  tripsByDuration.sort(
+    (a, b) => durationTextToMins(b.duration) - durationTextToMins(a.duration)
+  );
+  return tripsByDuration;
+}
 
+function durationTextToMins(duration) {
+  const durationNum = duration.replace("min", "").replace("h", "");
+  const list = durationNum.split(" ");
+  const mins = parseInt(list[0]) * 60 + parseInt(list[1]);
+  return mins;
+}
 
-// load stats data into UI
-function loadStats() {}
+function getDistanceRanking() {
+  let tripsByDistance = structuredClone(trips);
+  tripsByDistance.sort(
+    (a, b) =>
+      parseFloat(b.distance.replace("km", "")) -
+      parseFloat(a.distance.replace("km", ""))
+  );
+  return tripsByDistance;
+}
+
+// calculate all stats data from trips
+function loadStats() {
+  
+}
+
+// load stats page UI
+function showStats() {
+
+}
