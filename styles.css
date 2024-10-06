@@ -85,7 +85,7 @@ body {
 
 th,
 td {
-    padding: 10px;  
+    padding: 10px;
     text-align: center;
 }
 
@@ -126,11 +126,12 @@ tr:hover td {
 .tooltip-cell {
     position: relative;
 }
-  
+
 .tooltip-cell::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: -12px; /* Adjust depending on how far you want the tooltip to appear from the cell */
+    bottom: -16px;
+    /* Adjust depending on how far you want the tooltip to appear from the cell */
     left: 0;
     background-color: rgba(0, 0, 0, 0.75);
     color: #e4e4e4;
@@ -249,9 +250,9 @@ button {
     background-color: #12694f;
 }
 
-#demoButton{
-    background: rgb(240,146,39);
-    background: linear-gradient(90deg, rgba(240,146,39,1) 0%, rgba(9,97,91,1) 50%, rgba(152,12,134,1) 100%);
+#demoButton {
+    background: rgb(240, 146, 39);
+    background: linear-gradient(90deg, rgba(240, 146, 39, 1) 0%, rgba(9, 97, 91, 1) 50%, rgba(152, 12, 134, 1) 100%);
     font-size: 28px;
     margin: 30px;
     border-radius: 28px;
@@ -322,7 +323,7 @@ hr {
 }
 
 .stats-card-value {
-    font-size: 40px; 
+    font-size: 40px;
 }
 
 .stats-card-value-small {
@@ -352,3 +353,79 @@ hr {
         justify-content: space-around;
     }
 }
+
+/* slider text */
+#slider-wrapper {
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #slider {
+    height: 30px;
+    overflow: hidden; /* One of the importing things for slide effect */
+  }
+
+  #slider-fixed {
+    height: 30px;
+  }
+
+  .slider-text {
+    height: 30px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    text-align: right;
+  }
+  
+  #slider-text-1 {
+    color: #b96114;
+    animation: slide 5s linear infinite;
+  }
+  
+  #slider-text-2 {
+    color: #87147b;
+  }
+  
+  #slider-text-3 {
+    color: #3779d5;
+  }
+
+  #slider-text-4 {
+    color: #c01933;
+  }
+  
+  @keyframes slide {
+    0% {
+      margin-top: -240px;
+    }
+    5% {
+      /* For stopping effect */
+      margin-top: -180px;
+    }
+    25% {
+      margin-top: -180px;
+    }
+    30% {
+      /* For stopping effect */
+      margin-top: -120px;
+    }
+    50% {
+      margin-top: -120px;
+    }
+    55% {
+      /* For stopping effect */
+      margin-top: -60px;
+    }
+    75% {
+        margin-top: -60px;
+      }
+    80% {
+    /* For stopping effect */
+    margin-top: 0px;
+    }
+    100% {
+      margin-top: 0px;
+    }
+  }
