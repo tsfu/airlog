@@ -18,7 +18,6 @@ AirLog is an air travel log tool. It keeps track of and visualizes your past tri
 
 On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This will combine web development, UI design, and GIS stuff, which are the topics I am most interested in.
 
-
 The design and idea of this site is inspired by `App In the Air`  and `Flighty`. 
 This app is my personal project only. Not for commercial use.
 
@@ -50,10 +49,13 @@ This is the soure-of-truth data you provided and we use it to make visualization
 
 User may use UI to add one trip, or upload JSON file to batch import trips. See `/data/sample_trips.json` to follow the format when you use upload.
 
+When a user lands on the page for the first time (their trips are empty), there is a "demo" button which adds sample trips to showcase the UI.
+
 To ensure your data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
 
 ### Stats
-Some useful stats for user's travel history. Rankings, collections, progress, etc.
+Some useful stats for user's travel history. Rankings, collections, progress, etc. The calculations are javascript data structures' utility display in `stats.js`.
+This page is view only.
 
 
 ## Data
@@ -61,7 +63,7 @@ All data is obtained from user or public available resources. This app only oper
 
 This is a pure client side app, which means we do not save or keep your data. The trips you added are stored within your web browser's `localStorage`. The LocalStorage data remains saved until it's explicitly cleared by the user(you). Closing browser or powering off your computer will not clear it. However, you should NOT assume the data is 100% safely stored or won't get lost.
 
-This also means that your data will not sync between devices. It's client specific. Using 2 broswers on a same device will not share data as well. Before external data storage is implemented (nowhere close), I recommend keep a local copy of your trips data in a `.json` file.  
+This also means that your data will not sync between devices. It's client specific. Using 2 broswers on a same device (or use browser incognito window) will not share data as well. Before external data storage is implemented (nowhere close), I recommend keep a local copy of your trips data in a `.json` file.  
 
 You may delete the locally saved data from your browser's developer tool UI, or use script. The storage usage of a typical user's trips would normally be smaller than 1MB.
 
