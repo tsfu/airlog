@@ -610,9 +610,9 @@
         "name": "British Aerospace (BAC) One Eleven"
     },
     {
-        "icao_code": "BAC",
+        "icao_code": "CONC",
         "iata_code": "SSC",
-        "name": "BAC Concorde Supersonic"
+        "name": "Aerospatiale/BAC Concorde"
     },
     {
         "icao_code": "BCS1",

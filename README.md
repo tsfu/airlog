@@ -122,7 +122,6 @@ For each trip, the object looks like this:
    - Get stats from trips data
    - Collection: Aircrafts and airlines top & totals
    - Top 5 rankings for country, airport, airline, aircraft
- - Refactor code to use ONE UI/data population for trip. 
   ### Long term
    - Separate page or modal: single trip view
    - Table pagination? (TBD)

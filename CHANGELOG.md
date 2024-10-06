@@ -19,6 +19,8 @@
 #### Fixed
 - ID be unique when adding same trip many times.
 - Fix toggle table display on mobile.
+- AddRow code refactor and use jQuery more instead of DOM.
+- Update/Submit button display switch when edit aborted.
 
 ## [MVP-2] - 2024.10.3
 
