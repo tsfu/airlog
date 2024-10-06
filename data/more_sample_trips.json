@@ -1,5 +1,39 @@
 [
   {
+    "departureIATA": "LHR",
+    "arrivalIATA": "JFK",
+    "departureCity": "London",
+    "arrivalCity": "New York",
+    "takeOffTime": "2003-10-23T10:30",
+    "landingTime": "2003-10-23T09:25",
+    "duration": "3h 55min",
+    "distance": "5539.45km",
+    "flightNumber": "BA 1",
+    "airline": "BAW",
+    "aircraft": "SSC",
+    "tailNumber": "G-BOAF",
+    "seatClass": "CONCORDE",
+    "seatNumber": "2M",
+    "id": "LHRJFK200310231920"
+  },
+  {
+    "departureIATA": "CDG",
+    "arrivalIATA": "JFK",
+    "departureCity": "Paris",
+    "arrivalCity": "New York",
+    "takeOffTime": "2003-05-30T10:40",
+    "landingTime": "2003-05-30T09:15",
+    "duration": "4h 35min",
+    "distance": "5833.63km",
+    "flightNumber": "AF 2",
+    "airline": "AFR",
+    "aircraft": "SSC",
+    "tailNumber": "F-BTSD(213)",
+    "seatClass": "CONCORDE",
+    "seatNumber": "2M",
+    "id": "CDGJFK200305301040"
+  },
+  {
     "departureIATA": "BOS",
     "arrivalIATA": "LHR",
     "departureCity": "Boston",
@@ -49,23 +83,6 @@
     "seatClass": "Ecnonomy",
     "seatNumber": "65A",
     "id": "JFKPVG201905160145"
-  },
-  {
-    "departureIATA": "CDG",
-    "arrivalIATA": "PHL",
-    "departureCity": "Paris",
-    "arrivalCity": "Philadelphia",
-    "takeOffTime": "2018-08-22T08:02",
-    "landingTime": "2018-08-22T10:45",
-    "duration": "8h 43min",
-    "distance": "5984.11km",
-    "flightNumber": "AF11",
-    "airline": "AFR",
-    "aircraft": "789",
-    "tailNumber": "A7-ALL",
-    "seatClass": "Economy",
-    "seatNumber": "23H",
-    "id": "CDGPHL201808220802"
   },
   {
     "departureIATA": "CTU",
