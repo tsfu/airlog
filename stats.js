@@ -248,7 +248,7 @@ function getDistanceRanking() {
 // calculate all stats data from trips
 function loadStats() {
   // return if no trip logged.
-  if(trips.length < 1) {
+  if (trips.length < 1) {
     $("#no-stats").show();
     return;
   }
@@ -266,13 +266,14 @@ function loadStats() {
 
   const topAirport = airportsRanked[0].airport;
   let topAirportCount = airportsRanked[0].count;
-  topAirportCount = topAirportCount + ((topAirportCount > 1) ? " times" : " time" );
+  topAirportCount =
+    topAirportCount + (topAirportCount > 1 ? " times" : " time");
   const topAirportName = airportDataMap.get(topAirport).airport;
-  
-  let topRouteCount = routesRanked[0].count;
-  topRouteCount = topRouteCount + ((topRouteCount > 1) ? " times" : " time" );
 
-  $("#totalAirport").text(airportsTotal)
+  let topRouteCount = routesRanked[0].count;
+  topRouteCount = topRouteCount + (topRouteCount > 1 ? " times" : " time");
+
+  $("#totalAirport").text(airportsTotal);
   $("#topAirport").text(topAirport);
   $("#topAirportCount").text(topAirportCount);
   $("#top-airport-fullname").text(topAirportName);
@@ -286,20 +287,19 @@ function loadStats() {
 
   // card 2
   const totalDistance = getDistanceTotal();
-  $("#totalDistance").text( totalDistance + "km");
+  $("#totalDistance").text(totalDistance + "km");
   const alternativeDistance = getAlternativeDistance(totalDistance);
-  $("#xEarth").text(alternativeDistance.earth+"x");
-  $("#xMoon").text(alternativeDistance.moon+"x");
-  $("#xMars").text(alternativeDistance.mars+"x");
-  
+  $("#xEarth").text(alternativeDistance.earth + "x");
+  $("#xMoon").text(alternativeDistance.moon + "x");
+  $("#xMars").text(alternativeDistance.mars + "x");
+
   const totalTime = getAirTimeTotal();
   $("#totalTimeH").text("" + totalTime.hours);
   $("#totalTimeM").text("" + totalTime.mins);
 
   if (totalTime.weeksText) {
     $("#totalTimeText").text(totalTime.weeksText);
-  }
-  else if (totalTime.daysText) {
+  } else if (totalTime.daysText) {
     $("#totalTimeText").text(totalTime.daysText);
   } else {
     $("#totalTimeText").hide();
@@ -309,9 +309,10 @@ function loadStats() {
   $("#totalAircraft").text(aircraftsTotal);
   $("#totalAirline").text(airlinesTotal);
   const topAircraft = aircraftDataMap.get(aircraftsRanked[0].aircraft);
-  const topAircraftText = topAircraft.name + " - " + topAircraft.icao_code; 
+  const topAircraftText = topAircraft.name + " - " + topAircraft.icao_code;
   const topAirline = airlineDataMap.get(airlinesRanked[0].airline);
-  const topAirlineText = topAirline.name + " - " + topAirline.iata + "/" + topAirline.icao; 
+  const topAirlineText =
+    topAirline.name + " - " + topAirline.iata + "/" + topAirline.icao;
   $("#topAircraft").text(topAircraftText);
   $("#topAirline").text(topAirlineText);
   // images
@@ -322,40 +323,102 @@ function loadStats() {
   } else {
     $("#topAircraftLogo").hide();
   }
-  $("#topAirlineLogo").attr("src", "./assets/airline_banners/" + topAirline.icao + ".png");
+  $("#topAirlineLogo").attr(
+    "src",
+    "./assets/airline_banners/" + topAirline.icao + ".png"
+  );
 
   // airport ranking
-
+  $("#airport-ranking").empty();
+  let num = airportsRanked.length > 6 ? 6 : airportsRanked.length;
+  let title = document.createElement("h2");
+  title.textContent = "Airports Ranking";
+  $("#airport-ranking").append(title);
+  for (let i = 0; i < num; i++) {
+    const airportText = airportDataMap.get(airportsRanked[i].airport).airport;
+    const rankText = airportsRanked[i].count;
+    const item = document.createElement("p");
+    item.classList.add("ranking-text");
+    item.innerHTML =
+      airportToCountryIconHTML(airportsRanked[i].airport) +
+      "&nbsp;" +
+      airportText +
+      " - " +
+      rankText;
+    $("#airport-ranking").append(item);
+  }
 
   // airline ranking
-
+  $("#airline-ranking").empty();
+  num = airlinesRanked.length > 5 ? 5 : airlinesRanked.length;
+  title = document.createElement("h2");
+  title.textContent = "Airlines Ranking";
+  $("#airline-ranking").append(title);
+  for (let i = 0; i < num; i++) {
+    const airline = airlineDataMap.get(airlinesRanked[i].airline);
+    const rankText = airlinesRanked[i].count;
+    const item = document.createElement("p");
+    item.classList.add("ranking-text");
+    item.innerHTML =
+      airlineToBannerHTML(airline.icao) +
+      "&nbsp;&nbsp;<b>" +
+      airline.iata +
+      "/" +
+      airline.icao +
+      "</b> &nbsp; - " +
+      rankText;
+    $("#airline-ranking").append(item);
+  }
 
   // aircraft ranking
-
-
+  $("#aircraft-ranking").empty();
+  num = aircraftsRanked.length > 6 ? 6 : aircraftsRanked.length;
+  title = document.createElement("h2");
+  title.textContent = "Aircrafts Ranking";
+  $("#aircraft-ranking").append(title);
+  for (let i = 0; i < num; i++) {
+    const aircraft = aircraftDataMap.get(aircraftsRanked[i].aircraft);
+    const rankText = aircraftsRanked[i].count;
+    const item = document.createElement("p");
+    item.classList.add("ranking-text");
+    item.innerHTML =
+      "<b>" +
+      aircraft.name +
+      "</b>&nbsp;(" +
+      aircraft.icao_code +
+      ") - " +
+      rankText;
+    $("#aircraft-ranking").append(item);
+  }
 }
 
+// helpers
 function populateFlagIcons(countries) {
   // always clear first and re-render
   $("#fi-container").empty();
   // add rows for icons (8 icons a row)
   const rows = Math.ceil(countries.size / 8);
   for (let i = 0; i < rows; i++) {
-    const row = document.createElement('div');
+    const row = document.createElement("div");
     row.id = "flags-row-" + i;
     $("#fi-container").append(row);
   }
   // get the icon to correct row.
-  let iconCounter = 0; 
+  let iconCounter = 0;
   countries.forEach((country) => {
-    const iconSpan = document.createElement('span');
+    const iconSpan = document.createElement("span");
     iconSpan.classList.add("fi");
-    iconSpan.classList.add("fi-" + country.toLowerCase())
+    iconSpan.classList.add("fi-" + country.toLowerCase());
     iconSpan.style.padding = "3px";
     iconSpan.style.margin = "3px";
     const rowID = "flags-row-" + Math.floor(iconCounter / 8);
     $("#" + rowID).append(iconSpan);
-    iconCounter ++;
+    iconCounter++;
   });
 }
 
+function airlineToBannerHTML(airlineICAO) {
+  const imgPath = "./assets/airline_banners/" + airlineICAO + ".png";
+  const html = '<img src="' + imgPath + '" height="30px" width="115px"/>';
+  return html;
+}
