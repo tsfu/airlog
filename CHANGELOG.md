@@ -16,6 +16,7 @@
 - Trips page text and buttons new placement.
 - function to compare and count route of trips.
 - Cool slider info text on trips page.
+- Stats page go live: get data from trips.
 
 #### Fixed
 - ID be unique when adding same trip many times.

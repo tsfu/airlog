@@ -54,8 +54,7 @@ When a user lands on the page for the first time (their trips are empty), there 
 To ensure your data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
 
 ### Stats
-Some useful stats for user's travel history. Rankings, collections, progress, etc. The calculations are javascript data structures' utility display in `stats.js`.
-This page is view only.
+Some useful stats for user's travel history. Rankings, collections, aggregations, etc. The calculations mostly use javascript data structures' utility, and can all be found in `stats.js`. The stats data will re-calculate everytime the trips get updated. This page is view only. 
 
 
 ## Data
@@ -85,6 +84,10 @@ Under directory `/data`, you will find:
  -  `aircrafts.json` for aircraft type designators data.
  -  `airlines.json` for airlines IATA/ICAO information (including inactive carriers).
  -  and `sample_trips.json` as a format guide for importing/manipulating trips. 
+
+IATA is a registered trademark of International Air Transport Association.
+ICAO is a registered trademark of International Civil Aviation Organization.
+All other brands mentioned on this site may be registered trademarks of their respective companies.
 
 ### Data Model
 For now, the trips of a user are stored in a JS array, which holds multiple "trip" objects.
@@ -118,10 +121,6 @@ For each trip, the object looks like this:
   ### Planned
  - Trips Page:
    - Sort records by columns desc or asec
- - Stats Page:
-   - Get stats from trips data
-   - Collection: Aircrafts and airlines top & totals
-   - Top 5 rankings for country, airport, airline, aircraft
   ### Long term
    - Separate page or modal: single trip view
    - Table pagination? (TBD)
