@@ -9195,7 +9195,7 @@
     ,
     {"id":"4606","name":"SAS Braathens","alias":"\\N","iata":"","icao":"CNO","callsign":"SCANOR","country":"Norway","active":"Y"}
     ,
-    {"id":"4607","name":"Spring Airlines","alias":"\\N","iata":"9S","icao":"CQH","callsign":"AIR SPRING","country":"China","active":"Y"}
+    {"id":"4607","name":"Spring Airlines","alias":"\\N","iata":"9C","icao":"CQH","callsign":"AIR SPRING","country":"China","active":"Y"}
     ,
     {"id":"4608","name":"Sichuan Airlines","alias":"\\N","iata":"3U","icao":"CSC","callsign":"SI CHUAN","country":"China","active":"Y"}
     ,
@@ -11513,8 +11513,6 @@
     ,
     {"id":"15989","name":"TransBrasil Airlines","alias":"","iata":"TH","icao":"THS","callsign":"","country":"Brazil","active":"Y"}
     ,
-    {"id":"15999","name":"China SSS","alias":"Chunqiu Airlines","iata":"9C","icao":"\\N","callsign":"","country":"China","active":"Y"}
-    ,
     {"id":"16025","name":"Nihon.jet","alias":"","iata":"NJ","icao":"\\N","callsign":"","country":"Japan","active":"N"}
     ,
     {"id":"16084","name":"AIR INDOCHINE","alias":"","iata":"","icao":"IIA","callsign":"","country":"Vietnam","active":"Y"}
@@ -12128,4 +12126,8 @@
     {"id":"19861","name":"Regent Airways","alias":"","iata":"RX","icao":"RGE","callsign":"REGENT","country":"Bangladesh","active":"Y"}
     ,
     {"id":"19862","name":"AsiaCargo Express","alias":"","iata":"3G","icao":"CXM","callsign":"ASIA CARGO","country":"Malaysia","active":"Y"}
-    ]
+    ,
+    {"id":"19863","name":"French Bee SAS","alias":"French Blue","iata":"BF","icao":"FBU","callsign":"FRENCH BEE","country":"France","active":"Y"}
+    ,
+    {"id":"19864","name":"Thai Smile","alias":"","iata":"WE","icao":"THD","callsign":"THAI SMILE","country":"Thailand","active":"N"}
+]
