@@ -401,9 +401,8 @@ button:hover {
 }
 
 .logoContainer {
-    padding: 5px 0 5px;
     width:100%;
-    background-color:#e7e7e7;
+    background-color:#ffffff;
 }
 
 
@@ -437,10 +436,6 @@ hr {
 
 .stats-card-value-smaller {
     font-size: 18px;
-}
-
-.fi-row {
-    padding: 5px;
 }
 
 /* On smaller screens, allow horizontal scrolling */

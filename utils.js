@@ -77,6 +77,7 @@ async function demo() {
       );    
     }
     // remove demo button and show table
+    loadStats();
     toggleTableDisplay();
     toggleDemoButton();
   } catch (error) {

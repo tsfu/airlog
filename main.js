@@ -181,6 +181,7 @@ $("#tripForm").on("submit", async function (event) {
   }
   // Reset the form and hide it after submission
   this.reset();
+  loadStats();
   toggleDemoButton();
   modal.hide();
 });
@@ -225,6 +226,7 @@ $("#json-input").on("change", function (event) {
               trip.seatNumber
             );
           }
+          loadStats();
           toggleDemoButton();
         } else {
           alert(
@@ -411,6 +413,8 @@ function removeRow(evt) {
   const deleteIdx = trips.findIndex((obj) => obj.id == deleteTripID);
   trips.splice(deleteIdx, 1);
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
+  // reload stats
+  loadStats();
   // if trips count dropped to 0 then hide table
   toggleTableDisplay();
 }
@@ -522,6 +526,7 @@ async function updateTrip() {
   // clear sessionSotrage for editing id
   sessionStorage.removeItem("editTripID");
   sessionStorage.removeItem("editRowIndex");
+  loadStats();
 
   // reset add/update button status in modal
   $("#tripForm")[0].reset();

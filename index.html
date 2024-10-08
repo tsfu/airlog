@@ -198,7 +198,7 @@
 
     <!-- Travel Stats Content -->
     <div id="travel-stats" class="tab-content">
-      <h1 id="travelStatsTitle">Travel Summary (coming soon)</h1>
+      <h1 id="travelStatsTitle">Travel Summary</h1>
       <p class="text-center stats-slogan">
         “ And I think it's gonna be a long, long time
       </p>
@@ -208,47 +208,40 @@
       <p class="text-center stats-slogan">
         I'm not the man they think I am at home ”
       </p>
+      <h2 id="no-stats" class="text-center">
+        Please add trip(s) then come back.
+      </h2>
 
       <div class="stats-container">
         <!-- card 1: total + places -->
         <div class="stats-card" style="background-color: #003366">
           <h1>You've Been Around</h1>
           <p class="stats-card-text">
-            <b class="stats-card-value text-white">39</b> airports visited
+            <b id="totalAirport" class="stats-card-value text-white">0</b> airports visited
           </p>
           <p class="stats-card-text">Your Most Visited Airport</p>
           <p class="stats-card-text">
-            <b class="stats-card-value text-white">PHL</b>
+            <b id="topAirport" class="stats-card-value text-white">XXX</b> 
+            <span id="topAirportCount" style="margin-left:5px;">? times</span>
           </p>
           <p class="stats-card-text">
             <b class="text-white" id="top-airport-fullname"
-              >Philadelphia International Airport</b
+              >A Secret Airport</b
             >
           </p>
           <hr />
           <p class="stats-card-text">Your No.1 Route</p>
           <p class="stats-card-text">
-            <b class="stats-card-value-small text-white">BOS-PHL</b>
+            <b id="topRoute" class="stats-card-value-small text-white">XXX-XXX</b>
+            <span id="topRouteCount" style="margin-left:5px;">? times</span>
           </p>
           <hr />
           <p class="stats-card-text">
-            <b class="stats-card-value text-white">73</b> flights in
-            <b class="stats-card-value text-white">10</b> countries
+            <b id="totalFlight" class="stats-card-value text-white">0</b> flights in
+            <b id="totalCountries" class="stats-card-value text-white">0</b> countries
           </p>
           <div id="fi-container">
-            <div class="fi-row">
-              <span class="fi fi-us"></span>
-              <span class="fi fi-gb"></span>
-              <span class="fi fi-cn"></span>
-              <span class="fi fi-sg"></span>
-              <span class="fi fi-qa"></span>
-              <span class="fi fi-id"></span>
-              <span class="fi fi-th"></span>
-              <span class="fi fi-jp"></span>
-              <span class="fi fi-kr"></span>
-              <span class="fi fi-ca"></span>
-            </div>
-            <div class="fi-row">
+            <!-- <div class="fi-row">
               <span class="fi fi-fr"></span>
               <span class="fi fi-de"></span>
               <span class="fi fi-es"></span>
@@ -257,9 +250,7 @@
               <span class="fi fi-my"></span>
               <span class="fi fi-tw"></span>
               <span class="fi fi-ae"></span>
-              <span class="fi fi-pt"></span>
-              <span class="fi fi-mx"></span>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- card 2: distance and duration -->
@@ -267,53 +258,53 @@
           <h1>Up In The Sky</h1>
           <p class="stats-card-text">Total Distance Traveled</p>
           <p class="stats-card-text">
-            <b class="stats-card-value text-white">123456</b> kilometers
+            <b id="totalDistance" class="stats-card-value text-white">0</b> kilometers
           </p>
 
           <p class="stats-card-text">
-            <b class="stats-card-value-small text-white">4.20x</b> around Earth
+            <b id="xEarth" class="stats-card-value-small text-white">0.00 x</b> around Earth
           </p>
           <p class="stats-card-text">
-            <b class="stats-card-value-small text-white">0.495x</b> to the Moon
+            <b id="xMoon" class="stats-card-value-small text-white">0.00 x</b> to the Moon
           </p>
           <p class="stats-card-text">
-            <b class="stats-card-value-small text-white">0.000052x</b> to Mars
+            <b id="xMars" class="stats-card-value-small text-white">0.00 x</b> to Mars
           </p>
           <hr />
           <p class="stats-card-text">Total Flying Time</p>
           <p class="stats-card-text">
-            <b class="stats-card-value text-white">195</b> hours
-            <b class="stats-card-value text-white">50</b> min
+            <b id="totalTimeH" class="stats-card-value text-white">00</b> hours
+            <b id="totalTimeM" class="stats-card-value text-white">00</b> min
           </p>
-          <p class="stats-card-text">3 weeks 4 days 17 hours 50min</p>
+          <p id="totalTimeText" class="stats-card-text">0 weeks 0 days 00 hours 00min</p>
         </div>
         <!-- card 3: aircrafts and airlines -->
         <div class="stats-card" style="background-color: #915d15;padding: 20px 10px;">
           <h1>Your Collections</h1>
           <p class="stats-card-text">
-            <b class="stats-card-value text-white">20</b> aircrafts flied
+            <b id="totalAircraft" class="stats-card-value text-white">0</b> aircrafts flied
           </p>
           <p class="stats-card-text">Top Aircraft</p>
           <p class="logoContainer">
-            <img src="./assets/boeing-logo.png" width="240px" height="60px" />
+            <img id="topAircraftLogo" width="240px" height="60px" />
           </p>
-          <p class="stats-card-value-smaller text-white">
-            Boeing 737-800 - B738
+          <p id="topAircraft" class="stats-card-value-smaller text-white">
+            Secret Aircraft
           </p>
           <hr />
           <p class="stats-card-text">
-            <b class="stats-card-value text-white">23</b> airlines flied
+            <b id="totalAirline" class="stats-card-value text-white">0</b> airlines flied
           </p>
           <p class="stats-card-text">Top Airline</p>
           <p class="logoContainer">
             <img
-              src="./assets/airline_banners/CSC.png"
+              id="topAirlineLogo"
               width="225px"
               height="60px"
             />
           </p>
-          <p class="stats-card-value-smaller text-white">
-            Sichuan Airlines - 3U/CSC
+          <p id="topAirline" class="stats-card-value-smaller text-white">
+            Secret Airlines
           </p>
         </div>
         <!-- card 4: airport ranking -->

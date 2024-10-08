@@ -9,7 +9,7 @@ function getDistanceTotal() {
     let distance = trip.distance;
     total = total + parseFloat(distance.substring(0, distance.length - 2));
   });
-  return total;
+  return total.toFixed(2);
 }
 
 function getAlternativeDistance(distance) {
@@ -41,7 +41,6 @@ function getAirTimeTotal() {
   const weeks = Math.floor(days / 7);
   const additionalDays = days % 7;
 
-  const hoursText = hours + getTimeText(hours, "hour") + minutes + " min";
   let daysText = "";
   let weeksText = "";
   if (days > 1) {
@@ -66,9 +65,10 @@ function getAirTimeTotal() {
   }
 
   return {
-    hours: hoursText,
-    days: daysText,
-    weeks: weeksText,
+    hours: "" + hours,
+    mins: "" + minutes,
+    daysText: daysText,
+    weeksText: weeksText,
   };
 }
 
@@ -214,7 +214,7 @@ function getAircraftsRanking() {
   // put result in array so can use index as ranking
   let res = [];
   aircraftCountMap.forEach((v, k) => {
-    res.push({ airline: k, count: v });
+    res.push({ aircraft: k, count: v });
   });
   return res;
 }
@@ -247,10 +247,115 @@ function getDistanceRanking() {
 
 // calculate all stats data from trips
 function loadStats() {
+  // return if no trip logged.
+  if(trips.length < 1) {
+    $("#no-stats").show();
+    return;
+  }
+  $("#no-stats").hide();
+  // card 1
+  const airportsRanked = getAirportsRanking();
+  const airlinesRanked = getAirlinesRanking();
+  const aircraftsRanked = getAircraftsRanking();
+  const routesRanked = getRoutesRanking();
+
+  const airportsTotal = getAirportsSet().size;
+  const airlinesTotal = getAirlinesSet().size;
+  const aircraftsTotal = getAircraftsSet().size;
+  const countries = getCountriesSet();
+
+  const topAirport = airportsRanked[0].airport;
+  let topAirportCount = airportsRanked[0].count;
+  topAirportCount = topAirportCount + ((topAirportCount > 1) ? " times" : " time" );
+  const topAirportName = airportDataMap.get(topAirport).airport;
   
+  let topRouteCount = routesRanked[0].count;
+  topRouteCount = topRouteCount + ((topRouteCount > 1) ? " times" : " time" );
+
+  $("#totalAirport").text(airportsTotal)
+  $("#topAirport").text(topAirport);
+  $("#topAirportCount").text(topAirportCount);
+  $("#top-airport-fullname").text(topAirportName);
+  $("#topRoute").text(routesRanked[0].route);
+  $("#topRouteCount").text(topRouteCount);
+
+  $("#totalFlight").text(getFlightsTotal());
+  $("#totalCountries").text(countries.size);
+  // national flag icons
+  populateFlagIcons(countries);
+
+  // card 2
+  const totalDistance = getDistanceTotal();
+  $("#totalDistance").text( totalDistance + "km");
+  const alternativeDistance = getAlternativeDistance(totalDistance);
+  $("#xEarth").text(alternativeDistance.earth+"x");
+  $("#xMoon").text(alternativeDistance.moon+"x");
+  $("#xMars").text(alternativeDistance.mars+"x");
+  
+  const totalTime = getAirTimeTotal();
+  $("#totalTimeH").text("" + totalTime.hours);
+  $("#totalTimeM").text("" + totalTime.mins);
+
+  if (totalTime.weeksText) {
+    $("#totalTimeText").text(totalTime.weeksText);
+  }
+  else if (totalTime.daysText) {
+    $("#totalTimeText").text(totalTime.daysText);
+  } else {
+    $("#totalTimeText").hide();
+  }
+
+  // card 3
+  $("#totalAircraft").text(aircraftsTotal);
+  $("#totalAirline").text(airlinesTotal);
+  const topAircraft = aircraftDataMap.get(aircraftsRanked[0].aircraft);
+  const topAircraftText = topAircraft.name + " - " + topAircraft.icao_code; 
+  const topAirline = airlineDataMap.get(airlinesRanked[0].airline);
+  const topAirlineText = topAirline.name + " - " + topAirline.iata + "/" + topAirline.icao; 
+  $("#topAircraft").text(topAircraftText);
+  $("#topAirline").text(topAirlineText);
+  // images
+  if (topAircraftText.includes("Boeing")) {
+    $("#topAircraftLogo").attr("src", "./assets/boeing-logo.png");
+  } else if (topAircraftText.includes("Airbus")) {
+    $("#topAircraftLogo").attr("src", "./assets/airbus-logo.png");
+  } else {
+    $("#topAircraftLogo").hide();
+  }
+  $("#topAirlineLogo").attr("src", "./assets/airline_banners/" + topAirline.icao + ".png");
+
+  // airport ranking
+
+
+  // airline ranking
+
+
+  // aircraft ranking
+
+
 }
 
-// load stats page UI
-function showStats() {
-
+function populateFlagIcons(countries) {
+  // always clear first and re-render
+  $("#fi-container").empty();
+  // add rows for icons (8 icons a row)
+  const rows = Math.ceil(countries.size / 8);
+  for (let i = 0; i < rows; i++) {
+    const row = document.createElement('div');
+    row.id = "flags-row-" + i;
+    $("#fi-container").append(row);
+  }
+  // get the icon to correct row.
+  let iconCounter = 0; 
+  countries.forEach((country) => {
+    const iconSpan = document.createElement('span');
+    iconSpan.classList.add("fi");
+    iconSpan.classList.add("fi-" + country.toLowerCase())
+    iconSpan.style.padding = "3px";
+    iconSpan.style.margin = "3px";
+    const rowID = "flags-row-" + Math.floor(iconCounter / 8);
+    $("#" + rowID).append(iconSpan);
+    iconCounter ++;
+  });
 }
+
