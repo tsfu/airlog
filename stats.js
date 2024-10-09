@@ -298,6 +298,7 @@ function loadStats() {
   $("#totalTimeH").text("" + totalTime.hours);
   $("#totalTimeM").text("" + totalTime.mins);
 
+  $("#totalTimeText").show();
   if (totalTime.weeksText) {
     $("#totalTimeText").text(totalTime.weeksText);
   } else if (totalTime.daysText) {
