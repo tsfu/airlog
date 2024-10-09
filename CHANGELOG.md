@@ -23,6 +23,7 @@
 - Fix toggle table display on mobile.
 - AddRow code refactor and use jQuery more instead of DOM.
 - Update/Submit button display switch when edit aborted.
+- Fix noun single/plural on stats tab.
 
 ## [MVP-2] - 2024.10.3
 

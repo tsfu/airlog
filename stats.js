@@ -282,16 +282,21 @@ function loadStats() {
 
   $("#totalFlight").text(getFlightsTotal());
   $("#totalCountries").text(countries.size);
+  let noun = (getFlightsTotal() == 1) ? "flight" : "flights";
+  $("#totalFlightText").text(noun);
+  noun = (countries.size == 1) ? "country" : "countries";
+  $("#totalCountriesText").text(noun)
+
   // national flag icons
   populateFlagIcons(countries);
 
   // card 2
   const totalDistance = getDistanceTotal();
-  $("#totalDistance").text(totalDistance + "km");
+  $("#totalDistance").text(totalDistance);
   const alternativeDistance = getAlternativeDistance(totalDistance);
-  $("#xEarth").text(alternativeDistance.earth + "x");
-  $("#xMoon").text(alternativeDistance.moon + "x");
-  $("#xMars").text(alternativeDistance.mars + "x");
+  $("#xEarth").text(alternativeDistance.earth);
+  $("#xMoon").text(alternativeDistance.moon);
+  $("#xMars").text(alternativeDistance.mars);
 
   const totalTime = getAirTimeTotal();
   $("#totalTimeH").text("" + totalTime.hours);
@@ -308,6 +313,11 @@ function loadStats() {
   // card 3
   $("#totalAircraft").text(aircraftsTotal);
   $("#totalAirline").text(airlinesTotal);
+  noun = (aircraftsTotal == 1) ? "aircraft" : "aircrafts";
+  $("#totalAircraftText").text(noun);
+  noun = (airlinesTotal == 1) ? "airline" : "airlines";
+  $("#totalAirlineText").text(noun);
+
   const topAircraft = aircraftDataMap.get(aircraftsRanked[0].aircraft);
   const topAircraftText = topAircraft.name + " - " + topAircraft.icao_code;
   const topAirline = airlineDataMap.get(airlinesRanked[0].airline);
@@ -390,6 +400,8 @@ function loadStats() {
       rankText;
     $("#aircraft-ranking").append(item);
   }
+
+  console.log("INFO: Stats calculation complete.");
 }
 
 // helpers
