@@ -17,6 +17,8 @@
 - function to compare and count route of trips.
 - Cool slider info text on trips page.
 - Stats page go live: get data from trips.
+- UI enhancement and new rankings for stats cards.
+- Add total CO2 emission info.
 
 #### Fixed
 - ID be unique when adding same trip many times.

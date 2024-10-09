@@ -217,6 +217,13 @@
         <div class="stats-card" style="background-color: #003366">
           <h1>You've Been Around</h1>
           <p class="stats-card-text">
+            Boarded &nbsp;
+            <b id="totalFlight" class="stats-card-value text-white">0</b>&nbsp; 
+            <span id="totalFlightText">flight</span>
+            all time
+          </p>
+          <hr>
+          <p class="stats-card-text">
             <b id="totalAirport" class="stats-card-value text-white">0</b> airports visited
           </p>
           <p class="stats-card-text">Your Most Visited Airport</p>
@@ -230,26 +237,13 @@
             >
           </p>
           <hr />
-          <p class="stats-card-text">Your No.1 Route</p>
           <p class="stats-card-text">
-            <b id="topRoute" class="stats-card-value-small text-white">XXX-XXX</b>
-            <span id="topRouteCount" style="margin-left:5px;">? times</span>
-          </p>
-          <hr />
-          <p class="stats-card-text">
-            <b id="totalFlight" class="stats-card-value text-white">0</b> <span id="totalFlightText">flight</span> in
-            <b id="totalCountries" class="stats-card-value text-white">0</b> <span id="totalCountriesText">country</span>
+            <b id="totalCountries" class="stats-card-value text-white">0</b> <span id="totalCountriesText">country</span> stamped
           </p>
           <div id="fi-container">
             <!-- <div class="fi-row">
               <span class="fi fi-fr"></span>
-              <span class="fi fi-de"></span>
-              <span class="fi fi-es"></span>
-              <span class="fi fi-eg"></span>
-              <span class="fi fi-is"></span>
-              <span class="fi fi-my"></span>
-              <span class="fi fi-tw"></span>
-              <span class="fi fi-ae"></span>
+              ...
             </div> -->
           </div>
         </div>
@@ -277,6 +271,10 @@
             <b id="totalTimeM" class="stats-card-value text-white">00</b> min
           </p>
           <p id="totalTimeText" class="stats-card-text">0 weeks 0 days 0 hours 0min</p>
+          <p class="stats-card-text">
+            <b id="CO2" class="stats-card-value-small text-white">0</b>
+            tons of CO2 emission
+          </p>
         </div>
         <!-- card 3: aircrafts and airlines -->
         <div class="stats-card" style="background-color: #915d15;padding: 20px 10px;">
@@ -308,23 +306,62 @@
           </p>
         </div>
 
-        <!-- card 4: aircraft ranking -->
-        <div id="aircraft-ranking" class="stats-card" style="background-color:#400f52;color:#eeeeee;">
-          <h2>Aircraft Ranking</h2>
-          <!-- will populate in LoadStats() -->
-          <p class="ranking-text">No Aircraft Flied</p>
+        <!-- card 4: rankings -->
+        <div class="stats-card" style="background-color:#fdd0d0;color:#81531f">
+          <div id="aircraft-ranking">
+            <h2>Aircraft Ranking</h2>
+            <!-- will populate in LoadStats() -->
+            <p class="ranking-text">No Aircraft Flied</p>
+          </div>
+          <hr style="height:1px;border-width:0;background-color:#81531f">
+          <div id="airline-ranking">
+            <h2>Airline Ranking</h2>
+            <!-- will populate in LoadStats() -->
+            <p class="ranking-text">No Airline Flied</p>
+          </div>
+          <hr style="height:1px;border-width:0;background-color:#81531f">
+          <div id="airport-ranking">
+            <h2>Airport Ranking</h2>
+            <!-- will populate in LoadStats() -->
+            <p class="ranking-text">No Airport Visited</p>
+          </div>
         </div>
-        <!-- card 5: airline ranking -->
-        <div id="airline-ranking" class="stats-card" style="background-color:#fdd0d0;color:#81531f">
-          <h2>Airline Ranking</h2>
-          <!-- will populate in LoadStats() -->
-          <p class="ranking-text">No Airline Flied</p>
+        
+        <!-- card 5: routes -->
+        <div class="stats-card" style="background-color:#ecead4;color:#6c6a7f">
+          <h2>Air Routes Ranking</h2>
+          <h3>Your No.1 Route</h3>
+          <p>
+            <b id="topRoute" class="stats-card-value route-value">XXX-XXX</b>
+            <span id="topRouteCount" style="margin-left:5px;">? times</span>
+          </p>
+          <hr style="height:1px;border-width:0;background-color:#6c6a7f">
+          <h3>Longest Flying</h3>
+          <p>
+            <b id="slowRouteVal" class="stats-card-value-small route-value">? hours</b>
+            <span id="slowRoute" style="margin-left:5px;">XXX-XXX</span>
+          </p>
+          <h3>Shortest Flying</h3>
+          <p>
+            <b id="quickRouteVal" class="stats-card-value-small route-value">? hours</b>
+            <span id="quickRoute" style="margin-left:5px;">XXX-XXX</span>
+          </p>
+          <h3>Longest Distance</h3>
+          <p>
+            <b id="longRouteVal" class="stats-card-value-small route-value">? KM</b>
+            <span id="longRoute" style="margin-left:5px;">XXX-XXX</span>
+          </p>
+          <h3>Shortest Distance</h3>
+          <p>
+            <b id="shortRouteVal" class="stats-card-value-small route-value">? KM</b>
+            <span id="shortRoute" style="margin-left:5px;">XXX-XXX</span>
+          </p>
         </div>
-        <!-- card 6: airport ranking -->
-        <div id="airport-ranking" class="stats-card" style="background-color:#0f4b1b;color:#eeeeee;">
-          <h2>Airport Ranking</h2>
-          <!-- will populate in LoadStats() -->
-          <p class="ranking-text">No Airport Visited</p>
+
+        <!-- more to come card -->
+        <div class="stats-card" style="background-color:#d6f7e1;color:#12694f">
+          <h1 style="padding-top:30%;">more to come...</h1>
+          <p><b style="font-size:150px;">?</b></p>
         </div>
       </div>
     </div>

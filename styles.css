@@ -378,8 +378,8 @@ button:hover {
 .stats-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 20px;
+    gap: 50px;
+    padding: 20px 10px;
     margin: 0 auto;
     max-width: 1200px;
 }
@@ -389,9 +389,13 @@ button:hover {
     color: #e7e7e7;
     border-radius: 8px;
     padding: 20px 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px #222;
     text-align: center;
-    transition: transform 0.2s;
+    transition: all .75s ease-in-out; 
+}
+
+.stats-card:hover {
+    transform: scale(1.02); 
 }
 
 .stats-card-text {
@@ -405,9 +409,7 @@ button:hover {
     background-color:#ffffff;
 }
 
-
 .ranking-text {
-    font-size: 16px;
     text-align: left;
     display: flex;
     align-items: center;
@@ -431,6 +433,10 @@ hr {
 
 .stats-card-value-smaller {
     font-size: 18px;
+}
+
+.route-value {
+    color: #0d1528;
 }
 
 /* On smaller screens, allow horizontal scrolling */
