@@ -380,7 +380,7 @@ function loadStats() {
   }
   // airport ranking
   $("#airport-ranking").empty();
-  lnum = airportsRanked.length > 3 ? 3 : airportsRanked.length;
+  num = airportsRanked.length > 3 ? 3 : airportsRanked.length;
   title = document.createElement("h3");
   title.textContent = "Airports Ranking";
   $("#airport-ranking").append(title);
