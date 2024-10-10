@@ -208,9 +208,15 @@
       <p class="text-center stats-slogan">
         I'm not the man they think I am at home ”
       </p>
-      <h2 id="no-stats" class="text-center">
-        Please add trip(s) then come back.
-      </h2>
+      <h3 class="no-stats text-center" style="font-size:20px;margin-top:60px;">
+        Add some trips and come back:)
+      </h3>
+      <h3 class="no-stats text-center" style="font-size:18px;margin-bottom:40px;">
+        See your all time flying stats here.
+      </h3>
+      <div class="no-stats text-center">
+        <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
 
       <div class="stats-container">
         <!-- card 1: total + places -->
@@ -218,13 +224,13 @@
           <h1>You've Been Around</h1>
           <p class="stats-card-text">
             Boarded &nbsp;
-            <b id="totalFlight" class="stats-card-value text-white">0</b>&nbsp; 
-            <span id="totalFlightText">flight</span>
+            <b id="totalFlight" class="stats-card-value text-white">?</b>&nbsp; 
+            <span id="totalFlightText">flights</span>
             all time
           </p>
           <hr>
           <p class="stats-card-text">
-            <b id="totalAirport" class="stats-card-value text-white">0</b> airports visited
+            <b id="totalAirport" class="stats-card-value text-white">?</b> airports visited
           </p>
           <p class="stats-card-text">Your Most Visited Airport</p>
           <p class="stats-card-text">
@@ -233,12 +239,12 @@
           </p>
           <p class="stats-card-text">
             <b class="text-white" id="top-airport-fullname"
-              >Secret Airport</b
+              >??? Airport</b
             >
           </p>
           <hr />
           <p class="stats-card-text">
-            <b id="totalCountries" class="stats-card-value text-white">0</b> <span id="totalCountriesText">country</span> stamped
+            <b id="totalCountries" class="stats-card-value text-white">?</b> <span id="totalCountriesText">countries</span> stamped
           </p>
           <div id="fi-container">
             <!-- <div class="fi-row">
@@ -252,27 +258,27 @@
           <h1>Up In The Sky</h1>
           <p class="stats-card-text">Total Distance Traveled</p>
           <p class="stats-card-text">
-            <b id="totalDistance" class="stats-card-value text-white">0</b> kilometers
+            <b id="totalDistance" class="stats-card-value text-white">????</b> kilometers
           </p>
 
           <p class="stats-card-text">
-            <b id="xEarth" class="stats-card-value-small text-white">0.00</b> x around Earth
+            <b id="xEarth" class="stats-card-value-small text-white">??</b> x around Earth
           </p>
           <p class="stats-card-text">
-            <b id="xMoon" class="stats-card-value-small text-white">0.00</b> x to the Moon
+            <b id="xMoon" class="stats-card-value-small text-white">??</b> x to the Moon
           </p>
           <p class="stats-card-text">
-            <b id="xMars" class="stats-card-value-small text-white">0.00</b> x to Mars
+            <b id="xMars" class="stats-card-value-small text-white">??</b> x to Mars
           </p>
           <hr />
           <p class="stats-card-text">Total Flying Time</p>
           <p class="stats-card-text">
-            <b id="totalTimeH" class="stats-card-value text-white">00</b> hours
-            <b id="totalTimeM" class="stats-card-value text-white">00</b> min
+            <b id="totalTimeH" class="stats-card-value text-white">??</b> hours
+            <b id="totalTimeM" class="stats-card-value text-white">??</b> min
           </p>
-          <p id="totalTimeText" class="stats-card-text">0 weeks 0 days 0 hours 0min</p>
+          <p id="totalTimeText" class="stats-card-text">? weeks ? days ? hours ?min</p>
           <p class="stats-card-text">
-            <b id="CO2" class="stats-card-value-small text-white">0</b>
+            <b id="CO2" class="stats-card-value-small text-white">??</b>
             tons of CO2 emission
           </p>
         </div>
@@ -280,18 +286,18 @@
         <div class="stats-card" style="background-color: #915d15;padding: 20px 10px;">
           <h1>Your Collections</h1>
           <p class="stats-card-text">
-            <b id="totalAircraft" class="stats-card-value text-white">0</b> <span id="totalAircraftText">aircraft</span> flied
+            <b id="totalAircraft" class="stats-card-value text-white">?</b> <span id="totalAircraftText">aircrafts</span> flied
           </p>
           <p class="stats-card-text">Top Aircraft</p>
           <p class="logoContainer">
             <img id="topAircraftLogo" width="240px" height="60px" />
           </p>
           <p id="topAircraft" class="stats-card-value-smaller text-white">
-            Secret Aircraft
+            ? Aircraft
           </p>
           <hr />
           <p class="stats-card-text">
-            <b id="totalAirline" class="stats-card-value text-white">0</b> <span id="totalAirlineText">airline</span> flied
+            <b id="totalAirline" class="stats-card-value text-white">?</b> <span id="totalAirlineText">airlines</span> flied
           </p>
           <p class="stats-card-text">Top Airline</p>
           <p class="logoContainer">
@@ -302,7 +308,7 @@
             />
           </p>
           <p id="topAirline" class="stats-card-value-smaller text-white">
-            Secret Airlines
+            ? Airline
           </p>
         </div>
 
@@ -360,8 +366,9 @@
 
         <!-- more to come card -->
         <div class="stats-card" style="background-color:#d6f7e1;color:#12694f">
-          <h1 style="padding-top:30%;">more to come...</h1>
-          <p><b style="font-size:150px;">?</b></p>
+          <h1 style="padding-top:20%;">more to come...</h1>
+          <p><b style="font-size:120px;">?</b></p>
+          <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         </div>
       </div>
     </div>

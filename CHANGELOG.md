@@ -19,6 +19,8 @@
 - Stats page go live: get data from trips.
 - UI enhancement and new rankings for stats cards.
 - Add total CO2 emission info.
+- Use defalut token in dev to save Bing Image usage on Cesium Ion. 
+- Add a cool loader on stats page.
 
 #### Fixed
 - ID be unique when adding same trip many times.
@@ -27,6 +29,8 @@
 - Update/Submit button display switch when edit aborted.
 - Fix noun single/plural on stats tab.
 - Fix total time text not showing after update.
+- Hide all cards and display message when there's no trip.
+- Table shows when resizing window even without trips.
 
 ## [MVP-2] - 2024.10.3
 

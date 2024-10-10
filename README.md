@@ -119,8 +119,8 @@ For each trip, the object looks like this:
 
 ## TODOs
   ### Planned
- - Trips Page:
-   - Sort records by columns desc or asec
+   - Trips Page:
+     - Sort records by columns desc or asec
   ### Long term
    - Separate page or modal: single trip view
    - Table pagination? (TBD)

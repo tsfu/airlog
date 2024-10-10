@@ -23,6 +23,7 @@ function toggleDemoButton() {
 // change table display while resizing
 const mobileView = window.matchMedia("(max-width: 768px)");
 mobileView.addEventListener("change", function(){
+  if(trips.length == 0) return; // always hide when no trip
   const table = $("#travelLogTable")[0];
   if (mobileView.matches) {
     table.style.display= "block";

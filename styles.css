@@ -369,7 +369,6 @@ button:hover {
 /* stats page styling */
 .stats-slogan {
     font-size: 16px;
-    font-weight: bold;
     font-style: oblique;
     color: #555;
     margin: 10px;
@@ -391,11 +390,11 @@ button:hover {
     padding: 20px 15px;
     box-shadow: 0 4px 8px #222;
     text-align: center;
-    transition: all .75s ease-in-out; 
+    transition: all .75s ease-in-out;
 }
 
 .stats-card:hover {
-    transform: scale(1.02); 
+    transform: scale(1.02);
 }
 
 .stats-card-text {
@@ -405,8 +404,8 @@ button:hover {
 }
 
 .logoContainer {
-    width:100%;
-    background-color:#ffffff;
+    width: 100%;
+    background-color: #ffffff;
 }
 
 .ranking-text {
@@ -437,6 +436,83 @@ hr {
 
 .route-value {
     color: #0d1528;
+}
+
+/* loading css */
+.lds-grid {
+    /* change color here */
+    color: #12694f;
+  }
+.lds-grid,
+.lds-grid div {
+  box-sizing: border-box;
+}
+.lds-grid {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-grid div {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: lds-grid 1.2s linear infinite;
+}
+.lds-grid div:nth-child(1) {
+  top: 8px;
+  left: 8px;
+  animation-delay: 0s;
+}
+.lds-grid div:nth-child(2) {
+  top: 8px;
+  left: 32px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(3) {
+  top: 8px;
+  left: 56px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(4) {
+  top: 32px;
+  left: 8px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(5) {
+  top: 32px;
+  left: 32px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(6) {
+  top: 32px;
+  left: 56px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(7) {
+  top: 56px;
+  left: 8px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(8) {
+  top: 56px;
+  left: 32px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(9) {
+  top: 56px;
+  left: 56px;
+  animation-delay: -1.6s;
+}
+@keyframes lds-grid {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* On smaller screens, allow horizontal scrolling */

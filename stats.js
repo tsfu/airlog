@@ -249,10 +249,13 @@ function getDistanceRanking() {
 function loadStats() {
   // return if no trip logged.
   if (trips.length < 1) {
-    $("#no-stats").show();
+    $(".no-stats").show();
+    $(".stats-card").hide();
     return;
+  }else{
+    $(".no-stats").hide();
+    $(".stats-card").show();
   }
-  $("#no-stats").hide();
 
   // Prepare some calculation results
   const airportsRanked = getAirportsRanking();
