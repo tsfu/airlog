@@ -180,6 +180,7 @@ function getAirlinesRanking() {
   trips.forEach((trip) => {
     const key = trip.airline;
     if (airlineCountMap.has(key)) {
+      if (!key) return; // empty key counts only once
       airlineCountMap.set(key, airlineCountMap.get(key) + 1);
     } else {
       airlineCountMap.set(key, 1);
@@ -194,6 +195,9 @@ function getAirlinesRanking() {
   airlineCountMap.forEach((v, k) => {
     res.push({ airline: k, count: v });
   });
+  if(res[0].count == 1) {
+    res = res.reverse(); // so that empty key (count=1) will not be on top if tied at 1.
+  }
   return res;
 }
 
@@ -202,6 +206,7 @@ function getAircraftsRanking() {
   trips.forEach((trip) => {
     const key = trip.aircraft;
     if (aircraftCountMap.has(key)) {
+      if (!key) return; // empty key counts only once
       aircraftCountMap.set(key, aircraftCountMap.get(key) + 1);
     } else {
       aircraftCountMap.set(key, 1);
@@ -216,6 +221,9 @@ function getAircraftsRanking() {
   aircraftCountMap.forEach((v, k) => {
     res.push({ aircraft: k, count: v });
   });
+  if(res[0].count == 1) {
+    res = res.reverse(); // so that empty key (count=1) will not be on top if tied at 1.
+  }
   return res;
 }
 
@@ -320,14 +328,17 @@ function loadStats() {
   noun = (airlinesTotal == 1) ? "airline" : "airlines";
   $("#totalAirlineText").text(noun);
 
-  const topAircraft = aircraftDataMap.get(aircraftsRanked[0].aircraft);
+  let topAircraft = {};
+  if (!aircraftsRanked[0].aircraft) {
+    // worst case but possible: only 1 entry and is empty key, so it will the top one.
+    // in this case, simply mock an obj for display
+    topAircraft = {name:"Unknown Aircraft", icao_code: "Are you serious?"};
+  } else {
+    topAircraft = aircraftDataMap.get(aircraftsRanked[0].aircraft);
+  }
   const topAircraftText = topAircraft.name + " - " + topAircraft.icao_code;
-  const topAirline = airlineDataMap.get(airlinesRanked[0].airline);
-  const topAirlineText =
-    topAirline.name + " - " + topAirline.iata + "/" + topAirline.icao;
   $("#topAircraft").text(topAircraftText);
-  $("#topAirline").text(topAirlineText);
-  // images
+  $("#topAircraftLogo").show();
   if (topAircraftText.includes("Boeing")) {
     $("#topAircraftLogo").attr("src", "./assets/boeing-logo.png");
   } else if (topAircraftText.includes("Airbus")) {
@@ -335,10 +346,24 @@ function loadStats() {
   } else {
     $("#topAircraftLogo").hide();
   }
-  $("#topAirlineLogo").attr(
-    "src",
-    "./assets/airline_banners/" + topAirline.icao + ".png"
-  );
+  
+  let topAirlineText = "";
+  const validAirline = airlinesRanked[0].airline;
+  // do not use airline obj if key is empty here.
+  if (validAirline) {
+    const topAirline = airlineDataMap.get(airlinesRanked[0].airline);
+    topAirlineText =
+      topAirline.name + " - " + topAirline.iata + "/" + topAirline.icao;
+    $("#topAirlineLogo").attr(
+      "src",
+      "./assets/airline_banners/" + topAirline.icao + ".png"
+    );
+    $("#topAirlineLogo").show();
+  } else {
+    topAirlineText = "Unknown Carrier - This is sad."
+    $("#topAirlineLogo").hide();
+  } 
+  $("#topAirline").text(topAirlineText);
 
   // card 4: rankings
   // aircraft ranking
@@ -348,19 +373,25 @@ function loadStats() {
   title.textContent = "Aircrafts Ranking";
   $("#aircraft-ranking").append(title);
   for (let i = 0; i < num; i++) {
-    const aircraft = aircraftDataMap.get(aircraftsRanked[i].aircraft);
-    const rankText = aircraftsRanked[i].count;
     const item = document.createElement("p");
     item.classList.add("ranking-text");
-    item.innerHTML =
-    "<b>" +
-    aircraft.name +
-    "</b>&nbsp;(" +
-    aircraft.icao_code +
-    ") - " +
-    rankText;
+    const validAircraft = aircraftsRanked[i].aircraft;
+    const rankText = validAircraft ? aircraftsRanked[i].count : "This doesn't count :(";
+    if (validAircraft) {    
+      aircraft = aircraftDataMap.get(aircraftsRanked[i].aircraft);
+      item.innerHTML =
+      "<b>" +
+      aircraft.name +
+      "</b>&nbsp;(" +
+      aircraft.icao_code +
+      ") - " +
+      rankText;
+    } else {
+      item.innerHTML = "<b>Unknown Aircraft</b> &nbsp;- " + rankText;
+    }
     $("#aircraft-ranking").append(item);
   }
+  
   // airline ranking
   $("#airline-ranking").empty();
   num = airlinesRanked.length > 3 ? 3 : airlinesRanked.length;
@@ -368,11 +399,13 @@ function loadStats() {
   title.textContent = "Airlines Ranking";
   $("#airline-ranking").append(title);
   for (let i = 0; i < num; i++) {
-    const airline = airlineDataMap.get(airlinesRanked[i].airline);
-    const rankText = airlinesRanked[i].count;
     const item = document.createElement("p");
     item.classList.add("ranking-text");
-    item.innerHTML =
+    const validAirline = airlinesRanked[i].airline;
+    const rankText = validAirline ? airlinesRanked[i].count : "This doesn't count :(";
+    if (validAirline) {
+      const airline = airlineDataMap.get(airlinesRanked[i].airline);
+      item.innerHTML =
       airlineToBannerHTML(airline.icao) +
       "&nbsp;&nbsp;<b>" +
       airline.iata +
@@ -380,8 +413,12 @@ function loadStats() {
       airline.icao +
       "</b> &nbsp;- " +
       rankText;
+    } else {
+      item.innerHTML = "<b>Unknown Carrier</b> &nbsp;- " + rankText;
+    }  
     $("#airline-ranking").append(item);
   }
+  
   // airport ranking
   $("#airport-ranking").empty();
   num = airportsRanked.length > 3 ? 3 : airportsRanked.length;

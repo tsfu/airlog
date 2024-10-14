@@ -16,7 +16,8 @@
 - Rows were not added to `<tbody>` but `<thead>` (for this whole time...).
 - Fix edit trip rowID mismatch with rows now in `<tbody>`.
 - UI: search bar radius on iOS/ quick flashes when do empty loading.
-  
+- Fix event target and jQuery object mismatch when click outside to close modal.
+- Fix unknown airline and aircraft in rankings break LoadStats().
 
 ## [MVP-3] - 2024.10.14
 

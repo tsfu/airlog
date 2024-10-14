@@ -54,7 +54,11 @@ When a user lands on the page for the first time (their trips are empty), there 
 To ensure your data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
 
 ### Stats
-Some useful stats for user's travel history. Rankings, collections, aggregations, etc. The calculations mostly use javascript data structures' utility, and can all be found in `stats.js`. The stats data will re-calculate everytime the trips get updated. This page is view only. 
+Some useful stats for user's travel history. Rankings, collections, aggregations, etc. The calculations mostly use javascript data structures' utility, and can all be found in `stats.js`. The stats data will re-calculate everytime the trips get updated. 
+
+Since the IATAs and departure/arrival times are required and validated, the related statistics like distance, duration, countries and airports will always be valid as well. However, the missing or invalid aircrafts and airlines, since they are lax and optional, will not accumulate. They will count only once in rankings just for records.
+
+This page is view only. If you find something strange, please double-check your trips.
 
 
 ## Data

@@ -125,7 +125,7 @@ $(".modal-close").on("click", function () {
 
 // When the user clicks anywhere outside of the modal close it
 window.onclick = function (event) {
-  if (event.target == modal) {
+  if (event.target == modal[0]) {
     $("#submitTripButton").removeAttr("hidden");
     $("#updateTripButton").attr("hidden", "hidden");
     modal.hide();
