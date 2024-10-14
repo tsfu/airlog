@@ -15,6 +15,7 @@
 #### Fixed
 - Rows were not added to `<tbody>` but `<thead>` (for this whole time...).
 - Fix edit trip rowID mismatch with rows now in `<tbody>`.
+- UI: search bar radius on iOS/ quick flashes when do empty loading.
   
 
 ## [MVP-3] - 2024.10.14
