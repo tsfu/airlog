@@ -33,11 +33,11 @@ To test the app locally, you may use `git clone` to grab the code, then:
 
 There are 3 UI tabs for this app:
 - Globe (3D earth view): Uses `CesiumJS` to visualize the routes of a user's past trips on 3D earth.
-- Trips (log view): A table that holds all user input (display travel data and serve as data source). User can view, add, and edit trips. Use "Add Trip" to log a trip, or upload a JSON file to batch import trips. Use "Export Trips" to export trips to local file.
-- Stats: Get some fun rankings and aggregation from user's travel data.
+- Trips (log view): A table that holds all user input (display travel data and serve as data source). You can view(including search and sort), add, and edit trips. Use "Add Trip" to log a trip, or upload a JSON file to batch import trips. Use "Export Trips" to export trips to local file.
+- Stats: Get some fun rankings and aggregation display from your added travel data.
 
 ### Globe
-This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark depature/arrival info. When you edit/delete a trip record, the route changes accordingly. The loading of Cesium graphics may be lagging sometimes due to networks.
+This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark departure/arrival info. When you edit/delete a trip record, the route changes accordingly. The loading of Cesium graphics may be lagging sometimes due to networks.
 
 You can use a basic search bar, a reset button, a 2D/3D switch, and a base-layer image provider picker that all come from default Cesium ion.
 
@@ -47,9 +47,9 @@ When creating a Cesium 3D earth viewer, get an access token at `https://ion.cesi
 A table that holds your travel records, with detailed information you have added.
 This is the soure-of-truth data you provided and we use it to make visualization with other open source data and libraries.
 
-User may use UI to add one trip, or upload JSON file to batch import trips. See `/data/sample_trips.json` to follow the format when you use upload.
+You may use UI to add one trip, or upload JSON file to batch import trips. See `/data/sample_trips.json` to follow the format when you use upload.
 
-When a user lands on the page for the first time (their trips are empty), there is a "demo" button which adds sample trips to showcase the UI.
+When a user lands on the page for the first time (their trips are empty), there is a "demo" button which adds sample trips to showcase the UI. With trips populated, they may search/filter/sort table from the UI. The table sort is adopted from `Sortable` lib [here](https://github.com/tofsjonas/sortable). Note this sort is UI only, and will not save or affect actual storage.
 
 To ensure your data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
 
@@ -119,12 +119,12 @@ For each trip, the object looks like this:
 
 ## TODOs
   ### Planned
-   - Trips Page:
-     - Sort records by columns desc or asec
+   - Object wrapper with getter/setter for trips, for better event handling.
+   - Autocomplete cities with IATA input.
   ### Long term
    - Separate page or modal: single trip view
    - Table pagination? (TBD)
-   - Better table UI for mobile (display some columns)
+   - Better table UI for mobile (only display some columns)
    - Better nav bar UI
    - Get aircraft models' pictures
    - Enhance UI on earth: show pop-up info card on the route when hover over

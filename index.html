@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
@@ -79,32 +80,39 @@
       </div>
       <input type="file" id="json-input" accept=".json" style="display: none" />
 
+      <!-- search bar -->
+      <div class="search-container">
+        <span id="searchIcon"><i class="fa fa-search"></i></span>
+        <input type="text" id="searchInput" placeholder=" Search flight/airport/city/year..." >
+        <button type="submit" id="resetButton"><i class="fa fa-remove"></i></button>
+      </div>
       <!-- travel log table -->
-      <table id="travelLogTable">
+      <table id="travelLogTable" class="sortable asc">
         <thead>
           <tr>
-            <th>From</th>
-            <th></th>
-            <th>To</th>
-            <th></th>
-            <th>Take-off</th>
-            <th>Landing</th>
-            <th>Duration</th>
-            <th>Distance</th>
-            <th>Airline</th>
-            <th>Flight</th>
-            <th>Aircraft</th>
-            <th>Tail No.</th>
-            <th>Class</th>
-            <th>Seat</th>
-            <th class="actionCol"><!-- for edit --></th>
-            <th class="actionCol"><!-- for delete --></th>
+            <th class="sortCol">From</th>
+            <th class="no-sort"></th>
+            <th class="sortCol">To</th>
+            <th class="no-sort"></th>
+            <th class="sortCol">Take-off</th>
+            <th class="no-sort">Landing</th>
+            <th class="sortCol">Duration</th>
+            <th class="sortCol">Distance</th>
+            <th class="sortCol">Airline</th>
+            <th class="sortCol">Flight</th>
+            <th class="sortCol">Aircraft</th>
+            <th class="sortCol">Tail No.</th>
+            <th class="no-sort">Class</th>
+            <th class="no-sort">Seat</th>
+            <th class="actionCol no-sort"><!-- for edit --></th>
+            <th class="actionCol no-sort"><!-- for delete --></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="travelTbody">
           <!-- Add log here dynamically from trips -->
         </tbody>
       </table>
+      <script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js"></script>
 
       <!-- Trip Details Form (modal hidden initially) -->
       <div id="addTripModal" class="modal">
@@ -388,6 +396,7 @@
     <script src="https://cdn.jsdelivr.net/npm/browser-geo-tz@0.1.0/dist/geotz.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
     <script src="utils.js"></script>
+    <script src="table.js"></script>
     <script src="stats.js"></script>
     <script src="main.js"></script>
   </body>

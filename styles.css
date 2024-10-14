@@ -159,6 +159,34 @@ body {
     }
 }
 
+.search-container {
+    margin: 30px 0 10px;
+    display: flex;
+}
+
+#searchIcon {
+    padding: 6px 10px;
+    background: #12694f;
+    font-size: 17px;
+    color: #eaeaea;
+    border-radius: 5px 0 0 5px;
+}
+
+input[type=text] {
+    width: 233px;
+    padding: 6px;
+    font-size: 16px;
+    border: solid 2px #12694f;
+}
+
+#resetButton {
+    padding: 6px 10px;
+    background: #12694f;
+    font-size: 17px;
+    color: #eaeaea;
+    border-radius: 0 5px 5px 0;
+}
+
 #travelLogTable {
     display: none;
     width: 100%;
@@ -181,6 +209,10 @@ th {
     color: #12694f;
     font-size: 16px;
     border-bottom: none;
+}
+
+.sortCol {
+    cursor: pointer;
 }
 
 .thinCol {
@@ -442,77 +474,93 @@ hr {
 .lds-grid {
     /* change color here */
     color: #12694f;
-  }
+}
+
 .lds-grid,
 .lds-grid div {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 .lds-grid {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
 }
+
 .lds-grid div {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: lds-grid 1.2s linear infinite;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: lds-grid 1.2s linear infinite;
 }
+
 .lds-grid div:nth-child(1) {
-  top: 8px;
-  left: 8px;
-  animation-delay: 0s;
+    top: 8px;
+    left: 8px;
+    animation-delay: 0s;
 }
+
 .lds-grid div:nth-child(2) {
-  top: 8px;
-  left: 32px;
-  animation-delay: -0.4s;
+    top: 8px;
+    left: 32px;
+    animation-delay: -0.4s;
 }
+
 .lds-grid div:nth-child(3) {
-  top: 8px;
-  left: 56px;
-  animation-delay: -0.8s;
+    top: 8px;
+    left: 56px;
+    animation-delay: -0.8s;
 }
+
 .lds-grid div:nth-child(4) {
-  top: 32px;
-  left: 8px;
-  animation-delay: -0.4s;
+    top: 32px;
+    left: 8px;
+    animation-delay: -0.4s;
 }
+
 .lds-grid div:nth-child(5) {
-  top: 32px;
-  left: 32px;
-  animation-delay: -0.8s;
+    top: 32px;
+    left: 32px;
+    animation-delay: -0.8s;
 }
+
 .lds-grid div:nth-child(6) {
-  top: 32px;
-  left: 56px;
-  animation-delay: -1.2s;
+    top: 32px;
+    left: 56px;
+    animation-delay: -1.2s;
 }
+
 .lds-grid div:nth-child(7) {
-  top: 56px;
-  left: 8px;
-  animation-delay: -0.8s;
+    top: 56px;
+    left: 8px;
+    animation-delay: -0.8s;
 }
+
 .lds-grid div:nth-child(8) {
-  top: 56px;
-  left: 32px;
-  animation-delay: -1.2s;
+    top: 56px;
+    left: 32px;
+    animation-delay: -1.2s;
 }
+
 .lds-grid div:nth-child(9) {
-  top: 56px;
-  left: 56px;
-  animation-delay: -1.6s;
+    top: 56px;
+    left: 56px;
+    animation-delay: -1.6s;
 }
+
 @keyframes lds-grid {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
 }
 
 /* On smaller screens, allow horizontal scrolling */
@@ -528,5 +576,9 @@ hr {
 
     .navbar {
         justify-content: space-around;
+    }
+
+    .search-container {
+        justify-content: center;
     }
 }
