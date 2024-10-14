@@ -4,12 +4,14 @@
 ## WIP [1.0.0] - Target 2024.10.20
 
 #### Added
-- 
+- Add trips table search and filter by vanilla JS.
+- Adopt "sortable' for table sort, add `data-sort` for some columns.
 
 #### Fixed
-- 
+- Rows were not added to `<tbody>` but `<thead>`.
+- Fix edit trip rowID mismatch with rows now in `<tbody>`.
 
-## WIP [MVP-3] - Target 2024.10.14
+## [MVP-3] - 2024.10.14
 
 #### Added
 - One-click demo button to show sample trips.

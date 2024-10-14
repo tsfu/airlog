@@ -87,31 +87,32 @@
         <button type="submit" id="resetButton"><i class="fa fa-remove"></i></button>
       </div>
       <!-- travel log table -->
-      <table id="travelLogTable">
+      <table id="travelLogTable" class="sortable asc">
         <thead>
           <tr>
-            <th>From</th>
-            <th></th>
-            <th>To</th>
-            <th></th>
-            <th>Take-off</th>
-            <th>Landing</th>
-            <th>Duration</th>
-            <th>Distance</th>
-            <th>Airline</th>
-            <th>Flight</th>
-            <th>Aircraft</th>
-            <th>Tail No.</th>
-            <th>Class</th>
-            <th>Seat</th>
-            <th class="actionCol"><!-- for edit --></th>
-            <th class="actionCol"><!-- for delete --></th>
+            <th>From &nbsp;<i class="fa fa-sort"></i></th>
+            <th class="no-sort"></th>
+            <th>To &nbsp;<i class="fa fa-sort"></i></th>
+            <th class="no-sort"></th>
+            <th>Take-off &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Landing &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Duration &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Distance &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Airline &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Flight &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Aircraft &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Tail No. &nbsp;<i class="fa fa-sort"></i></th>
+            <th class="no-sort">Class</th>
+            <th class="no-sort">Seat</th>
+            <th class="actionCol no-sort"><!-- for edit --></th>
+            <th class="actionCol no-sort"><!-- for delete --></th>
           </tr>
         </thead>
         <tbody id="travelTbody">
           <!-- Add log here dynamically from trips -->
         </tbody>
       </table>
+      <script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js"></script>
 
       <!-- Trip Details Form (modal hidden initially) -->
       <div id="addTripModal" class="modal">

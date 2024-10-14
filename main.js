@@ -350,10 +350,15 @@ function populateRow(trip, row) {
   cells[3].textContent = trip.arrivalCity;
   cells[4].textContent = trip.takeOffTime.replace("T", " ");
   cells[5].textContent = trip.landingTime.replace("T", " ");
+  
   cells[6].textContent = trip.duration;
+  cells[6].setAttribute("data-sort", trip.duration.replace("h ",".").slice(0,-3));
+  
   cells[7].textContent = trip.distance;
-
+  cells[7].setAttribute("data-sort", trip.distance.slice(0,-2));
+  
   cells[8].innerHTML = airlineToLogoHTML(trip.airline);
+  cells[8].setAttribute("data-sort", trip.airline);
   cells[8].classList.add("thinCol");
   cells[8].classList.add("tooltip-cell");
   if (trip.airline) {
