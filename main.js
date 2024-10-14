@@ -309,8 +309,8 @@ async function addTrip(
   drawFlightRoute(viewer, trip);
 
   // Create a new row in the travel log table
-  const table = $("#travelTbody")[0];
-  const newRow = table.insertRow(-1); // Insert a new row at the end of the table
+  const tbody = $("#travelTbody")[0];
+  const newRow = tbody.insertRow(-1); // Insert a new row at the end of the table
   for (let i = 0; i < 16; i++) { // Insert cells
     newRow.insertCell(i);
   }
@@ -514,7 +514,7 @@ async function updateTrip() {
 
   // the trip object has already been updated in place at this point
   // now update table row UI in place
-  const row = $("#travelTbody")[0].rows[editRowIndex];
+  const row = $("#travelLogTable")[0].rows[editRowIndex];
   populateRow(trip, row);
 
   // re-draw route on earth
