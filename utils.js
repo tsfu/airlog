@@ -20,34 +20,6 @@ function toggleDemoButton() {
   }
 }
 
-// change table display while resizing
-const mobileView = window.matchMedia("(max-width: 768px)");
-mobileView.addEventListener("change", function(){
-  if(trips.length == 0) return; // always hide when no trip
-  const table = $("#travelLogTable")[0];
-  if (mobileView.matches) {
-    table.style.display= "block";
-  }
-  else {
-    table.style.display= "table";
-  }
-});
-
-// with no trips hide table
-function toggleTableDisplay() {
-  const table = $("#travelLogTable")[0];
-  if (trips.length == 0) {
-    table.style.display= "none";
-    return;
-  } 
-  // if toggle table display on mobile
-  if (mobileView.matches) {
-    table.style.display= "block";
-    return;
-  }
-  table.style.display= "table";
-}
-
 // import demo trips for diaply
 async function demo() {
   console.log("INFO: importing demo trips...");

@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
@@ -79,6 +80,12 @@
       </div>
       <input type="file" id="json-input" accept=".json" style="display: none" />
 
+      <!-- search bar -->
+      <div class="search-container">
+        <span id="searchIcon"><i class="fa fa-search"></i></span>
+        <input type="text" id="searchInput" placeholder=" Search flight/airport/city/year..." >
+        <button type="submit" id="resetButton"><i class="fa fa-remove"></i></button>
+      </div>
       <!-- travel log table -->
       <table id="travelLogTable">
         <thead>
@@ -101,7 +108,7 @@
             <th class="actionCol"><!-- for delete --></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="travelTbody">
           <!-- Add log here dynamically from trips -->
         </tbody>
       </table>
@@ -388,6 +395,7 @@
     <script src="https://cdn.jsdelivr.net/npm/browser-geo-tz@0.1.0/dist/geotz.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
     <script src="utils.js"></script>
+    <script src="table.js"></script>
     <script src="stats.js"></script>
     <script src="main.js"></script>
   </body>
