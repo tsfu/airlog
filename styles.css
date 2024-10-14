@@ -177,6 +177,8 @@ input[type=text] {
     padding: 6px;
     font-size: 16px;
     border: solid 2px #12694f;
+    border-radius: 0;
+    -webkit-appearance: none;
 }
 
 #resetButton {
