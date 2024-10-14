@@ -5,35 +5,44 @@
 
 #### Added
 - Add trips table search and filter by vanilla JS.
-- Adopt "sortable' for table sort, add `data-sort` for some columns.
+- Adopt `Sortable` library for table sort, add `data-sort` for some columns.
 - Small UI change for sortable columns.
 
+#### Changed
+- Add/edit/delete row functions now moved to `table.js`.
+- Re-arranged some changelog items to `Changed` or `Removed`.
+
 #### Fixed
-- Rows were not added to `<tbody>` but `<thead>`.
+- Rows were not added to `<tbody>` but `<thead>` (for this whole time...).
 - Fix edit trip rowID mismatch with rows now in `<tbody>`.
+  
 
 ## [MVP-3] - 2024.10.14
 
 #### Added
 - One-click demo button to show sample trips.
-- Trips page text and buttons new placement.
 - function to compare and count route of trips.
 - Cool slider info text on trips page.
 - Stats page go live: get data from trips.
 - UI enhancement and new rankings for stats cards.
 - Add total CO2 emission info.
-- Use defalut token in dev to save Bing Image usage on Cesium Ion. 
 - Add a cool loader on stats page.
+
+#### Changed
+- Use defalut token in dev to save Bing Image usage on Cesium Ion. 
+- Trips page text and buttons new placement.
+- AddRow function refactored to reuse for add/edit
+- Use jQuery more instead of DOM.
+- Hide all cards and display message when there's no trip.
 
 #### Fixed
 - ID be unique when adding same trip many times.
 - Fix toggle table display on mobile.
-- AddRow code refactor and use jQuery more instead of DOM.
 - Update/Submit button display switch when edit aborted.
 - Fix noun single/plural on stats tab.
 - Fix total time text not showing after update.
-- Hide all cards and display message when there's no trip.
 - Table shows when resizing window even without trips.
+
 
 ## [MVP-2] - 2024.10.3
 
@@ -45,18 +54,23 @@
 - New reponsive cards UI for stats tab!
 - Use code/ID for airlines/aircrafts, enable input suggestion!
 - Enhance table UI: airline logos + hover to see full names for airport/airline/aircraft.
-- Support omitting city names. Showing IATA codes before names in UI now.
 - Add national flag icon next to IATA code.
 
-#### Fixed
+#### Changed
+- Support omitting city names. Showing IATA codes before names in UI now.
 - Now use IATA/ICAO codes for airline and aircraft IDs.
-- Remove invalid base-layer providers from Cesium picker.
+
+#### Fixed
 - Fix relative path to assets on host.
 - Fix original data for A337 and PKX.
 - Fix empty values handling for airline and aircarft.
 - Fix unknown/invalid IATA/ICAO codes handling upon submission!
 - Fix sessionStorage get cleared too soon during editing.
 - Fix some id codes are not converting to upper case for indexing.
+
+#### Removed
+- Remove invalid base-layer providers from Cesium picker.
+
 
 ## [MVP-1] - 2024.9.30
 
@@ -69,7 +83,10 @@
 - Check ID uniqueness.
 - Fix distance/duration loading.
 - Fix mobile table UI x-overflow.
+
+#### Removed
 - Remove unused things and warning info from Cesium viewer.
+
 
 ## [MVP-0] - 2024.9.28
 
@@ -81,6 +98,7 @@
   
 #### Fixed
 - Fix delete data from storage.
+
 
 ## [Initial-Setup] - 2024.9.20
 
