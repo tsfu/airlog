@@ -211,6 +211,10 @@ th {
     border-bottom: none;
 }
 
+.sortCol {
+    cursor: pointer;
+}
+
 .thinCol {
     padding: 5px;
     font-weight: bold;

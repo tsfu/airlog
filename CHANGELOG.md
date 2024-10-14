@@ -6,6 +6,7 @@
 #### Added
 - Add trips table search and filter by vanilla JS.
 - Adopt "sortable' for table sort, add `data-sort` for some columns.
+- Small UI change for sortable columns.
 
 #### Fixed
 - Rows were not added to `<tbody>` but `<thead>`.
@@ -73,7 +74,7 @@
 ## [MVP-0] - 2024.9.28
 
 #### Added 
-- Ability to draw a route on earth given depature/arrival!
+- Ability to draw a route on earth given departure/arrival!
 - Store logs in LocalStorage.
 - Upload a JSON file to add multiple trips!
 - Table and buttons UI enhancements.
