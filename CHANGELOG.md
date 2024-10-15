@@ -1,5 +1,16 @@
 # AirLog Changelog
 
+## [WIP]
+
+#### Added
+- 
+#### Changed
+- 
+#### Fixed
+- 
+#### Removed
+- 
+
 
 ## WIP [1.0.0] - Target 2024.10.20
 
@@ -18,6 +29,7 @@
 - UI: search bar radius on iOS/ quick flashes when do empty loading.
 - Fix event target and jQuery object mismatch when click outside to close modal.
 - Fix unknown airline and aircraft in rankings break LoadStats().
+
 
 ## [MVP-3] - 2024.10.14
 
