@@ -1,18 +1,7 @@
 # AirLog Changelog
 
-## [WIP]
 
-#### Added
-- 
-#### Changed
-- 
-#### Fixed
-- 
-#### Removed
-- 
-
-
-## WIP [1.0.0] - Target 2024.10.20
+## [1.0.0] - Target 2024.10.20
 
 #### Added
 - Add trips table search and filter by vanilla JS.
