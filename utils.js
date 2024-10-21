@@ -24,7 +24,7 @@ function toggleDemoButton() {
 async function demo() {
   console.log("INFO: importing demo trips...");
   try {
-    const response = await fetch("./data/more_sample_trips.json");
+    const response = await fetch("./data/sample_trips.json");
     if (!response.ok) {
       throw new Error(`Fetch error, status: ${response.status}`);
     }
