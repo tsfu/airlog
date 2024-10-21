@@ -1,7 +1,21 @@
 # AirLog Changelog
 
+## [WIP-1.0.1]
 
-## [1.0.0] - Target 2024.10.20
+#### Added
+- Added missing airline codes.
+- Added link to globe from Airlog logo.
+
+#### Changed
+- 
+
+#### Fixed
+- 
+
+#### Removed
+- 
+
+## [1.0.0] - 2024.10.20
 
 #### Added
 - Add trips table search and filter by vanilla JS.
