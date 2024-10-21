@@ -11201,7 +11201,7 @@
     ,
     {"id":"10739","name":"Air Choice One","alias":"","iata":"3E","icao":"\\N","callsign":"","country":"United States","active":"Y"}
     ,
-    {"id":"10740","name":"Tianjin Airlines","alias":"","iata":"","icao":"GCR","callsign":"","country":"China","active":"Y"}
+    {"id":"10740","name":"Tianjin Airlines","alias":"","iata":"GS","icao":"GCR","callsign":"","country":"China","active":"Y"}
     ,
     {"id":"10741","name":"China United","alias":"","iata":"KN","icao":"\\N","callsign":"","country":"China","active":"Y"}
     ,
@@ -11869,7 +11869,7 @@
     ,
     {"id":"18257","name":"Executive AirShare","alias":"","iata":"","icao":"XSR","callsign":"","country":"United States","active":"Y"}
     ,
-    {"id":"18475","name":"Hebei Airlines","alias":"","iata":"","icao":"HBH","callsign":"Hebei Air","country":"China","active":"Y"}
+    {"id":"18475","name":"Hebei Airlines","alias":"","iata":"NS","icao":"HBH","callsign":"Hebei Air","country":"China","active":"Y"}
     ,
     {"id":"18476","name":"Air KBZ","alias":"","iata":"","icao":"KBZ","callsign":"Air KBZ","country":"Myanmar (Burma)","active":"Y"}
     ,
