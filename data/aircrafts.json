@@ -45,11 +45,6 @@
         "name": "Airbus A300-600"
     },
     {
-        "icao_code": "A306",
-        "iata_code": "ABY",
-        "name": "Airbus A300-600 Freighter[4]"
-    },
-    {
         "icao_code": "A30B",
         "iata_code": "AB4",
         "name": "Airbus A300B2, A300B4 and A300C4"
@@ -113,16 +108,6 @@
         "icao_code": "A333",
         "iata_code": "333",
         "name": "Airbus A330-300"
-    },
-    {
-        "icao_code": "A332",
-        "iata_code": "33X",
-        "name": "Airbus A330-200 Freighter"
-    },
-    {
-        "icao_code": "A333",
-        "iata_code": "33Y",
-        "name": "Airbus A330-300 Freighter"
     },
     {
         "icao_code": "A337",
@@ -350,11 +335,6 @@
         "name": "Boeing 737-200"
     },
     {
-        "icao_code": "B732",
-        "iata_code": "73F",
-        "name": "Boeing 737-200 Freighter"
-    },
-    {
         "icao_code": "B733",
         "iata_code": "733",
         "name": "Boeing 737-300"
@@ -365,19 +345,9 @@
         "name": "Boeing 737-300 Winglets"
     },
     {
-        "icao_code": "B733",
-        "iata_code": "73Y",
-        "name": "Boeing 737-300 Freighter"
-    },
-    {
         "icao_code": "B734",
         "iata_code": "734",
         "name": "Boeing 737-400"
-    },
-    {
-        "icao_code": "B734",
-        "iata_code": "73P",
-        "name": "Boeing 737-400 Freighter"
     },
     {
         "icao_code": "B735",
@@ -420,16 +390,6 @@
         "name": "Boeing 737-800 Winglets"
     },
     {
-        "icao_code": "B738",
-        "iata_code": "73K",
-        "name": "Boeing 737-800 Freighter Winglets"
-    },
-    {
-        "icao_code": "B738",
-        "iata_code": "73U",
-        "name": "Boeing 737-800 Freighter"
-    },
-    {
         "icao_code": "B739",
         "iata_code": "73J",
         "name": "Boeing 737-900 Winglets"
@@ -438,11 +398,6 @@
         "icao_code": "B741",
         "iata_code": "741",
         "name": "Boeing 747-100"
-    },
-    {
-        "icao_code": "B741",
-        "iata_code": "74T",
-        "name": "Boeing 747-100 Freighter"
     },
     {
         "icao_code": "B742",
@@ -500,11 +455,6 @@
         "name": "Boeing 747SR"
     },
     {
-        "icao_code": "B74R",
-        "iata_code": "74V",
-        "name": "Boeing 747SR Freighter"
-    },
-    {
         "icao_code": "B74S",
         "iata_code": "74L",
         "name": "Boeing 747SP"
@@ -530,11 +480,6 @@
         "name": "Boeing 767-200 / Boeing 767-200ER"
     },
     {
-        "icao_code": "B762",
-        "iata_code": "76X",
-        "name": "Boeing 767-200 Freighter / Boeing 767-200ER"
-    },
-    {
         "icao_code": "B763",
         "iata_code": "763",
         "name": "Boeing 767-300"
@@ -543,11 +488,6 @@
         "icao_code": "B763",
         "iata_code": "76W",
         "name": "Boeing 767-300 Winglets / Boeing 767-300ER"
-    },
-    {
-        "icao_code": "B763",
-        "iata_code": "76Y",
-        "name": "Boeing 767-300 Freighter"
     },
     {
         "icao_code": "B764",
@@ -573,11 +513,6 @@
         "icao_code": "B779",
         "iata_code": "779",
         "name": "Boeing 777-9"
-    },
-    {
-        "icao_code": "B77L",
-        "iata_code": "77X",
-        "name": "Boeing 777-200 Freighter"
     },
     {
         "icao_code": "B77L",
@@ -833,16 +768,6 @@
         "icao_code": "DC10",
         "iata_code": "D1M",
         "name": "Douglas DC-10-30 Combi"
-    },
-    {
-        "icao_code": "DC10",
-        "iata_code": "D1X",
-        "name": "Douglas DC-10-10 Freighter"
-    },
-    {
-        "icao_code": "DC10",
-        "iata_code": "D1Y",
-        "name": "Douglas DC-10-30 / -40 Freighter"
     },
     {
         "icao_code": "DC85",
