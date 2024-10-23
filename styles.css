@@ -370,6 +370,22 @@ button {
     background-color: #12694f;
 }
 
+#importFRButton {
+    background-color: #000000;
+    padding-left: 5px;
+    padding-right: 15px;
+    border-radius: 6px;
+}
+
+#importFRButton img,
+#importFRButton span {
+    vertical-align: middle;
+}
+
+#fr24-text {
+ font-size: 16px;
+}
+
 #demoButton {
     background: rgb(240, 146, 39);
     background: linear-gradient(90deg, rgba(240, 146, 39, 1) 0%, rgba(9, 97, 91, 1) 50%, rgba(152, 12, 134, 1) 100%);

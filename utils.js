@@ -59,6 +59,122 @@ async function demo() {
   console.log("INFO: Successfully loaded demo trips.");
 }
 
+async function importFR24(event) {
+  const fr24Data = event.target.result;
+  alert("NOTE: This import needs some time depending on number of your trips. It could be few seconds or several mintues. Please wait :)");
+  try {
+    // parse CSV data using PapaParse
+    const parsedData = await new Promise((resolve, reject) => {
+      Papa.parse(fr24Data, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => resolve(results.data),
+        error: (err) => reject(err),
+      });
+    });
+    // store parsed data to trips
+    console.log(parsedData)
+    for (const record of parsedData) {
+      await parseFRTrip(record);
+    };
+    toggleDemoButton();
+    loadStats();
+    console.log("INFO: Trips imported from myFR24 formatted csv file.")
+  } catch (error) {
+    console.error("Error occurred while importing trips from csv file:", error);
+  }
+}
+
+// helper to parse a trip item from myFR24 csv file to our trip json object
+async function parseFRTrip(item) {
+  const tDepartureCity = item.From.split("/")[0].trim();
+  const tArrivalCity = item.To.split("/")[0].trim();
+  const tDepartureIATA = item.From.slice(-9).substring(0,3);
+  const tArrivalIATA = item.To.slice(-9).substring(0,3);
+  const tFlightNumber = item["Flight number"];
+  const tDistance = getDistance(tDepartureIATA, tArrivalIATA);
+  
+  const tTakeOff = item.Date + "T" + item["Dep time"].slice(0,5);
+  const tDurationCalc = item.Duration;
+  // re-calculate this since FR24 does not have arrival date and there is timezone and +1 day issue.
+  const tLanding = await getArrivalDateTime(tDepartureIATA, tArrivalIATA, tTakeOff, tDurationCalc); 
+  // now that arrival is calculated, can set duration to display string
+  const tDuration = tDurationCalc.split(":")[0] + "h " + tDurationCalc.split(":")[1] + "min"
+  
+  const targetAirline = item.Airline.slice(-4).substring(0,3); 
+  const tAirline = airlineDataMap.has(targetAirline) ? targetAirline : ""; 
+  const tAircraft = aircraftICAO2IATA(item.Aircraft.slice(-5).substring(0,4));
+  const tTailNumber = item.Registration;
+  const tSeatClass = seatClassFR24(item["Flight class"]);
+  const tSeatNumber = item["Seat number"];
+  
+  // call addTrip()
+  addTrip(
+    "", 
+    tDepartureCity, 
+    tDepartureIATA, 
+    tArrivalCity, 
+    tArrivalIATA,
+    tTakeOff,
+    tLanding,
+    tDuration,
+    tDistance,
+    tFlightNumber,
+    tAirline,
+    tAircraft,
+    tTailNumber,
+    tSeatClass,
+    tSeatNumber
+  );
+}
+
+// calculate arrival DateTime based on trip info (for myFR24 import)
+// since duration is calculated in addTrip(), must use correct departure/arrival date and time
+async function getArrivalDateTime(departureIATA, arrivalIATA, takeoff, duration){
+  const departureCoords = IATAtoCoordinates(departureIATA);
+  const arrivalCoords = IATAtoCoordinates(arrivalIATA);  
+  const departureTZ = await GeoTZ.find(
+    departureCoords.latitude,
+    departureCoords.longitude
+  );
+  const arrivalTZ = await GeoTZ.find(
+    arrivalCoords.latitude,
+    arrivalCoords.longitude
+  );
+  const depDate = DateTime.fromISO(takeoff, { zone: departureTZ[0] });
+  const add = duration.split(":");
+  let arrDate = depDate.plus({ hours: add[0], minutes: add[1] });
+  // convert to our string format
+  arrDate = arrDate.setZone(arrivalTZ[0]).toISO({ includeOffset: false }).substring(0,16);
+  return arrDate;
+}
+
+function aircraftICAO2IATA(icao) {
+  // this is not perfect since one ICAO may be linked to multiple IATAs.
+  for (let [k,v] of aircraftDataMap) {
+    if (v.icao_code == icao) {
+      return k;
+    }
+  }
+  return "";
+}
+
+function seatClassFR24(key) {
+  if (key == 1) {
+    return "Economy";
+  } else if (key == 2) {
+    return "Business";
+  } else if (key == 3) {
+    return "First";
+  } else if (key == 4) {
+    return "Economy+";
+  } else if (key == 5) {
+    return "Private";
+  } else {
+    return "";
+  }
+}
+
 // generate a unique ID for trip
 function constructID(trip) {
   if (trip.id == null || trip.id == "") {

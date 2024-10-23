@@ -1,10 +1,11 @@
 # AirLog Changelog
 
-## [WIP-1.0.1]
+## [WIP-1.1.0]
 
 #### Added
 - Added missing airline codes.
 - Added link to globe from Airlog logo.
+- Import trips from myFlightRadar24 exported csv.
 
 #### Changed
 - Only show airport IATA labels on earth when you zoom in closer.
@@ -13,7 +14,7 @@
 - 
 
 #### Removed
-- 
+- Remove Freighter models in aircrafts data.
 
 ## [1.0.0] - 2024.10.20
 

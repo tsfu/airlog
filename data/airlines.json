@@ -6623,7 +6623,7 @@
     ,
     {"id":"3315","name":"Luchtvaartmaatschappij Twente","alias":"\\N","iata":"","icao":"LTW","callsign":"TWENTAIR","country":"Netherlands","active":"N"}
     ,
-    {"id":"3316","name":"Lucky Air","alias":"\\N","iata":"","icao":"LKE","callsign":"LUCKY AIR","country":"China","active":"N"}
+    {"id":"3316","name":"Lucky Air","alias":"\\N","iata":"8L","icao":"LKE","callsign":"LUCKY AIR","country":"China","active":"N"}
     ,
     {"id":"3317","name":"Luft Carago","alias":"\\N","iata":"","icao":"LUT","callsign":"LUGO","country":"South Africa","active":"N"}
     ,

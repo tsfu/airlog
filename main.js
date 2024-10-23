@@ -147,6 +147,11 @@ $("#importButton").on("click", function () {
   $("#json-input").trigger("click");
 });
 
+// "import from myFR24" button
+$("#importFRButton").on("click", function () {
+  $("#csv-input").trigger("click");
+});
+
 // "export trips" button
 $("#exportButton").on("click", exportToJSON);
 
@@ -184,6 +189,18 @@ $("#tripForm").on("submit", async function (event) {
   loadStats();
   toggleDemoButton();
   modal.hide();
+});
+
+// handle csv import for myFR24
+$("#csv-input").on("change", function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = async function (e) {    
+      await importFR24(e);
+    }
+    reader.readAsText(file);
+  }
 });
 
 // handle json import

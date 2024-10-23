@@ -18,7 +18,8 @@ AirLog is an air travel log tool. It keeps track of and visualizes your past tri
 
 On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This project combines web development, UI design, and GIS stuff, which are the topics I am interested in.
 
-The design and idea of this site is inspired by `App In the Air`  and `Flighty`. 
+The idea of creating this site, as well as its design, are inspired by `App In the Air`, `myFlighRadar24` and `Flighty`. 
+
 This app is my personal project only. Not for commercial use.
 
 ## Usage
@@ -49,7 +50,13 @@ This is the soure-of-truth data you provided and we use it to make visualization
 
 You may use UI to add one trip, or upload JSON file to batch import trips. See `/data/sample_trips.json` to follow the format when you use upload.
 
-When a user lands on the page for the first time (their trips are empty), there is a "demo" button which adds sample trips to showcase the UI. With trips populated, they may search/filter/sort table from the UI. The table sort is adopted from `Sortable` lib [here](https://github.com/tofsjonas/sortable). Note this sort is UI only, and will not save or affect actual storage.
+You can export your trips from `myFlightRadar24` (was `FlightDiary`) and import them into Airlog: 
+ - See [myFR24](https://my.flightradar24.com/) for more info. You will get an exported file from their site to import here.
+ - Also, they have a good flight log input system, populating departure/arrival airports and times (not accurate though) from flight number. It's easier to add flights on their platform since you only need a date and flight number (compared to all maunal inputs on AirLog).
+ - Go to Settings -> Export, where you can download your data into a .csv file.
+ - Use the black "Import from myFlightRadar24" button to add trips in that .csv to Airlog UI.
+
+When a user lands on the page for the first time (their trips are empty), there is also a "demo" button which adds sample trips to showcase the UI. With trips populated, they may search/filter/sort table from the UI. The table sort is adopted from `Sortable` lib [here](https://github.com/tofsjonas/sortable). Note this sort is UI only, and will not save or affect actual storage.
 
 To ensure your data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
 
@@ -118,7 +125,7 @@ For each trip, the object looks like this:
  - The trip's unique identifier `id` is only internally used, and will be generated automatically upon adding if absent. Recommend NOT to include `id`s in your json data for the initial import.
  - Required: `departureIATA`, `arrivalIATA`, `takeOffTime`, `landingTime`.
  - The `departureIATA`, `arrivalIATA` are IATA airports codes, `airline` is airline ICAO (3-letter) code, and `aircraft` is IATA aircraft designator code. These will be IDs for corresponding fields and calculations. 
- - Did not use more well known IATA airline code or ICAO aircraft code (the other way), because we need to make ID unique.
+ - Did not use more well known IATA airline code or ICAO aircraft code (the other way), because we need to make IDs unique. For example, ICAO aircraft code cannot specify aircraft of different wings types(after we remove all freighter models). And airlines' sub-divisions may use the same IATA code.
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
 
 ## TODOs

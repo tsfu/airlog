@@ -67,6 +67,16 @@
       <!-- Button groups for trip management-->
       <p class="text-center">Add one trip now, or upload your trips.</p>
       <p class="text-center">Recommend export the trips to secure your data.</p>
+      <div class="buttonContainer" style="margin-top:30px;">
+        <button
+        class="tooltip-cell"
+        id="importFRButton"
+        data-tooltip="This reads the .csv file from myFilghtRadar24 export"
+        >
+          <img src="./assets/fr24.png" style="height:30px;width:30px;">
+          <span id="fr24-text"> &nbsp;Import Trips from myFlightRadar24</span>
+        </button>
+      </div>
       <div class="buttonContainer">
         <button class="wideButton" id="addTripButton">Add Trip</button>
         <button
@@ -79,6 +89,7 @@
         <button class="wideButton" id="exportButton">Export Trips</button>
       </div>
       <input type="file" id="json-input" accept=".json" style="display: none" />
+      <input type="file" id="csv-input" accept=".csv" style="display: none" />
 
       <!-- search bar -->
       <div class="search-container" style="display: none;">
