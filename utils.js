@@ -323,6 +323,7 @@ function drawFlightRoute(viewer, trip) {
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, -20),
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 5500000.0) // only show IATA label when zoom in
     },
   });
 
@@ -343,6 +344,7 @@ function drawFlightRoute(viewer, trip) {
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, -20),
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 5500000.0) // only show IATA label when zoom in
     },
   });
 }

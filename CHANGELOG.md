@@ -7,7 +7,7 @@
 - Added link to globe from Airlog logo.
 
 #### Changed
-- 
+- Only show airport IATA labels on earth when you zoom in closer.
 
 #### Fixed
 - 
