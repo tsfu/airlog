@@ -11203,7 +11203,7 @@
     ,
     {"id":"10740","name":"Tianjin Airlines","alias":"","iata":"GS","icao":"GCR","callsign":"","country":"China","active":"Y"}
     ,
-    {"id":"10741","name":"China United","alias":"","iata":"KN","icao":"\\N","callsign":"","country":"China","active":"Y"}
+    {"id":"10741","name":"China United","alias":"","iata":"KN","icao":"CUA","callsign":"LIANHANG","country":"China","active":"Y"}
     ,
     {"id":"10748","name":"Locair","alias":"","iata":"ZQ","icao":"LOC","callsign":"LOCAIR","country":"United States","active":"Y"}
     ,
