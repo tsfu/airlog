@@ -9,6 +9,7 @@
 - [Data](#data)
   - [Data Source](#data-source)
   - [Data Model](#data-model)
+  - [Missing Data?](#missing-data)
 - [TODOs](#todos)
   - [Planned](#planned)
   - [Long term](#long-term)
@@ -20,7 +21,7 @@ On an evening of mid September 2024, I was shocked and saddened by the news that
 
 The idea of creating this site, as well as its design, are inspired by `App In the Air`, `myFlighRadar24` and `Flighty`. 
 
-This app is my personal project only. Not for commercial use.
+This app is my personal project only. Not for commercial use. Please contact the author or log an issue if you have questions or see potential bug(s).
 
 ## Usage
 This is a pure frontend project. I use CDNs for JS libraries instead of node modules. There is no server-side code(nodeJS, npm, express, sqlite, etc). Also, to keep it simple to start with, there is no MVC framework in use(may move to React or Angular later). Therefore, this app does not store your data on a server. Your trips are stored client-side (in your browser) only. This is not likely to change in the short term.
@@ -127,6 +128,9 @@ For each trip, the object looks like this:
  - The `departureIATA`, `arrivalIATA` are IATA airports codes, `airline` is airline ICAO (3-letter) code, and `aircraft` is IATA aircraft designator code. These will be IDs for corresponding fields and calculations. 
  - Did not use more well known IATA airline code or ICAO aircraft code (the other way), because we need to make IDs unique. For example, ICAO aircraft code cannot specify aircraft of different wings types(after we remove all freighter models). And airlines' sub-divisions may use the same IATA code.
  - The `duration` and `distance` are not required, as they can be calculated upon importing.
+
+### Missing Data?
+This app relies on aviation data from external repos and public sources. Some small/non-active/new airports and airlines, old/new aircraft models, and other data may not be up to date. If you run into issue due to missing airport, airline, or aircraft data, please log an issue or contact the author to add those data. Thanks.
 
 ## TODOs
   ### Planned

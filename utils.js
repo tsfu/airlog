@@ -73,7 +73,6 @@ async function importFR24(event) {
       });
     });
     // store parsed data to trips
-    console.log(parsedData)
     for (const record of parsedData) {
       await parseFRTrip(record);
     };
@@ -91,10 +90,20 @@ async function parseFRTrip(item) {
   const tArrivalCity = item.To.split("/")[0].trim();
   const tDepartureIATA = item.From.slice(-9).substring(0,3);
   const tArrivalIATA = item.To.slice(-9).substring(0,3);
+  if (!isValidAirport(tDepartureIATA)) {
+    alert("Airport IATA code not found: " + tDepartureIATA + ", skipping the trip.");
+    return;
+  }
+  if (!isValidAirport(tArrivalIATA)) {
+    alert("Airport IATA code not found: " + tArrivalIATA + ", skipping the trip.");
+    return;
+  }
+  
   const tFlightNumber = item["Flight number"];
   const tDistance = getDistance(tDepartureIATA, tArrivalIATA);
-  
-  const tTakeOff = item.Date + "T" + item["Dep time"].slice(0,5);
+
+  const date = new Date(item.Date).toISOString().substring(0,11);
+  const tTakeOff = date + item["Dep time"].slice(0,5);
   const tDurationCalc = item.Duration;
   // re-calculate this since FR24 does not have arrival date and there is timezone and +1 day issue.
   const tLanding = await getArrivalDateTime(tDepartureIATA, tArrivalIATA, tTakeOff, tDurationCalc); 

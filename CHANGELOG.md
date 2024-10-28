@@ -3,15 +3,16 @@
 ## [WIP-1.1.0]
 
 #### Added
-- Added missing airline codes.
-- Added link to globe from Airlog logo.
+- Add link to globe from Airlog logo.
 - Import trips from myFlightRadar24 exported csv.
+- Add incomplete airport/airline: NAY/KN.
 
 #### Changed
 - Only show airport IATA labels on earth when you zoom in closer.
 
 #### Fixed
-- 
+- Add Date formatter for csv import on either Mac/Windows.
+- Alert and skip invalid airport IATAs from FR24 import.
 
 #### Removed
 - Remove Freighter models in aircrafts data.
