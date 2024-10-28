@@ -500,6 +500,11 @@
         "name": "Boeing 777-200 / Boeing 777-200ER"
     },
     {
+        "icao_code": "B77E",
+        "iata_code": "77E",
+        "name": "Boeing 777-200ER"
+    },
+    {
         "icao_code": "B773",
         "iata_code": "773",
         "name": "Boeing 777-300"
