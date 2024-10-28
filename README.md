@@ -19,7 +19,8 @@ AirLog is an air travel log tool. It keeps track of and visualizes your past tri
 
 On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This project combines web development, UI design, and GIS stuff, which are the topics I am interested in.
 
-The idea of creating this site, as well as its design, are inspired by `App In the Air`, `myFlighRadar24` and `Flighty`. 
+The idea of creating this site, as well as its design, are inspired by `App In the Air`, `myFlightRadar24` and `Flighty`. 
+A complete version of this kind of website is [OpenFlights](https://openflights.org/), they are actively maintaining and publishing the aviation data which is very helpful!
 
 This app is my personal project only. Not for commercial use. Please contact the author or log an issue if you have questions or see potential bug(s).
 
@@ -56,6 +57,8 @@ You can export your trips from `myFlightRadar24` (was `FlightDiary`) and import 
  - Also, they have a good flight log input system, populating departure/arrival airports and times (not accurate though) from flight number. It's easier to add flights on their platform since you only need a date and flight number (compared to all maunal inputs on AirLog).
  - Go to Settings -> Export, where you can download your data into a .csv file.
  - Use the black "Import from myFlightRadar24" button to add trips in that .csv to Airlog UI.
+
+You can export and then covert App In The Air data into myFR24 using a python tool, see [this converter](https://github.com/ffuuugor/myfr24-converter) to learn more.
 
 When a user lands on the page for the first time (their trips are empty), there is also a "demo" button which adds sample trips to showcase the UI. With trips populated, they may search/filter/sort table from the UI. The table sort is adopted from `Sortable` lib [here](https://github.com/tofsjonas/sortable). Note this sort is UI only, and will not save or affect actual storage.
 
