@@ -158,6 +158,20 @@ $("#exportButton").on("click", exportToJSON);
 // handle form submission when editing a trip
 $("#updateTripButton").on("click", updateTrip);
 
+// auto-populate city based on IATA input
+$("#departureIATA").keyup(function () {
+  const iata = $("#departureIATA").val().substring(0,3);
+  if(iata.length > 2 && isValidAirport(iata)) {
+    $("#departureCity").val(airportDataMap.get(iata).city);
+  }
+});
+$("#arrivalIATA").keyup(function () {
+  const iata = $("#arrivalIATA").val().substring(0,3);
+  if(iata.length > 2 && isValidAirport(iata)) {
+    $("#arrivalCity").val(airportDataMap.get(iata).city);
+  }
+});
+
 // handle form submission when adding a trip
 $("#tripForm").on("submit", async function (event) {
   event.preventDefault(); // Prevent the form from submitting the traditional way

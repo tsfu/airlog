@@ -86,7 +86,7 @@ This app uses open source data on the internet to complete and visualize your tr
 These are the dataset or sources it currently uses:
 
   - Trips: user data
-  - Airport: csv file available thanks to [Github: ip2location/ip2location-iata-icao](https://github.com/ip2location/ip2location-iata-icao)
+  - Airport: csv file available thanks to [Github: ip2location/ip2location-iata-icao](https://github.com/ip2location/ip2location-iata-icao). Also merged some data (like main served city for an airport) from `OpenFlight` database.
   - Flight: user input only
   - Airline: user input is compared to data at [Github: npow/airline-codes](https://github.com/npow/airline-codes/blob/master/airlines.json)
   - Aircraft: user input is compared to data at [Aircraft Type Designators Wikipedia](https://en.wikipedia.org/wiki/List_of_aircraft_type_designators)
@@ -137,14 +137,13 @@ This app relies on aviation data from external repos and public sources. Some sm
 
 ## TODOs
   ### Planned
-   - Object wrapper with getter/setter for trips, for better event handling.
-   - Or, move to React so no need for #1.
-   - Autocomplete cities with IATA input.
+   - Different UI on globe for different frequencies on routes/airports.
    - Better trips table UI (responsive cards, only display some columns)
   ### Long term
    - Separate page or modal: single trip view
    - Table pagination? (TBD)
    - Better nav bar UI
+   - Move to React for better event control and future expansion
    - Get aircraft models' pictures
    - Enhance UI on earth: show pop-up info card on the route when hover over
    - Add support for trains? Check out [this data source](https://brouter.damsy.net/latest/#map=4/50.11/21.52/standard&profile=rail)

@@ -6,6 +6,7 @@
 - Add link to globe from Airlog logo.
 - Import trips from myFlightRadar24 exported csv.
 - Add incomplete airport/airline: NAY/KN.
+- Use OpenFlight data, auto-populate city from airport IATA input.
 
 #### Changed
 - Only show airport IATA labels on earth when you zoom in closer.
