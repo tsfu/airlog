@@ -2052,7 +2052,7 @@ CN,Chongqing,CKG,ZUCK,Chongqing Jiangbei International Airport,29.7192,106.642,C
 CN,Chongqing,DZU,ZUDZ,Dazu Air Base,29.6362,105.774,
 CN,Chongqing,JIQ,ZUQJ,Qianjiang Wulingshan Airport,29.5133,108.831,Qianjiang
 CN,Chongqing,LIA,ZULP,Liangping Airport,30.6794,107.786,
-CN,Chongqing,WXN,ZUWX,Wanzhou Wuqiao Airport,30.8017,108.433,Wanxian
+CN,Chongqing,WXN,ZUWX,Wanzhou Wuqiao Airport,30.8017,108.433,Wanzhou
 CN,Fujian,FOC,ZSFZ,Fuzhou Changle International Airport,25.9351,119.663,Fuzhou
 CN,Fujian,JJN,ZSQZ,Quanzhou Jinjiang International Airport,24.7964,118.59,Quanzhou
 CN,Fujian,LCX,ZSLO,Longyan Guanzhishan Airport,25.6747,116.747,Longyan
@@ -2070,7 +2070,7 @@ CN,Gansu,THQ,ZLTS,Tianshui Maijishan Airport,34.5594,105.86,Tianshui
 CN,Gansu,YZY,ZLZY,Zhangye Ganzhou Airport,38.8019,100.675,Zhangye
 CN,Guangdong,CAN,ZGGG,Guangzhou Baiyun International Airport,23.3924,113.299,Guangzhou
 CN,Guangdong,FUO,ZGFS,Foshan Shadi Airport,23.0833,113.07,Foshan
-CN,Guangdong,HSC,,Shaoguan Guitou Airport,24.9786,113.421,
+CN,Guangdong,HSC,,Shaoguan Guitou Airport,24.9786,113.421,Shaoguan
 CN,Guangdong,HUZ,ZGHZ,Huizhou Pingtan Airport,23.05,114.6,Huizhou
 CN,Guangdong,MXZ,ZGMX,Meixian Airport,24.35,116.133,Meixian
 CN,Guangdong,SWA,ZGOW,Jieyang Chaoshan International Airport,23.552,116.503,Shantou
@@ -2103,8 +2103,8 @@ CN,Hebei,BPE,ZBDH,Qinhuangdao Beidaihe Airport,39.6664,119.059,Bagan
 CN,Hebei,CDE,ZBCD,Chengde Puning Airport,41.1225,118.074,Chengde
 CN,Hebei,HDG,ZBHD,Handan Airport,36.5258,114.426,Handan
 CN,Hebei,SJW,ZBSJ,Shijiazhuang Zhengding International Airport,38.2807,114.697,Shijiazhuang
-CN,Hebei,TVS,ZBTS,Tangshan Sannuhe Airport,39.7178,118.003,
-CN,Hebei,XNT,ZBXT,Xingtai Dalian Airport,36.8831,114.429,
+CN,Hebei,TVS,ZBTS,Tangshan Sannuhe Airport,39.7178,118.003,Tangshan
+CN,Hebei,XNT,ZBXT,Xingtai Dalian Airport,36.8831,114.429,Xingtai
 CN,Hebei,ZQZ,ZBZJ,Zhangjiakou Ningyuan Airport,40.7386,114.93,Zhangjiakou
 CN,Heilongjiang,DQA,ZYDQ,Daqing Sartu Airport,46.7464,125.141,Daqing
 CN,Heilongjiang,DTU,,Wudalianchi Airport,48.445,126.133,Wudalianchi
@@ -2119,11 +2119,11 @@ CN,Heilongjiang,LDS,ZYLD,Yichun Lindu Airport,47.7521,129.019,Yinchun
 CN,Heilongjiang,MDG,ZYMD,Mudanjiang Hailang Airport,44.5241,129.569,Mudanjiang
 CN,Heilongjiang,NDG,ZYQQ,Qiqihar Sanjiazi Airport,47.2396,123.918,Qiqihar
 CN,Heilongjiang,OHE,ZYMH,Mohe Gulian Airport,52.9128,122.43,Mohe County
-CN,Heilongjiang,YLN,ZYYL,Yilan Airport,46.317,129.567,
+CN,Heilongjiang,YLN,ZYYL,Yilan Airport,46.317,129.567,Yilan
 CN,Henan Sheng,XAI,ZHXY,Xinyang Minggang Airport,32.5414,114.078,
-CN,Henan,AYN,ZHAY,Anyang Airport,36.1339,114.344,
+CN,Henan,AYN,ZHAY,Anyang Airport,36.1339,114.344,Anyang
 CN,Henan,CGO,ZHCC,Zhengzhou Xinzheng International Airport,34.5197,113.841,Zhengzhou
-CN,Henan,HSJ,,Zhengzhou Shangjie Airport,34.8422,113.274,
+CN,Henan,HSJ,,Zhengzhou Shangjie Airport,34.8422,113.274,Zhengzhou
 CN,Henan,LYA,ZHLY,Luoyang Beijiao Airport,34.7411,112.388,Luoyang
 CN,Henan,NNY,ZHNY,Nanyang Jiangying Airport,32.9808,112.615,Nanyang
 CN,Hubei Sheng,EHU,ZHEC,Ezhou Huahu Airport,30.3429,115.03,
@@ -2136,7 +2136,7 @@ CN,Hubei,WUH,ZHHH,Wuhan Tianhe International Airport,30.7838,114.208,Wuhan
 CN,Hubei,XFN,ZHXF,Xiangyang Liuji Airport,32.1506,112.291,Xiangfan
 CN,Hubei,YIH,ZHYC,Yichang Sanxia Airport,30.5565,111.48,Yichang
 CN,Hunan Sheng,HCZ,ZGCZ,Chenzhou Beihu Airport,25.7506,112.846,
-CN,Hunan Sheng,YYA,ZGYY,Yueyang Sanhe Airport,29.314,113.278,
+CN,Hunan Sheng,YYA,ZGYY,Yueyang Sanhe Airport,29.314,113.278,Yueyang
 CN,Hunan,CGD,ZGCD,Changde Taohuayuan Airport,28.9189,111.64,Changde
 CN,Hunan,CSX,ZGHA,Changsha Huanghua International Airport,28.1892,113.22,Changcha
 CN,Hunan,DYG,ZGDY,Zhangjiajie Hehua Airport,29.1028,110.443,Dayong
@@ -2148,7 +2148,7 @@ CN,Jiangsu,CZX,ZSCG,Changzhou Benniu Airport,31.9197,119.779,Changzhou
 CN,Jiangsu,HIA,ZSSH,Huai'an Lianshui Airport,33.7908,119.125,Huai An
 CN,Jiangsu,LYG,ZSLG,Lianyungang Baitabu Airport,34.5717,118.874,Lianyungang
 CN,Jiangsu,NKG,ZSNJ,Nanjing Lukou International Airport,31.742,118.862,Nanjing
-CN,Jiangsu,NTG,ZSNT,Nantong Xingdong Airport,32.0708,120.976,
+CN,Jiangsu,NTG,ZSNT,Nantong Xingdong Airport,32.0708,120.976,Nantong
 CN,Jiangsu,RUG,ZSRG,Rugao Air Base,32.2579,120.502,Rugao
 CN,Jiangsu,SZV,ZSSZ,Suzhou Guangfu Airport,31.2631,120.401,Suzhou
 CN,Jiangsu,WUX,ZSWX,Sunan Shuofang International Airport,31.4944,120.429,Wuxi
@@ -2235,13 +2235,13 @@ CN,Shandong,YNT,ZSYT,Yantai Penglai International Airport,37.6572,120.987,Yantai
 CN,Shanghai,PVG,ZSPD,Shanghai Pudong International Airport,31.1434,121.805,Shanghai
 CN,Shanghai,SHA,ZSSS,Shanghai Hongqiao International Airport,31.1979,121.336,Shanghai
 CN,Shanxi,YCU,ZBYC,Yuncheng Guangong Airport,35.1164,111.031,Yuncheng
-CN,Sichuan Sheng,DZH,ZUDA,Dazhou Jinya Airport,31.04,107.44,
-CN,Sichuan,AHJ,ZUHY,Hongyuan Airport,32.5315,102.352,Ngawa
-CN,Sichuan,BZX,,Bazhong Enyang Airport,31.7384,106.645,
+CN,Sichuan Sheng,DZH,ZUDA,Dazhou Jinya Airport,31.04,107.44,Dazhou
+CN,Sichuan,AHJ,ZUHY,Hongyuan Airport,32.5315,102.352,Hongyuan
+CN,Sichuan,BZX,,Bazhong Enyang Airport,31.7384,106.645,Bazhong
 CN,Sichuan,CTU,ZUUU,Chengdu Shuangliu International Airport,30.5785,103.947,Chengdu
 CN,Sichuan,DAX,ZUDX,Dazhou Heshi Airport,31.1302,107.429,Dazhou
 CN,Sichuan,DCY,ZUDC,Daocheng Yading Airport,29.3231,100.053,Daocheng
-CN,Sichuan,GHN,ZUGH,Guanghan Airport,30.9485,104.33,
+CN,Sichuan,GHN,ZUGH,Guanghan Airport,30.9485,104.33,Guanghan
 CN,Sichuan,GYS,ZUGU,Guangyuan Panlong Airport,32.3911,105.702,Guangyuan
 CN,Sichuan,JZH,ZUJZ,Jiuzhai Huanglong Airport,32.8533,103.682,Jiuzhaigou
 CN,Sichuan,KGT,ZUKD,Kangding Airport,30.1575,101.735,Kangding
@@ -7926,7 +7926,7 @@ US,New Jersey,MIV,KMIV,Millville Municipal Airport,39.3678,-75.0722,Millville
 US,New Jersey,MJX,KMJX,Robert J. Miller Air Park (Ocean County Airport),39.9275,-74.2924,
 US,New Jersey,MMU,KMMU,Morristown Municipal Airport,40.7994,-74.4149,Morristown
 US,New Jersey,NEL,KNEL,NAES Lakehurst (Maxfield Field),40.0333,-74.3533,Lakehurst
-US,New Jersey,PCT,,Princeton Airport,40.3992,-74.6589,
+US,New Jersey,PCT,,Princeton Airport,40.3992,-74.6589,Princeton
 US,New Jersey,TEB,KTEB,Teterboro Airport,40.8501,-74.0608,Teterboro
 US,New Jersey,TTN,KTTN,Trenton-Mercer Airport,40.2767,-74.8135,Trenton
 US,New Jersey,WRI,KWRI,McGuire Air Force Base,40.0156,-74.5917,Wrightstown
