@@ -120,7 +120,7 @@ const modal = $("#addTripModal");
 $(".modal-close").on("click", function () {
   $("#submitTripButton").removeAttr("hidden");
   $("#updateTripButton").attr("hidden", "hidden");
-  modal.hide(); 
+  modal.hide();
 });
 
 // When the user clicks anywhere outside of the modal close it
@@ -160,14 +160,14 @@ $("#updateTripButton").on("click", updateTrip);
 
 // auto-populate city based on IATA input
 $("#departureIATA").keyup(function () {
-  const iata = $("#departureIATA").val().substring(0,3);
-  if(iata.length > 2 && isValidAirport(iata)) {
+  const iata = $("#departureIATA").val().substring(0, 3).toUpperCase();
+  if (iata.length > 2 && isValidAirport(iata)) {
     $("#departureCity").val(airportDataMap.get(iata).city);
   }
 });
 $("#arrivalIATA").keyup(function () {
-  const iata = $("#arrivalIATA").val().substring(0,3);
-  if(iata.length > 2 && isValidAirport(iata)) {
+  const iata = $("#arrivalIATA").val().substring(0, 3).toUpperCase();
+  if (iata.length > 2 && isValidAirport(iata)) {
     $("#arrivalCity").val(airportDataMap.get(iata).city);
   }
 });
@@ -210,9 +210,9 @@ $("#csv-input").on("change", function (event) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = async function (e) {    
+    reader.onload = async function (e) {
       await importFR24(e);
-    }
+    };
     reader.readAsText(file);
   }
 });
@@ -342,7 +342,8 @@ async function addTrip(
   // Create a new row in the travel log table
   const tbody = $("#travelTbody")[0];
   const newRow = tbody.insertRow(-1); // Insert a new row at the end of the table
-  for (let i = 0; i < 9; i++) { // Insert cells
+  for (let i = 0; i < 9; i++) {
+    // Insert cells
     newRow.insertCell(i);
   }
   populateRow(trip, newRow);

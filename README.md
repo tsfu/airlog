@@ -138,7 +138,6 @@ This app relies on aviation data from external repos and public sources. Some sm
 ## TODOs
   ### Planned
    - Different UI on globe for different frequencies on routes/airports.
-   - Better trips table UI (responsive cards, only display some columns)
   ### Long term
    - Separate page or modal: single trip view
    - Table pagination? (TBD)

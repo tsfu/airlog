@@ -101,34 +101,51 @@ function getRowFilterString(row) {
 function flightToHTML(airlineICAO, flightNumber) {
   let img = "";
   if (!airlineICAO) {
-    img = "<img src=\"./assets/unknown.png\" height=\"30px\" width=\"30px\"/>"
+    img = '<img src="./assets/unknown.png" height="30px" width="30px"/>';
   } else {
     const imgPath = "./assets/airline_logos/" + airlineICAO + ".png";
-    img = "<img src=\"" + imgPath + "\" height=\"30px\" width=\"30px\"/>"; 
+    img = '<img src="' + imgPath + '" height="30px" width="30px"/>';
   }
-  html = "<p class=\"flightCell\">" + img + "&nbsp;&nbsp; <b>" + flightNumber + "</b></p>";
+  html =
+    '<p class="flightCell">' +
+    img +
+    "&nbsp;&nbsp; <b>" +
+    flightNumber +
+    "</b></p>";
   return html;
 }
 
 function airportToCountryIconHTML(airportIATA) {
   // Note that airport IATA should already got validated here.
-  const countryCode = airportDataMap.get(airportIATA).country_code.toLowerCase();
-  const html = "<span class=\"fi fi-" + countryCode + "\"></span> ";
+  const countryCode = airportDataMap
+    .get(airportIATA)
+    .country_code.toLowerCase();
+  const html = '<span class="fi fi-' + countryCode + '"></span> ';
   return html;
 }
 
 function timeToHTML(takeoff, landing) {
   takeoff = takeoff.split("T");
   landing = landing.split("T");
-  const takeoffDate = takeoff[0];
-  const takeoffTime = takeoff[1];
-  const landingDate = landing[0];
+  let takeoffDate = takeoff[0];
+  let landingDate = landing[0];
+  let takeoffTime = takeoff[1];
   let landingTime = landing[1];
-  const datePlus = parseInt(landingDate.substring(8,10)) - parseInt(takeoffDate.substring(8,10));
+  const tt = luxon.DateTime.fromISO(takeoffDate + "T12:00:00");
+  const tl = luxon.DateTime.fromISO(landingDate + "T12:00:00");
+
+  const datePlus = tl.diff(tt, ["days"]).days;
   if (datePlus > 0) {
-    landingTime = landingTime + " (+" + datePlus + ")"; 
+    landingTime = landingTime + " (+" + datePlus + ")";
   }
-  const html = "<p><b>" + takeoffDate + "</b></p><p>" + takeoffTime + ' -<i class="fa fa-plane"></i>- ' + landingTime + "</p>";
+  const html =
+    "<p><b>" +
+    takeoffDate +
+    "</b></p><p>" +
+    takeoffTime +
+    ' -<i class="fa fa-plane"></i>- ' +
+    landingTime +
+    "</p>";
   return html;
 }
 
@@ -151,7 +168,7 @@ function populateRow(trip, row) {
   }
 
   cells[1].innerHTML = timeToHTML(trip.takeOffTime, trip.landingTime);
-  
+
   cells[2].innerHTML =
     "<p><b>" +
     airportToCountryIconHTML(trip.departureIATA) +
@@ -186,9 +203,10 @@ function populateRow(trip, row) {
 
   cells[5].textContent = trip.distance;
   cells[5].setAttribute("data-sort", trip.distance.slice(0, -2));
-  
+
   if (trip.aircraft) {
-    cells[6].innerHTML = "<p><b>" + aircraftDataMap.get(trip.aircraft).icao_code + "</b></p>";
+    cells[6].innerHTML =
+      "<p><b>" + aircraftDataMap.get(trip.aircraft).icao_code + "</b></p>";
     cells[6].classList.add("tooltip-cell");
     cells[6].setAttribute(
       "data-tooltip",
@@ -200,9 +218,10 @@ function populateRow(trip, row) {
     cells[6].removeAttribute("data-tooltip");
   }
   cells[6].innerHTML += "<p>" + trip.tailNumber + "</p>";
-  
-  cells[7].innerHTML = "<p>" + trip.seatClass + "</p><p>" + trip.seatNumber + "</p>";
-  
+
+  cells[7].innerHTML =
+    "<p>" + trip.seatClass + "</p><p>" + trip.seatNumber + "</p>";
+
   // edit and delete buttons within row
   const editButtonHTML =
     '<button id="' +
@@ -214,10 +233,10 @@ function populateRow(trip, row) {
     trip.id +
     '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';
   cells[8].innerHTML = editButtonHTML + deleteButtonHTML;
-  $("#"+trip.id).addClass("tooltip-cell");
-  $("#"+trip.id).attr("data-tooltip", "delete trip");
-  $("#"+trip.id + "e").addClass("tooltip-cell");
-  $("#"+trip.id + "e").attr("data-tooltip", "edit trip");
+  $("#" + trip.id).addClass("tooltip-cell");
+  $("#" + trip.id).attr("data-tooltip", "delete trip");
+  $("#" + trip.id + "e").addClass("tooltip-cell");
+  $("#" + trip.id + "e").attr("data-tooltip", "edit trip");
 }
 
 // prepare to edit a row
