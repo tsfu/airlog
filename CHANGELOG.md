@@ -1,6 +1,21 @@
 # AirLog Changelog
 
-## [WIP-1.1.0]
+## [1.2.0] - WIP
+
+#### Added
+- 
+
+#### Changed
+- 
+
+#### Fixed
+- 
+
+#### Removed
+- 
+
+
+## [1.1.0] - 2024.10.30
 
 #### Added
 - Add link to globe from Airlog logo.
