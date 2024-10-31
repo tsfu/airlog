@@ -44,17 +44,15 @@ for (let i = 0; i < sortCols.length; i++) {
 function getColSortName(index) {
   switch (index) {
     case 0:
-      return "departure";
-    case 1:
-      return "arrival";
-    case 2:
-      return "take-off time";
-    case 6:
       return "flight number";
-    case 7:
+    case 1:
+      return "take-off time";
+    case 2:
+      return "departure";
+    case 3:
+      return "arrival";
+    case 6:
       return "aircraft model";
-    case 8:
-      return "airplane tail number";
     default:
       return $(".sortCol")[index].textContent.toLowerCase();
   }
@@ -98,75 +96,132 @@ function getRowFilterString(row) {
 
 // TODO: Pagination + rows per page
 
+// ==================================== TABLE HELPERS ===================================== //
+
+function flightToHTML(airlineICAO, flightNumber) {
+  let img = "";
+  if (!airlineICAO) {
+    img = '<img src="./assets/unknown.png" height="30px" width="30px"/>';
+  } else {
+    const imgPath = "./assets/airline_logos/" + airlineICAO + ".png";
+    img = '<img src="' + imgPath + '" height="30px" width="30px"/>';
+  }
+  html =
+    '<p class="flightCell">' +
+    img +
+    "&nbsp;&nbsp; <b>" +
+    flightNumber +
+    "</b></p>";
+  return html;
+}
+
+function airportToCountryIconHTML(airportIATA) {
+  // Note that airport IATA should already got validated here.
+  const countryCode = airportDataMap
+    .get(airportIATA)
+    .country_code.toLowerCase();
+  const html = '<span class="fi fi-' + countryCode + '"></span> ';
+  return html;
+}
+
+function timeToHTML(takeoff, landing) {
+  takeoff = takeoff.split("T");
+  landing = landing.split("T");
+  let takeoffDate = takeoff[0];
+  let landingDate = landing[0];
+  let takeoffTime = takeoff[1];
+  let landingTime = landing[1];
+  const tt = luxon.DateTime.fromISO(takeoffDate + "T12:00:00");
+  const tl = luxon.DateTime.fromISO(landingDate + "T12:00:00");
+
+  const datePlus = tl.diff(tt, ["days"]).days;
+  if (datePlus > 0) {
+    landingTime = landingTime + " (+" + datePlus + ")";
+  }
+  const html =
+    "<p><b>" +
+    takeoffDate +
+    "</b></p><p>" +
+    takeoffTime +
+    ' -<i class="fa fa-plane"></i>- ' +
+    landingTime +
+    "</p>";
+  return html;
+}
 
 // ==================================== TABLE BASICS ===================================== //
 
 // fill a row in trips table UI using the trip object
 function populateRow(trip, row) {
-  const cells= row.cells;
+  const cells = row.cells;
   // Insert new cells and populate them with the values in trip object
-  cells[0].innerHTML =
-    airportToCountryIconHTML(trip.departureIATA) + trip.departureIATA;
-  cells[0].classList.add("thinCol");
+  cells[0].innerHTML = flightToHTML(trip.airline, trip.flightNumber);
+  cells[0].setAttribute("data-sort", trip.flightNumber);
   cells[0].classList.add("tooltip-cell");
-  cells[0].setAttribute(
-    "data-tooltip",
-    airportDataMap.get(trip.departureIATA).airport
-  );
-
-  cells[2].innerHTML =
-  airportToCountryIconHTML(trip.arrivalIATA) + trip.arrivalIATA;
-  cells[2].classList.add("thinCol");
-  cells[2].classList.add("tooltip-cell");
-  cells[2].setAttribute(
-    "data-tooltip",
-    airportDataMap.get(trip.arrivalIATA).airport
-  );
-
-  cells[1].textContent = trip.departureCity;
-  cells[3].textContent = trip.arrivalCity;
-  cells[4].textContent = trip.takeOffTime.replace("T", " ");
-  cells[5].textContent = trip.landingTime.replace("T", " ");
-  
-  cells[6].textContent = trip.duration;
-  cells[6].setAttribute("data-sort", trip.duration.replace("h ",".").slice(0,-3));
-  
-  cells[7].textContent = trip.distance;
-  cells[7].setAttribute("data-sort", trip.distance.slice(0,-2));
-  
-  cells[8].innerHTML = airlineToLogoHTML(trip.airline);
-  cells[8].setAttribute("data-sort", trip.airline);
-  cells[8].classList.add("thinCol");
-  cells[8].classList.add("tooltip-cell");
   if (trip.airline) {
-    cells[8].setAttribute(
+    cells[0].setAttribute(
       "data-tooltip",
       airlineDataMap.get(trip.airline).name
     );
   } else {
-    cells[8].setAttribute("data-tooltip", "Unknown Airline");
+    cells[0].setAttribute("data-tooltip", "Unknown Airline");
   }
 
-  cells[9].classList.add("thinCol");
-  cells[9].textContent = trip.flightNumber;
+  cells[1].innerHTML = timeToHTML(trip.takeOffTime, trip.landingTime);
 
-  cells[10].classList.add("thinCol");
+  cells[2].innerHTML =
+    "<p><b>" +
+    airportToCountryIconHTML(trip.departureIATA) +
+    trip.departureIATA +
+    "</b></p><p>" +
+    trip.departureCity +
+    "</p>";
+  cells[2].classList.add("tooltip-cell");
+  cells[2].setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.departureIATA).airport
+  );
+
+  cells[3].innerHTML =
+    "<p><b>" +
+    airportToCountryIconHTML(trip.arrivalIATA) +
+    trip.arrivalIATA +
+    "</b></p><p>" +
+    trip.arrivalCity +
+    "</p>";
+  cells[3].classList.add("tooltip-cell");
+  cells[3].setAttribute(
+    "data-tooltip",
+    airportDataMap.get(trip.arrivalIATA).airport
+  );
+
+  cells[4].textContent = trip.duration;
+  cells[4].setAttribute(
+    "data-sort",
+    trip.duration.replace("h ", ".").slice(0, -3)
+  );
+
+  cells[5].textContent = trip.distance;
+  cells[5].setAttribute("data-sort", trip.distance.slice(0, -2));
+
   if (trip.aircraft) {
-    cells[10].textContent = aircraftDataMap.get(trip.aircraft).icao_code;
-    cells[10].classList.add("tooltip-cell");
-    cells[10].setAttribute(
+    cells[6].innerHTML =
+      "<p><b>" + aircraftDataMap.get(trip.aircraft).icao_code + "</b></p>";
+    cells[6].classList.add("tooltip-cell");
+    cells[6].setAttribute(
       "data-tooltip",
       aircraftDataMap.get(trip.aircraft).name
     );
   } else {
-    cells[10].textContent = "unknown";
-    cells[10].classList.remove("tooltip-cell");
-    cells[10].removeAttribute("data-tooltip");
+    cells[6].innerHTML = "<p><b>unknown</b></p>";
+    cells[6].classList.remove("tooltip-cell");
+    cells[6].removeAttribute("data-tooltip");
   }
+  cells[6].innerHTML += "<p>" + trip.tailNumber + "</p>";
 
-  cells[11].textContent = trip.tailNumber;
-  cells[12].textContent = trip.seatClass;
-  cells[13].textContent = trip.seatNumber;  
+  cells[7].innerHTML =
+    "<p>" + trip.seatClass + "</p><p>" + trip.seatNumber + "</p>";
+
   // edit and delete buttons within row
   const editButtonHTML =
     '<button id="' +
@@ -176,11 +231,12 @@ function populateRow(trip, row) {
   const deleteButtonHTML =
     '<button id="' +
     trip.id +
-    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';   
-  cells[14].innerHTML = editButtonHTML;
-  cells[14].classList.add("thinCol");
-  cells[15].innerHTML = deleteButtonHTML;
-  cells[15].classList.add("thinCol");
+    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';
+  cells[8].innerHTML = editButtonHTML + deleteButtonHTML;
+  $("#" + trip.id).addClass("tooltip-cell");
+  $("#" + trip.id).attr("data-tooltip", "delete trip");
+  $("#" + trip.id + "e").addClass("tooltip-cell");
+  $("#" + trip.id + "e").attr("data-tooltip", "edit trip");
 }
 
 // prepare to edit a row
