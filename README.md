@@ -36,11 +36,13 @@ To test the app locally, you may use `git clone` to grab the code, then:
 
 There are 3 UI tabs for this app:
 - Globe (3D earth view): Uses `CesiumJS` to visualize the routes of a user's past trips on 3D earth.
-- Trips (log view): A table that holds all user input (display travel data and serve as data source). You can view(including search and sort), add, and edit trips. Use "Add Trip" to log a trip, or upload a JSON file to batch import trips. Use "Export Trips" to export trips to local file.
+- Trips (log view): A table that holds all user input (display travel data and serve as data source). Using different buttons on this page, you can view(including search and sort), add, edit, and import/export trips.
 - Stats: Get some fun rankings and aggregation display from your added travel data.
 
 ### Globe
 This is made possible by  `CesiumJS` library and ChatGPT JS coding. For every trip you logged, it will draw an estimated flight route on earth, and mark departure/arrival info. When you edit/delete a trip record, the route changes accordingly. The loading of Cesium graphics may be lagging sometimes due to networks.
+
+Based on the frequency level of your visit to airports and routes, different colors/weights are used on drawing. The heavier and darker style means more frequent routes and your hub(s).
 
 You can use a basic search bar, a reset button, a 2D/3D switch, and a base-layer image provider picker that all come from default Cesium ion.
 
@@ -137,7 +139,7 @@ This app relies on aviation data from external repos and public sources. Some sm
 
 ## TODOs
   ### Planned
-   - Different UI on globe for different frequencies on routes/airports.
+   - Fix or close issues on Github repo.
   ### Long term
    - Separate page or modal: single trip view
    - Table pagination? (TBD)

@@ -336,9 +336,9 @@ async function addTrip(
   }
   trip.id = constructID(trip);
 
-  // Draw route on earth
-  drawFlightRoute(viewer, trip);
-
+  // update global var of user's trips
+  trips.push(trip);
+  
   // Create a new row in the travel log table
   const tbody = $("#travelTbody")[0];
   const newRow = tbody.insertRow(-1); // Insert a new row at the end of the table
@@ -347,13 +347,13 @@ async function addTrip(
     newRow.insertCell(i);
   }
   populateRow(trip, newRow);
-
-  // update global var of user's trips
-  trips.push(trip);
+  
   // if trips count went from 0 to 1 then display table
   toggleTableDisplay();
   // update storage
   localStorage.setItem(tripStorageKey, JSON.stringify(trips));
+  // Draw route on earth
+  drawFlightRoute(viewer, trip);
 }
 
 // update trip for both UI and storage from input
@@ -426,7 +426,7 @@ async function updateTrip() {
   populateRow(trip, row);
 
   // re-draw route on earth
-  removeFlightRoute(viewer, editTripID);
+  removeFlightRoute(viewer, trip);
   drawFlightRoute(viewer, trip);
 
   // update trips storage

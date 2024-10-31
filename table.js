@@ -275,7 +275,10 @@ function removeRow(evt) {
   // delete row in table
   $("#travelLogTable")[0].deleteRow(deleteRowIndex);
   // delete route on earth
-  removeFlightRoute(viewer, deleteTripID);
+  removeFlightRoute(
+    viewer,
+    trips.find((obj) => obj.id == deleteTripID)
+  );
   // delete trip from storage
   const deleteIdx = trips.findIndex((obj) => obj.id == deleteTripID);
   trips.splice(deleteIdx, 1);

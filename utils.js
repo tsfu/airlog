@@ -424,23 +424,34 @@ function drawFlightRoute(viewer, trip) {
     arrivalCoords.latitude
   );
 
+  const routeCount = getRouteCount(trip.departureIATA, trip.arrivalIATA);
+  const departureCount = getPointCount(trip.departureIATA);
+  const arrivalCount = getPointCount(trip.arrivalIATA);
+  const routeId =
+    trip.departureIATA < trip.arrivalIATA
+      ? trip.departureIATA + "-" + trip.arrivalIATA
+      : trip.arrivalIATA + "-" + trip.departureIATA;
+
+  // remove current entity to draw new ones
+  removeFlightRoute(viewer, trip);
+
   viewer.entities.add({
-    id: "route-" + trip.id,
+    id: "route-" + routeId,
     polyline: {
       positions: [departureCartesian, arrivalCartesian],
-      width: 2,
-      material: Object.freeze(Cesium.Color.fromCssColorString("#e7fd7d")),
+      width: getRouteWeight(routeCount),
+      material: getRouteColor(routeCount),
       clampToGround: false, // Keep it floating
     },
   });
 
   // Add a dot at the departure city
   viewer.entities.add({
-    id: "departure-" + trip.id,
+    id: "point-" + trip.departureIATA,
     position: departureCartesian,
     point: {
-      pixelSize: 8,
-      color: Cesium.Color.CORNFLOWERBLUE,
+      pixelSize: getPointSize(departureCount),
+      color: getPointColor(departureCount),
       outlineColor: Cesium.Color.WHITE,
       outlineWidth: 2,
     },
@@ -460,11 +471,11 @@ function drawFlightRoute(viewer, trip) {
 
   // Add a dot at the arrival city
   viewer.entities.add({
-    id: "arrival-" + trip.id,
+    id: "point-" + trip.arrivalIATA,
     position: arrivalCartesian,
     point: {
-      pixelSize: 8,
-      color: Cesium.Color.CORNFLOWERBLUE,
+      pixelSize: getPointSize(arrivalCount),
+      color: getPointColor(arrivalCount),
       outlineColor: Cesium.Color.WHITE,
       outlineWidth: 2,
     },
@@ -483,8 +494,98 @@ function drawFlightRoute(viewer, trip) {
   });
 }
 
-function removeFlightRoute(viewer, tripID) {
-  viewer.entities.removeById("route-" + tripID); // Remove the flight route
-  viewer.entities.removeById("departure-" + tripID); // Remove the departure dot
-  viewer.entities.removeById("arrival-" + tripID); // Remove the arrival dot
+function removeFlightRoute(viewer, trip) {
+  const routeId =
+    trip.departureIATA < trip.arrivalIATA
+      ? trip.departureIATA + "-" + trip.arrivalIATA
+      : trip.arrivalIATA + "-" + trip.departureIATA;
+  viewer.entities.removeById("route-" + routeId); // Remove the flight route
+  viewer.entities.removeById("point-" + trip.departureIATA); // Remove the departure dot
+  viewer.entities.removeById("point-" + trip.arrivalIATA); // Remove the arrival dot
+}
+
+function getRouteCount(iata1, iata2) {
+  let routeCountMap = new Map();
+  trips.forEach((trip) => {
+    const key1 = trip.departureIATA + "-" + trip.arrivalIATA;
+    const key2 = trip.arrivalIATA + "-" + trip.departureIATA;
+    // switched departure/arrival counts as same route
+    if (routeCountMap.has(key1)) {
+      routeCountMap.set(key1, routeCountMap.get(key1) + 1);
+    } else if (routeCountMap.has(key2)) {
+      routeCountMap.set(key2, routeCountMap.get(key2) + 1);
+    } else {
+      routeCountMap.set(key1, 1);
+    }
+  });
+  const r1 = iata1 + "-" + iata2;
+  const r2 = iata2 + "-" + iata1;
+  let count = 0;
+  if (routeCountMap.has(r1)) {
+    count = routeCountMap.get(r1);
+  } else {
+    count = routeCountMap.get(r2);
+  }
+  return count;
+}
+
+// Finctions to draw different color or weight based on route/airport frequency
+function getRouteColor(count) {
+  if (count < 2) {
+    return Object.freeze(Cesium.Color.fromCssColorString("#f4feb3"));
+  } else if (count < 5) {
+    return Object.freeze(Cesium.Color.fromCssColorString("#f9fc67"));
+  } else {
+    return Object.freeze(Cesium.Color.fromCssColorString("#e9c43d"));
+  }
+}
+
+function getRouteWeight(count) {
+  if (count < 2) {
+    return 1;
+  } else if (count < 5) {
+    return 2;
+  } else {
+    return 3;
+  }
+}
+
+function getPointCount(iata) {
+  let airportCountMap = new Map();
+  trips.forEach((trip) => {
+    const key1 = trip.departureIATA;
+    const key2 = trip.arrivalIATA;
+    // add count for both departure and arrival airports
+    if (airportCountMap.has(key1)) {
+      airportCountMap.set(key1, airportCountMap.get(key1) + 1);
+    } else {
+      airportCountMap.set(key1, 1);
+    }
+    if (airportCountMap.has(key2)) {
+      airportCountMap.set(key2, airportCountMap.get(key2) + 1);
+    } else {
+      airportCountMap.set(key2, 1);
+    }
+  });
+  return airportCountMap.get(iata);
+}
+
+function getPointColor(count) {
+  if (count < 3) {
+    return Cesium.Color.AQUAMARINE;
+  } else if (count < 6) {
+    return Cesium.Color.DODGERBLUE;
+  } else {
+    return Cesium.Color.DARKBLUE;
+  }
+}
+
+function getPointSize(count) {
+  if (count < 3) {
+    return 7;
+  } else if (count < 6) {
+    return 8;
+  } else {
+    return 9;
+  }
 }

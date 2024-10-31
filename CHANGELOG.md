@@ -3,7 +3,7 @@
 ## [1.2.0] - WIP
 
 #### Added
-- 
+- Different color/weight for routes and cities on 3D earth view based on visit frequencies.
 
 #### Changed
 - New table UI: compact display for the trip row.
@@ -12,6 +12,7 @@
 #### Fixed
 - City auto-complete does not work with lowercase IATA input.
 - Takeoff/landing date differece calculation.
+- Cesium no longer draws repeated layers of routes/cities with multiple trips on them.
 
 #### Removed
 - 
