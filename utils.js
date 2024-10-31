@@ -341,22 +341,6 @@ function IATAtoCoordinates(iataCode) {
   }
 }
 
-function airlineToLogoHTML(airlineICAO) {
-  if (!airlineICAO) {
-    return "<img src=\"./assets/unknown.png\" height=\"30px\" width=\"30px\"/>"
-  }
-  const imgPath = "./assets/airline_logos/" + airlineICAO + ".png";
-  const html = "<img src=\"" + imgPath + "\" height=\"30px\" width=\"30px\"/>"
-  return html;
-}
-
-function airportToCountryIconHTML(airportIATA) {
-  // Note that airport IATA should already got validated here.
-  const countryCode = airportDataMap.get(airportIATA).country_code.toLowerCase();
-  const html = "<span class=\"fi fi-" + countryCode + "\"></span> ";
-  return html;
-}
-
 // Helper: calculate p2p distance on earth
 function haversineDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // Radius of the Earth in kilometers

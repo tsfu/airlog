@@ -342,7 +342,7 @@ async function addTrip(
   // Create a new row in the travel log table
   const tbody = $("#travelTbody")[0];
   const newRow = tbody.insertRow(-1); // Insert a new row at the end of the table
-  for (let i = 0; i < 16; i++) { // Insert cells
+  for (let i = 0; i < 9; i++) { // Insert cells
     newRow.insertCell(i);
   }
   populateRow(trip, newRow);

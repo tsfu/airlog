@@ -10,7 +10,7 @@
       rel="stylesheet"
       href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
@@ -93,30 +93,23 @@
 
       <!-- search bar -->
       <div class="search-container" style="display: none;">
-        <span id="searchIcon"><i class="fa fa-search"></i></span>
+        <span id="searchIcon"><i class="fas fa-search"></i></span>
         <input type="text" id="searchInput" placeholder=" Search flight/airport/city/year..." >
-        <button type="submit" id="resetButton"><i class="fa fa-remove"></i></button>
+        <button type="submit" id="resetButton"><i class="fas fa-remove"></i></button>
       </div>
       <!-- travel log table -->
       <table id="travelLogTable" class="sortable asc">
         <thead>
           <tr>
+            <th class="sortCol leftCol">Flight</th>
+            <th class="sortCol">Takeoff/Landing</th>
             <th class="sortCol">From</th>
-            <th class="no-sort"></th>
             <th class="sortCol">To</th>
-            <th class="no-sort"></th>
-            <th class="sortCol">Take-off</th>
-            <th class="no-sort">Landing</th>
             <th class="sortCol">Duration</th>
             <th class="sortCol">Distance</th>
-            <th class="sortCol">Airline</th>
-            <th class="sortCol">Flight</th>
             <th class="sortCol">Aircraft</th>
-            <th class="sortCol">Tail No.</th>
-            <th class="no-sort">Class</th>
             <th class="no-sort">Seat</th>
-            <th class="actionCol no-sort"><!-- for edit --></th>
-            <th class="actionCol no-sort"><!-- for delete --></th>
+            <th class="no-sort rightCol"><!-- for action buttons --></th>
           </tr>
         </thead>
         <tbody id="travelTbody">
