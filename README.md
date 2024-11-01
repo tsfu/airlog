@@ -62,6 +62,8 @@ You can export your trips from `myFlightRadar24` (was `FlightDiary`) and import 
 
 You can export and then covert App In The Air data into myFR24 using a python tool, see [this converter](https://github.com/ffuuugor/myfr24-converter) to learn more.
 
+When you import data from outside sources, due to different data format, they may not be recognized correctly by AirLog. You may simply edit the trip with the desired value, then it should have AirLog format and good to go. For example, some websites use 2-letter IATA code for airlines which is not unique and may be rendered differently here. You can edit it by providing correct 3-letter ICAO code.  
+
 When a user lands on the page for the first time (their trips are empty), there is also a "demo" button which adds sample trips to showcase the UI. With trips populated, they may search/filter/sort table from the UI. When you search/filter a trip from the table, you can use airport IATA code, city name, year, flight number, as well as airline and aircraft code(both IATA and ICAO code supported).The table sort is adopted from `Sortable` lib [here](https://github.com/tofsjonas/sortable). Note this sort is UI only, and will not save or affect actual storage.
 
 To ensure your data won't get lost in case the client storage gets cleared, use the "Export Trips" to download trips into a local JSON file. You can keep it safe and import them back anytime.
