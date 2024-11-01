@@ -9,6 +9,7 @@
 #### Changed
 - New table UI: compact display for the trip row.
 - New FontAwesome css version 6.6.0.
+- Each row in table now has id=trip.id, delete(edit) button uses id with trailing "d"("e").
 
 #### Fixed
 - City auto-complete does not work with lowercase IATA input.
