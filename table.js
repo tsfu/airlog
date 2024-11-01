@@ -236,10 +236,11 @@ function populateRow(trip, row) {
   const deleteButtonHTML =
     '<button id="' +
     trip.id +
+    "d" +
     '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';
   cells[8].innerHTML = editButtonHTML + deleteButtonHTML;
-  $("#" + trip.id).addClass("tooltip-cell");
-  $("#" + trip.id).attr("data-tooltip", "delete trip");
+  $("#" + trip.id + "d").addClass("tooltip-cell");
+  $("#" + trip.id + "d").attr("data-tooltip", "delete trip");
   $("#" + trip.id + "e").addClass("tooltip-cell");
   $("#" + trip.id + "e").attr("data-tooltip", "edit trip");
 }
@@ -276,7 +277,7 @@ function editRow(evt) {
 // delete a row
 function removeRow(evt) {
   const deleteRowIndex = evt.parentElement.parentElement.rowIndex;
-  const deleteTripID = evt.id;
+  const deleteTripID = evt.id.slice(0, -1);
   // delete row in table
   $("#travelLogTable")[0].deleteRow(deleteRowIndex);
   // delete route on earth
