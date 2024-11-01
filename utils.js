@@ -504,6 +504,7 @@ function removeFlightRoute(viewer, trip) {
   viewer.entities.removeById("point-" + trip.arrivalIATA); // Remove the arrival dot
 }
 
+// Functions to draw different color or weight based on route/airport frequency
 function getRouteCount(iata1, iata2) {
   let routeCountMap = new Map();
   trips.forEach((trip) => {
@@ -529,7 +530,6 @@ function getRouteCount(iata1, iata2) {
   return count;
 }
 
-// Finctions to draw different color or weight based on route/airport frequency
 function getRouteColor(count) {
   if (count < 2) {
     return Object.freeze(Cesium.Color.fromCssColorString("#f4feb3"));

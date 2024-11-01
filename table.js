@@ -61,19 +61,15 @@ function getColSortName(index) {
 // Search/filter table
 $("#searchInput").on("keyup", function () {
   let value = $(this).val().toLowerCase();
+  if (value === "") {
+    // Show all rows
+    $("#travelLogTable tbody tr").show();
+    return;
+  }
   $("#travelLogTable tbody tr").each(function () {
     let rowStr = getRowFilterString($(this)[0]);
     $(this).toggle(rowStr.includes(value));
   });
-});
-
-// Handle when input is cleared or loses focus
-$("#searchInput").on("input", function () {
-  const value = $(this).val();
-  if (value === "") {
-    // Show all rows
-    $("#travelLogTable tbody tr").show();
-  }
 });
 
 // reset button
@@ -84,14 +80,22 @@ $("#resetButton").on("click", function () {
 
 // keyup quick filter: IATA/city/flighNO
 function getRowFilterString(row) {
-  let str = "";
-  for (let i = 0; i < 4; i++) {
-    const cell = row.cells[i];
-    str += cell.textContent;
-  }
-  str += row.cells[4].textContent.substring(0, 4);
-  str += row.cells[9].textContent;
-  return str.toLowerCase().replace(/ /g, "");
+  let str = [];
+  let trip = trips.find((obj) => obj.id == row.id);
+  str.push(trip.departureIATA.toLowerCase());
+  str.push(trip.arrivalIATA.toLowerCase());
+  str.push(trip.takeOffTime.substring(0 ,4));
+  str.push(trip.departureCity.toLowerCase());
+  str.push(trip.departureCity.replace(/ /g, "").toLowerCase());
+  str.push(trip.arrivalCity.toLowerCase());
+  str.push(trip.arrivalCity.replace(/ /g, "").toLowerCase());
+  str.push(trip.flightNumber.toLowerCase());
+  str.push(trip.flightNumber.replace(/ /g, "").toLowerCase());
+  str.push(trip.airline.toLowerCase());
+  str.push(trip.aircraft.toLowerCase());
+  str.push(airlineDataMap.get(trip.airline).iata.toLowerCase());
+  str.push(aircraftDataMap.get(trip.aircraft).icao_code.toLowerCase());
+  return str;
 }
 
 // TODO: Pagination + rows per page
@@ -153,6 +157,7 @@ function timeToHTML(takeoff, landing) {
 
 // fill a row in trips table UI using the trip object
 function populateRow(trip, row) {
+  row.id = trip.id;
   const cells = row.cells;
   // Insert new cells and populate them with the values in trip object
   cells[0].innerHTML = flightToHTML(trip.airline, trip.flightNumber);

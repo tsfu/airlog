@@ -4,15 +4,17 @@
 
 #### Added
 - Different color/weight for routes and cities on 3D earth view based on visit frequencies.
+- Search trips by airline + aircraft (both ICAO/IATA code).
 
 #### Changed
 - New table UI: compact display for the trip row.
-- New FontAwesome css version 6.6.0
+- New FontAwesome css version 6.6.0.
 
 #### Fixed
 - City auto-complete does not work with lowercase IATA input.
 - Takeoff/landing date differece calculation.
 - Cesium no longer draws repeated layers of routes/cities with multiple trips on them.
+- Fix search in new RowUI: use trip data not UI as query string.
 
 #### Removed
 - Remove terrain baselayer from Cesium due to the selector issue /routes being covered.
