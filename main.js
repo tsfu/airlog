@@ -7,7 +7,7 @@ const viewer = new Cesium.Viewer("cesiumContainer", {
   timeline: false, // Removes the timeline widget
 });
 // remove invalid imagery/terrain providers from base-layer picker
-viewer.baseLayerPicker.viewModel.terrainProviderViewModels.shift();
+viewer.baseLayerPicker.viewModel.terrainProviderViewModels = [];
 let providers = viewer.baseLayerPicker.viewModel.imageryProviderViewModels;
 let newProviders = [];
 for (let i = 0; i < providers.length; i++) {

@@ -15,7 +15,7 @@
 - Cesium no longer draws repeated layers of routes/cities with multiple trips on them.
 
 #### Removed
-- 
+- Remove terrain baselayer from Cesium due to the selector issue /routes being covered.
 
 
 ## [1.1.0] - 2024.10.30
