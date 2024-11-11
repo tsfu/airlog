@@ -1,6 +1,6 @@
 # AirLog Changelog
 
-## [1.2.0] - WIP
+## [1.2.0] - 2024.11.11
 
 #### Added
 - Different color/weight for routes and cities on 3D earth view based on visit frequencies.
