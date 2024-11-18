@@ -3150,7 +3150,7 @@ GB,England,KRH,EGKR,Redhill Aerodrome,51.2136,-0.138611,Redhill
 GB,England,LBA,EGNM,Leeds Bradford Airport,53.8659,-1.66057,Leeds
 GB,England,LCY,EGLC,London City Airport,51.5053,0.055278,London
 GB,England,LEQ,EGHC,Land's End Airport,50.1028,-5.67056,Land's End
-GB,England,LGW,EGKK,Gatwick Airport,51.1481,-0.190278,London
+GB,England,LGW,EGKK,London Gatwick Airport,51.1481,-0.190278,London
 GB,England,LHB,EG74,Bruntingthorpe Aerodrome (Leicester Harboro'/Harbour Airport),52.4908,-1.1312,
 GB,England,LHR,EGLL,Heathrow Airport,51.4775,-0.461389,London
 GB,England,LKZ,EGUL,RAF Lakenheath,52.4093,0.561,Lakenheath
@@ -7969,7 +7969,7 @@ US,New York,BGM,KBGM,Greater Binghamton Airport (Edwin A. Link Field),42.2087,-7
 US,New York,BUF,KBUF,Buffalo Niagara International Airport,42.9405,-78.7322,Buffalo
 US,New York,COP,,Cooperstown-Westville Airport,42.6292,-74.891,
 US,New York,CTO,,Calverton Executive Airpark,40.9151,-72.7919,
-US,New York,CTX,,Cortland County Airport (Chase Field,42.5926,-76.2149,
+US,New York,CTX,,Cortland County Airport (Chase Field),42.5926,-76.2149,
 US,New York,DKK,KDKK,Chautauqua County/Dunkirk Airport,42.4933,-79.272,Dunkirk
 US,New York,DSV,KDSV,Dansville Municipal Airport,42.5709,-77.7131,
 US,New York,ELM,KELM,Elmira/Corning Regional Airport,42.1599,-76.8916,Elmira
