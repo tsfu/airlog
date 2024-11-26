@@ -1255,7 +1255,7 @@
     "tailNumber": "EC-MES",
     "seatClass": "Economy",
     "seatNumber": "8F",
-    "id": "LHRBCN202411020955"
+    "id": "LHRBCN202411021004"
   },
   {
     "departureIATA": "MAD",
@@ -1272,7 +1272,7 @@
     "tailNumber": "EC-NTA",
     "seatClass": "Premium",
     "seatNumber": "17F",
-    "id": "MADLHR202411061645"
+    "id": "MADLHR202411061714"
   },
   {
     "departureIATA": "LHR",
@@ -1285,7 +1285,7 @@
     "distance": "8154.06km",
     "flightNumber": "CA938",
     "airline": "CCA",
-    "aircraft": "773",
+    "aircraft": "77W",
     "tailNumber": "",
     "seatClass": "Economy",
     "seatNumber": "49L",
@@ -1324,5 +1324,73 @@
     "seatClass": "Economy",
     "seatNumber": "53L",
     "id": "TFULHR202412171555"
+  },
+  {
+    "departureIATA": "MIG",
+    "arrivalIATA": "JHG",
+    "departureCity": "Mianyang",
+    "arrivalCity": "Jinghong",
+    "takeOffTime": "2024-12-04T10:00",
+    "landingTime": "2024-12-04T12:05",
+    "duration": "2h 5min",
+    "distance": "1122.90km",
+    "flightNumber": "TV9709",
+    "airline": "TBA",
+    "aircraft": "319",
+    "tailNumber": "",
+    "seatClass": "Economy",
+    "seatNumber": "",
+    "id": "MIGJHG202412041000"
+  },
+  {
+    "departureIATA": "JHG",
+    "arrivalIATA": "MIG",
+    "departureCity": "Jinghong",
+    "arrivalCity": "Mianyang",
+    "takeOffTime": "2024-12-08T12:45",
+    "landingTime": "2024-12-08T14:40",
+    "duration": "1h 55min",
+    "distance": "1122.90km",
+    "flightNumber": "TV9710",
+    "airline": "TBA",
+    "aircraft": "319",
+    "tailNumber": "",
+    "seatClass": "Economy",
+    "seatNumber": "",
+    "id": "JHGMIG202412081245"
+  },
+  {
+    "departureIATA": "LHR",
+    "arrivalIATA": "VIE",
+    "departureCity": "London",
+    "arrivalCity": "Vienna",
+    "takeOffTime": "2024-12-24T10:30",
+    "landingTime": "2024-12-24T13:50",
+    "duration": "2h 20min",
+    "distance": "1275.16km",
+    "flightNumber": "BA700",
+    "airline": "BAW",
+    "aircraft": "319",
+    "tailNumber": "",
+    "seatClass": "Economy",
+    "seatNumber": "",
+    "id": "LHRVIE202412241030"
+  },
+  {
+    "departureIATA": "BUD",
+    "arrivalIATA": "LHR",
+    "departureCity": "Budapest",
+    "arrivalCity": "London",
+    "takeOffTime": "2024-12-29T18:40",
+    "landingTime": "2024-12-29T20:30",
+    "duration": "2h 50min",
+    "distance": "1489.64km",
+    "flightNumber": "BA867",
+    "airline": "BAW",
+    "aircraft": "320",
+    "tailNumber": "",
+    "seatClass": "Economy",
+    "seatNumber": "",
+    "id": "BUDLHR202412291840"
   }
 ]
