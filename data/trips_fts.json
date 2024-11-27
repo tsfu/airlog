@@ -1286,7 +1286,7 @@
     "flightNumber": "CA938",
     "airline": "CCA",
     "aircraft": "77W",
-    "tailNumber": "",
+    "tailNumber": "B-2037",
     "seatClass": "Economy",
     "seatNumber": "49L",
     "id": "LHRPEK202411272025"
@@ -1305,7 +1305,7 @@
     "aircraft": "738",
     "tailNumber": "",
     "seatClass": "Economy",
-    "seatNumber": "27A",
+    "seatNumber": "25A",
     "id": "PEKMIG202411281820"
   },
   {
