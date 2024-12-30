@@ -319,7 +319,7 @@
     "aircraft": "738",
     "tailNumber": "B-6482",
     "seatClass": "Economy",
-    "seatNumber": "?",
+    "seatNumber": "64B",
     "id": "NKGXIY201603061640"
   },
   {
@@ -387,7 +387,7 @@
     "aircraft": "321",
     "tailNumber": "B-8328",
     "seatClass": "Economy",
-    "seatNumber": "?",
+    "seatNumber": "32B",
     "id": "CTUCNX201802021745"
   },
   {
@@ -404,7 +404,7 @@
     "aircraft": "320",
     "tailNumber": "HS-TXQ",
     "seatClass": "Economy",
-    "seatNumber": "?",
+    "seatNumber": "45A",
     "id": "CNXHKT201802040940"
   },
   {
@@ -421,7 +421,7 @@
     "aircraft": "772",
     "tailNumber": "HS-TJA",
     "seatClass": "Economy",
-    "seatNumber": "?",
+    "seatNumber": "58E",
     "id": "HKTBKK201802071116"
   },
   {
@@ -438,7 +438,7 @@
     "aircraft": "773",
     "tailNumber": "HS-TKC",
     "seatClass": "Economy",
-    "seatNumber": "?",
+    "seatNumber": "42B",
     "id": "BKKCTU201802101029"
   },
   {
@@ -608,7 +608,7 @@
     "aircraft": "77W",
     "tailNumber": "B-2002",
     "seatClass": "Economy",
-    "seatNumber": "?",
+    "seatNumber": "37G",
     "id": "JFKPVG201905160145"
   },
   {
@@ -625,7 +625,7 @@
     "aircraft": "321",
     "tailNumber": "B-8653",
     "seatClass": "Economy",
-    "seatNumber": "?",
+    "seatNumber": "58L",
     "id": "PVGCTU201905170856"
   },
   {
@@ -676,7 +676,7 @@
     "aircraft": "752",
     "tailNumber": "N189AN",
     "seatClass": "Economy",
-    "seatNumber": "35C",
+    "seatNumber": "23F",
     "id": "PHLDFW201910301325"
   },
   {
@@ -1303,7 +1303,7 @@
     "flightNumber": "CA1455",
     "airline": "CCA",
     "aircraft": "738",
-    "tailNumber": "",
+    "tailNumber": "B-5553",
     "seatClass": "Economy",
     "seatNumber": "25A",
     "id": "PEKMIG202411281820"
@@ -1313,84 +1313,16 @@
     "arrivalIATA": "LHR",
     "departureCity": "Chengdu",
     "arrivalCity": "London",
-    "takeOffTime": "2024-12-17T15:55",
-    "landingTime": "2024-12-17T19:40",
-    "duration": "11h 45min",
+    "takeOffTime": "2024-12-28T15:55",
+    "landingTime": "2024-12-28T20:00",
+    "duration": "12h 5min",
     "distance": "8353.95km",
     "flightNumber": "CA423",
     "airline": "CCA",
     "aircraft": "333",
-    "tailNumber": "",
+    "tailNumber": "B-8383",
     "seatClass": "Economy",
-    "seatNumber": "53L",
+    "seatNumber": "59L",
     "id": "TFULHR202412171555"
-  },
-  {
-    "departureIATA": "MIG",
-    "arrivalIATA": "JHG",
-    "departureCity": "Mianyang",
-    "arrivalCity": "Jinghong",
-    "takeOffTime": "2024-12-04T10:00",
-    "landingTime": "2024-12-04T12:05",
-    "duration": "2h 5min",
-    "distance": "1122.90km",
-    "flightNumber": "TV9709",
-    "airline": "TBA",
-    "aircraft": "319",
-    "tailNumber": "",
-    "seatClass": "Economy",
-    "seatNumber": "",
-    "id": "MIGJHG202412041000"
-  },
-  {
-    "departureIATA": "JHG",
-    "arrivalIATA": "MIG",
-    "departureCity": "Jinghong",
-    "arrivalCity": "Mianyang",
-    "takeOffTime": "2024-12-08T12:45",
-    "landingTime": "2024-12-08T14:40",
-    "duration": "1h 55min",
-    "distance": "1122.90km",
-    "flightNumber": "TV9710",
-    "airline": "TBA",
-    "aircraft": "319",
-    "tailNumber": "",
-    "seatClass": "Economy",
-    "seatNumber": "",
-    "id": "JHGMIG202412081245"
-  },
-  {
-    "departureIATA": "LHR",
-    "arrivalIATA": "VIE",
-    "departureCity": "London",
-    "arrivalCity": "Vienna",
-    "takeOffTime": "2024-12-24T10:30",
-    "landingTime": "2024-12-24T13:50",
-    "duration": "2h 20min",
-    "distance": "1275.16km",
-    "flightNumber": "BA700",
-    "airline": "BAW",
-    "aircraft": "319",
-    "tailNumber": "",
-    "seatClass": "Economy",
-    "seatNumber": "",
-    "id": "LHRVIE202412241030"
-  },
-  {
-    "departureIATA": "BUD",
-    "arrivalIATA": "LHR",
-    "departureCity": "Budapest",
-    "arrivalCity": "London",
-    "takeOffTime": "2024-12-29T18:40",
-    "landingTime": "2024-12-29T20:30",
-    "duration": "2h 50min",
-    "distance": "1489.64km",
-    "flightNumber": "BA867",
-    "airline": "BAW",
-    "aircraft": "320",
-    "tailNumber": "",
-    "seatClass": "Economy",
-    "seatNumber": "",
-    "id": "BUDLHR202412291840"
   }
 ]
