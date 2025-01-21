@@ -1324,5 +1324,39 @@
     "seatClass": "Economy",
     "seatNumber": "59L",
     "id": "TFULHR202412171555"
+  },
+  {
+    "departureIATA": "LHR",
+    "arrivalIATA": "PRG",
+    "departureCity": "London",
+    "arrivalCity": "Prague",
+    "takeOffTime": "2025-01-18T15:20",
+    "landingTime": "2025-01-18T18:38",
+    "duration": "2h 18min",
+    "distance": "1044.27km",
+    "flightNumber": "BA856",
+    "airline": "BAW",
+    "aircraft": "320",
+    "tailNumber": "G-EUYU",
+    "seatClass": "Economy",
+    "seatNumber": "9F",
+    "id": "LHRPRG202501181520"
+  },
+  {
+    "departureIATA": "PRG",
+    "arrivalIATA": "LHR",
+    "departureCity": "Prague",
+    "arrivalCity": "London",
+    "takeOffTime": "2025-01-20T21:19",
+    "landingTime": "2025-01-20T22:18",
+    "duration": "1h 59min",
+    "distance": "1044.27km",
+    "flightNumber": "BA861",
+    "airline": "BAW",
+    "aircraft": "320",
+    "tailNumber": "G-EUUU",
+    "seatClass": "Economy",
+    "seatNumber": "14A",
+    "id": "PRGLHR202501202119"
   }
 ]
