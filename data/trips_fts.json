@@ -1425,7 +1425,7 @@
     "tailNumber": "F-HZUB",
     "seatClass": "Economy",
     "seatNumber": "12F",
-    "id": "CDGLHR202503022100"
+    "id": "CDGLHR202503022056"
   },
   {
     "departureIATA": "LHR",
@@ -1473,9 +1473,9 @@
     "flightNumber": "BA588",
     "airline": "BAW",
     "aircraft": "319",
-    "tailNumber": "",
+    "tailNumber": "G-EUPD",
     "seatClass": "Economy",
-    "seatNumber": "",
+    "seatNumber": "11F",
     "id": "LHRLIN202504171200"
   },
   {
@@ -1490,9 +1490,9 @@
     "flightNumber": "BA547",
     "airline": "BAW",
     "aircraft": "320",
-    "tailNumber": "",
+    "tailNumber": "G-EUOE",
     "seatClass": "Economy",
-    "seatNumber": "",
+    "seatNumber": "13F",
     "id": "FCOLHR202504222105"
   },
   {
@@ -1575,9 +1575,9 @@
     "flightNumber": "BA1453",
     "airline": "BAW",
     "aircraft": "320",
-    "tailNumber": "",
+    "tailNumber": "G-EUYU",
     "seatClass": "Economy",
-    "seatNumber": "",
+    "seatNumber": "22A",
     "id": "EDILHR202505041950"
   },
   {
@@ -1592,9 +1592,9 @@
     "flightNumber": "LH923",
     "airline": "DLH",
     "aircraft": "32N",
-    "tailNumber": "",
+    "tailNumber": "D-AINM",
     "seatClass": "Economy",
-    "seatNumber": "",
+    "seatNumber": "11F",
     "id": "LHRFRA202505230730"
   },
   {
@@ -1609,9 +1609,9 @@
     "flightNumber": "LH728",
     "airline": "DLH",
     "aircraft": "346",
-    "tailNumber": "",
-    "seatClass": "Economy",
-    "seatNumber": "",
+    "tailNumber": "D-AIHZ",
+    "seatClass": "Business",
+    "seatNumber": "12C",
     "id": "FRAPVG202505231505"
   },
   {
@@ -1626,9 +1626,60 @@
     "flightNumber": "CA423",
     "airline": "CCA",
     "aircraft": "359",
-    "tailNumber": "",
-    "seatClass": "Premium Economy",
-    "seatNumber": "",
+    "tailNumber": "B-308C",
+    "seatClass": "Premium",
+    "seatNumber": "33L",
     "id": "TFULHR202505311555"
+  },
+  {
+    "departureIATA": "LHR",
+    "arrivalIATA": "BCN",
+    "departureCity": "London",
+    "arrivalCity": "Barcelona",
+    "takeOffTime": "2025-05-17T06:10",
+    "landingTime": "2025-05-17T09:20",
+    "duration": "2h 10min",
+    "distance": "1148.46km",
+    "flightNumber": "BA472",
+    "airline": "BAW",
+    "aircraft": "320",
+    "tailNumber": "G-EUYG",
+    "seatClass": "Economy",
+    "seatNumber": "9F",
+    "id": "LHRBCN202505170610"
+  },
+  {
+    "departureIATA": "BCN",
+    "arrivalIATA": "LHR",
+    "departureCity": "Barcelona",
+    "arrivalCity": "London",
+    "takeOffTime": "2025-05-18T20:40",
+    "landingTime": "2025-05-18T21:55",
+    "duration": "2h 15min",
+    "distance": "1148.46km",
+    "flightNumber": "BA487",
+    "airline": "BAW",
+    "aircraft": "32N",
+    "tailNumber": "G-TTNG",
+    "seatClass": "Economy",
+    "seatNumber": "15C",
+    "id": "BCNLHR202505182040"
+  },
+  {
+    "departureIATA": "SHA",
+    "arrivalIATA": "CTU",
+    "departureCity": "Shanghai",
+    "arrivalCity": "Chengdu",
+    "takeOffTime": "2025-05-25T08:15",
+    "landingTime": "2025-05-25T11:10",
+    "duration": "2h 55min",
+    "distance": "1659.06km",
+    "flightNumber": "MU5401",
+    "airline": "CES",
+    "aircraft": "332",
+    "tailNumber": "B-5952",
+    "seatClass": "Economy",
+    "seatNumber": "36A",
+    "id": "SHACTU202505250815"
   }
 ]
