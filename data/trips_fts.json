@@ -1681,5 +1681,39 @@
     "seatClass": "Economy",
     "seatNumber": "36A",
     "id": "SHACTU202505250815"
+  },
+  {
+    "departureIATA": "LHR",
+    "arrivalIATA": "AMS",
+    "departureCity": "London",
+    "arrivalCity": "Amsterdam",
+    "takeOffTime": "2025-08-23T08:13",
+    "landingTime": "2025-08-23T10:26",
+    "duration": "1h 13min",
+    "distance": "370.19km",
+    "flightNumber": "BA430",
+    "airline": "BAW",
+    "aircraft": "319",
+    "tailNumber": "G-DBCJ",
+    "seatClass": "Economy",
+    "seatNumber": "14F",
+    "id": "LHRAMS202508230813"
+  },
+  {
+    "departureIATA": "AMS",
+    "arrivalIATA": "LHR",
+    "departureCity": "Amsterdam",
+    "arrivalCity": "London",
+    "takeOffTime": "2025-08-25T21:43",
+    "landingTime": "2025-08-25T21:53",
+    "duration": "1h 10min",
+    "distance": "370.19km",
+    "flightNumber": "BA443",
+    "airline": "BAW",
+    "aircraft": "320",
+    "tailNumber": "G-EUUS",
+    "seatClass": "Economy",
+    "seatNumber": "7F",
+    "id": "AMSLHR202508252143"
   }
 ]
