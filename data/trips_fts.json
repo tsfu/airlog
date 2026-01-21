@@ -1885,5 +1885,39 @@
     "seatClass": "Economy",
     "seatNumber": "11F",
     "id": "SVQLGW202512141930"
+  },
+  {
+    "departureIATA": "LHR",
+    "arrivalIATA": "FLR",
+    "departureCity": "London",
+    "arrivalCity": "Florence",
+    "takeOffTime": "2026-01-16T08:17",
+    "landingTime": "2026-01-16T11:51",
+    "duration": "2h 34min",
+    "distance": "1218.24km",
+    "flightNumber": "BA524",
+    "airline": "BAW",
+    "aircraft": "32N",
+    "tailNumber": "G-TTNU",
+    "seatClass": "Economy",
+    "seatNumber": "26B",
+    "id": "LHRFLR202601160817"
+  },
+  {
+    "departureIATA": "FCO",
+    "arrivalIATA": "LHR",
+    "departureCity": "Rome",
+    "arrivalCity": "London",
+    "takeOffTime": "2026-01-20T20:16",
+    "landingTime": "2026-01-20T21:41",
+    "duration": "2h 25min",
+    "distance": "1444.38km",
+    "flightNumber": "BA561",
+    "airline": "BAW",
+    "aircraft": "32N",
+    "tailNumber": "G-TTSE",
+    "seatClass": "Economy",
+    "seatNumber": "10E",
+    "id": "FCOLHR202601202016"
   }
 ]
