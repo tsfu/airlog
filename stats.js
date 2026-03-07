@@ -6,8 +6,10 @@ function getFlightsTotal() {
 function getDistanceTotal() {
   let total = 0;
   trips.forEach((trip) => {
-    let distance = trip.distance;
-    total = total + parseFloat(distance.substring(0, distance.length - 2));
+    const distance = distanceTextToKm(trip.distance);
+    if (Number.isFinite(distance)) {
+      total = total + distance;
+    }
   });
   return total.toFixed(2);
 }
@@ -26,11 +28,10 @@ function getAlternativeDistance(distance) {
 function getAirTimeTotal() {
   let totalMinutes = 0;
   trips.forEach((trip) => {
-    let duration = trip.duration;
-    let tokens = duration.split(" ");
-    let hour = parseInt(tokens[0].replace("h", ""));
-    let min = parseInt(tokens[1].replace("min", ""));
-    totalMinutes = totalMinutes + hour * 60 + min;
+    const mins = durationTextToMins(trip.duration);
+    if (Number.isFinite(mins) && mins >= 0) {
+      totalMinutes = totalMinutes + mins;
+    }
   });
 
   // calculate total time in different scales
@@ -104,7 +105,9 @@ function getCountriesSet() {
 function getAirlinesSet() {
   const airlineSet = new Set();
   trips.forEach((trip) => {
-    airlineSet.add(trip.airline);
+    if (trip.airline) {
+      airlineSet.add(trip.airline);
+    }
   });
   return airlineSet;
 }
@@ -112,7 +115,9 @@ function getAirlinesSet() {
 function getAircraftsSet() {
   const aircraftSet = new Set();
   trips.forEach((trip) => {
-    aircraftSet.add(trip.aircraft);
+    if (trip.aircraft) {
+      aircraftSet.add(trip.aircraft);
+    }
   });
   return aircraftSet;
 }
@@ -179,8 +184,8 @@ function getAirlinesRanking() {
   let airlineCountMap = new Map();
   trips.forEach((trip) => {
     const key = trip.airline;
+    if (!key) return;
     if (airlineCountMap.has(key)) {
-      if (!key) return; // empty key counts only once
       airlineCountMap.set(key, airlineCountMap.get(key) + 1);
     } else {
       airlineCountMap.set(key, 1);
@@ -195,9 +200,6 @@ function getAirlinesRanking() {
   airlineCountMap.forEach((v, k) => {
     res.push({ airline: k, count: v });
   });
-  if(res[0].count == 1) {
-    res = res.reverse(); // so that empty key (count=1) will not be on top if tied at 1.
-  }
   return res;
 }
 
@@ -205,8 +207,8 @@ function getAircraftsRanking() {
   let aircraftCountMap = new Map();
   trips.forEach((trip) => {
     const key = trip.aircraft;
+    if (!key) return;
     if (aircraftCountMap.has(key)) {
-      if (!key) return; // empty key counts only once
       aircraftCountMap.set(key, aircraftCountMap.get(key) + 1);
     } else {
       aircraftCountMap.set(key, 1);
@@ -221,15 +223,14 @@ function getAircraftsRanking() {
   aircraftCountMap.forEach((v, k) => {
     res.push({ aircraft: k, count: v });
   });
-  if(res[0].count == 1) {
-    res = res.reverse(); // so that empty key (count=1) will not be on top if tied at 1.
-  }
   return res;
 }
 
 // sort() trips with a comparator func to get Top N longest flight (duration/distance)
 function getDurationRanking() {
-  let tripsByDuration = structuredClone(trips);
+  let tripsByDuration = structuredClone(trips).filter((trip) =>
+    Number.isFinite(durationTextToMins(trip.duration))
+  );
   tripsByDuration.sort(
     (a, b) => durationTextToMins(b.duration) - durationTextToMins(a.duration)
   );
@@ -237,18 +238,30 @@ function getDurationRanking() {
 }
 
 function durationTextToMins(duration) {
-  const durationNum = duration.replace("min", "").replace("h", "");
-  const list = durationNum.split(" ");
-  const mins = parseInt(list[0]) * 60 + parseInt(list[1]);
-  return mins;
+  const text = (duration || "").toString().trim();
+  const match = text.match(/(-?\d+)\s*h\s*(-?\d+)\s*min/i);
+  if (!match) {
+    return NaN;
+  }
+  const hours = parseInt(match[1], 10);
+  const mins = parseInt(match[2], 10);
+  if (!Number.isFinite(hours) || !Number.isFinite(mins)) {
+    return NaN;
+  }
+  return hours * 60 + mins;
+}
+
+function distanceTextToKm(distance) {
+  const num = parseFloat((distance || "").toString().replace("km", ""));
+  return Number.isFinite(num) ? num : NaN;
 }
 
 function getDistanceRanking() {
-  let tripsByDistance = structuredClone(trips);
+  let tripsByDistance = structuredClone(trips).filter((trip) =>
+    Number.isFinite(distanceTextToKm(trip.distance))
+  );
   tripsByDistance.sort(
-    (a, b) =>
-      parseFloat(b.distance.replace("km", "")) -
-      parseFloat(a.distance.replace("km", ""))
+    (a, b) => distanceTextToKm(b.distance) - distanceTextToKm(a.distance)
   );
   return tripsByDistance;
 }
@@ -328,13 +341,10 @@ function loadStats() {
   noun = (airlinesTotal == 1) ? "airline" : "airlines";
   $("#totalAirlineText").text(noun);
 
-  let topAircraft = {};
-  if (!aircraftsRanked[0].aircraft) {
-    // worst case but possible: only 1 entry and is empty key, so it will the top one.
-    // in this case, simply mock an obj for display
-    topAircraft = {name:"Unknown Aircraft", icao_code: "Are you serious?"};
-  } else {
-    topAircraft = aircraftDataMap.get(aircraftsRanked[0].aircraft);
+  let topAircraft = { name: "Unknown Aircraft", icao_code: "---" };
+  if (aircraftsRanked.length > 0) {
+    topAircraft =
+      aircraftDataMap.get(aircraftsRanked[0].aircraft) || topAircraft;
   }
   const topAircraftText = topAircraft.name + " - " + topAircraft.icao_code;
   $("#topAircraft").text(topAircraftText);
@@ -348,21 +358,28 @@ function loadStats() {
   }
   
   let topAirlineText = "";
-  const validAirline = airlinesRanked[0].airline;
-  // do not use airline obj if key is empty here.
-  if (validAirline) {
+  if (airlinesRanked.length > 0) {
     const topAirline = airlineDataMap.get(airlinesRanked[0].airline);
-    topAirlineText =
-      topAirline.name + " - " + topAirline.iata + "/" + topAirline.icao;
-    $("#topAirlineLogo").attr(
-      "src",
-      "./assets/airline_banners/" + topAirline.icao + ".png"
-    );
-    $("#topAirlineLogo").show();
+    if (!topAirline) {
+      topAirlineText = "Unknown Carrier - This is sad.";
+      $("#topAirlineLogo").hide();
+    } else {
+      topAirlineText =
+        topAirline.name +
+        " - " +
+        (topAirline.iata || "--") +
+        "/" +
+        topAirline.icao;
+      $("#topAirlineLogo").attr(
+        "src",
+        "./assets/airline_banners/" + topAirline.icao + ".png"
+      );
+      $("#topAirlineLogo").show();
+    }
   } else {
-    topAirlineText = "Unknown Carrier - This is sad."
+    topAirlineText = "Unknown Carrier - This is sad.";
     $("#topAirlineLogo").hide();
-  } 
+  }
   $("#topAirline").text(topAirlineText);
 
   // card 4: rankings
@@ -372,23 +389,28 @@ function loadStats() {
   let title = document.createElement("h3");
   title.textContent = "Aircrafts Ranking";
   $("#aircraft-ranking").append(title);
+  let aircraftRendered = 0;
   for (let i = 0; i < num; i++) {
     const item = document.createElement("p");
     item.classList.add("ranking-text");
-    const validAircraft = aircraftsRanked[i].aircraft;
-    const rankText = validAircraft ? aircraftsRanked[i].count : "This doesn't count :(";
-    if (validAircraft) {    
-      aircraft = aircraftDataMap.get(aircraftsRanked[i].aircraft);
-      item.innerHTML =
+    const aircraft = aircraftDataMap.get(aircraftsRanked[i].aircraft);
+    if (!aircraft) {
+      continue;
+    }
+    item.innerHTML =
       "<b>" +
       aircraft.name +
       "</b>&nbsp;(" +
       aircraft.icao_code +
       ") - " +
-      rankText;
-    } else {
-      item.innerHTML = "<b>Unknown Aircraft</b> &nbsp;- " + rankText;
-    }
+      aircraftsRanked[i].count;
+    $("#aircraft-ranking").append(item);
+    aircraftRendered++;
+  }
+  if (aircraftRendered === 0) {
+    const item = document.createElement("p");
+    item.classList.add("ranking-text");
+    item.innerHTML = "No known aircraft yet.";
     $("#aircraft-ranking").append(item);
   }
   
@@ -398,24 +420,29 @@ function loadStats() {
   title = document.createElement("h3");
   title.textContent = "Airlines Ranking";
   $("#airline-ranking").append(title);
+  let airlineRendered = 0;
   for (let i = 0; i < num; i++) {
     const item = document.createElement("p");
     item.classList.add("ranking-text");
-    const validAirline = airlinesRanked[i].airline;
-    const rankText = validAirline ? airlinesRanked[i].count : "This doesn't count :(";
-    if (validAirline) {
-      const airline = airlineDataMap.get(airlinesRanked[i].airline);
-      item.innerHTML =
+    const airline = airlineDataMap.get(airlinesRanked[i].airline);
+    if (!airline) {
+      continue;
+    }
+    item.innerHTML =
       airlineToBannerHTML(airline.icao) +
       "&nbsp;&nbsp;<b>" +
-      airline.iata +
+      (airline.iata || "--") +
       "/" +
       airline.icao +
       "</b> &nbsp;- " +
-      rankText;
-    } else {
-      item.innerHTML = "<b>Unknown Carrier</b> &nbsp;- " + rankText;
-    }  
+      airlinesRanked[i].count;
+    $("#airline-ranking").append(item);
+    airlineRendered++;
+  }
+  if (airlineRendered === 0) {
+    const item = document.createElement("p");
+    item.classList.add("ranking-text");
+    item.innerHTML = "No known airline yet.";
     $("#airline-ranking").append(item);
   }
   
@@ -447,19 +474,33 @@ function loadStats() {
 
   const byDuration = getDurationRanking();
   const byDistance = getDistanceRanking();
-  const durA = byDuration[0];
-  const durZ = byDuration[byDuration.length-1]; 
-  const disA = byDistance[0];
-  const disZ = byDistance[byDistance.length-1];
+  if (byDuration.length > 0) {
+    const durA = byDuration[0];
+    const durZ = byDuration[byDuration.length - 1];
+    $("#slowRoute").text(durA.departureIATA + "-" + durA.arrivalIATA);
+    $("#slowRouteVal").text(durA.duration);
+    $("#quickRoute").text(durZ.departureIATA + "-" + durZ.arrivalIATA);
+    $("#quickRouteVal").text(durZ.duration);
+  } else {
+    $("#slowRoute").text("--");
+    $("#slowRouteVal").text("--");
+    $("#quickRoute").text("--");
+    $("#quickRouteVal").text("--");
+  }
 
-  $("#slowRoute").text(durA.departureIATA + "-" + durA.arrivalIATA);
-  $("#slowRouteVal").text(durA.duration);
-  $("#quickRoute").text(durZ.departureIATA + "-" + durZ.arrivalIATA);
-  $("#quickRouteVal").text(durZ.duration);
-  $("#longRoute").text(disA.departureIATA + "-" + disA.arrivalIATA);
-  $("#longRouteVal").text(disA.distance);
-  $("#shortRoute").text(disZ.departureIATA + "-" + disZ.arrivalIATA);
-  $("#shortRouteVal").text(disZ.distance);
+  if (byDistance.length > 0) {
+    const disA = byDistance[0];
+    const disZ = byDistance[byDistance.length - 1];
+    $("#longRoute").text(disA.departureIATA + "-" + disA.arrivalIATA);
+    $("#longRouteVal").text(disA.distance);
+    $("#shortRoute").text(disZ.departureIATA + "-" + disZ.arrivalIATA);
+    $("#shortRouteVal").text(disZ.distance);
+  } else {
+    $("#longRoute").text("--");
+    $("#longRouteVal").text("--");
+    $("#shortRoute").text("--");
+    $("#shortRouteVal").text("--");
+  }
 
   console.log("INFO: Stats calculation complete.");
 }
