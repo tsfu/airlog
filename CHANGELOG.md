@@ -1,5 +1,25 @@
 # AirLog Changelog
 
+## [1.3.0] - 2026.03.07
+
+#### Added
+- Added IndexedDB-backed trip persistence with safe fallback behavior.
+- Added import preview/validation summary and duplicate detection.
+- Improved normalization for IATA, flight number, and datetime input.
+- Debounced table search for better performance on larger datasets.
+
+#### Fixed
+- Startup load now skips invalid stored rows instead of failing the entire load.
+- FR24 parser now supports standard duration formats including HH:MM:SS.
+- Re-importing the same file works reliably (file input reset).
+- Invalid imported duration/distance now auto-recompute when core fields are valid.
+- Edit submit path now handles async failures cleanly.
+- Update flow recomputes core metrics from current fields.
+- Stats/rankings now tolerate malformed duration/distance values without producing NaN-driven breakage.
+
+#### Removed
+- Removed personal file data/trips_fts.json from the repo. My trips will be updated by importing from myFR24.
+
 ## [1.2.0] - 2024.11.11
 
 #### Added

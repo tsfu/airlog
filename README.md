@@ -17,11 +17,12 @@
 ## Introduction
 AirLog is an air travel log tool. It keeps track of and visualizes your past trips in the air (flights logging). 
 
-On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, was shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This project combines web development, UI design, and GIS stuff, which are the topics I am interested in.
+On an evening of mid September 2024, I was shocked and saddened by the news that "App In The Air", one of my favorite flight map apps, would be shutting down. I then decided to create something similar but simpler with the help of ChatGPT. This project combines web development, UI design, and GIS stuff, which are the topics I am interested in. 
 
 The idea of creating this site, as well as its design, are inspired by `App In the Air`, `myFlightRadar24` and `Flighty`. 
 A complete version of this kind of website is [OpenFlights](https://openflights.org/), they are actively maintaining and publishing the aviation data which is very helpful!
 
+From Spring 2026, AI coding agent will be making new features, fixes, and improvements under my high-level review only. Issues might be present in the code and documentation even though I try my best to maintain high quality.
 This app is my personal project only. Not for commercial use. Please contact the author or log an issue if you have questions or see potential bug(s).
 
 ## Usage
@@ -79,7 +80,7 @@ This page is view only. If you find something strange, please double-check your 
 ## Data
 All data is obtained from user or public available resources. This app only operates users' trip info that they agreed to share. 
 
-This is a pure client side app, which means we do not save or keep your data. The trips you added are stored within your web browser's `localStorage`. The LocalStorage data remains saved until it's explicitly cleared by the user(you). Closing browser or powering off your computer will not clear it. However, you should NOT assume the data is 100% safely stored or won't get lost.
+This is a pure client side app, which means we do not save or keep your data. The trips you added are stored within your web browser's `indexDB`. The DB data remains saved until it's explicitly cleared by the user(you). Closing browser or powering off your computer will not clear it. However, you should NOT assume the data is 100% safely stored or won't get lost.
 
 This also means that your data will not sync between devices. It's client specific. Using 2 broswers on a same device (or use browser incognito window) will not share data as well. Before external data storage is implemented (nowhere close), I recommend keep a local copy of your trips data in a `.json` file.  
 
