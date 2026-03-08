@@ -5,8 +5,151 @@ const aircraftJsonPath = "./data/aircrafts.json";
 const airportDataMap = new Map();
 const airlineDataMap = new Map();
 const aircraftDataMap = new Map();
+const airportTimezoneCache = new Map();
 
 const DateTime = luxon.DateTime;
+
+function normalizeIATACode(value) {
+  return (value || "").toString().trim().substring(0, 3).toUpperCase();
+}
+
+function normalizeFlightNumber(value) {
+  return (value || "").toString().trim().toUpperCase().replace(/\s+/g, "");
+}
+
+function normalizeDateTimeInput(value) {
+  const text = (value || "").toString().trim().replace(" ", "T");
+  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(text)) {
+    return text + ":00";
+  }
+  return text;
+}
+
+function isValidDateTimeInput(value) {
+  const normalized = normalizeDateTimeInput(value);
+  if (!normalized) {
+    return false;
+  }
+  return DateTime.fromISO(normalized).isValid;
+}
+
+function isValidDurationText(value) {
+  const text = (value || "").toString().trim();
+  const match = text.match(/^(\d+)\s*h\s*(\d+)\s*min$/i);
+  if (!match) {
+    return false;
+  }
+  const hours = parseInt(match[1], 10);
+  const mins = parseInt(match[2], 10);
+  return Number.isFinite(hours) && Number.isFinite(mins) && mins >= 0 && mins < 60;
+}
+
+function isValidDistanceText(value) {
+  const text = (value || "").toString().trim();
+  return /^\d+(\.\d+)?\s*km$/i.test(text);
+}
+
+function getTripDuplicateKeyFromValues(
+  departureIATA,
+  arrivalIATA,
+  takeOffTime,
+  flightNumber,
+  landingTime = ""
+) {
+  const dep = normalizeIATACode(departureIATA);
+  const arr = normalizeIATACode(arrivalIATA);
+  const takeoff = (takeOffTime || "").toString().trim().substring(0, 16);
+  const landing = (landingTime || "").toString().trim().substring(0, 16);
+  const flight = normalizeFlightNumber(flightNumber);
+  // If flight number is missing, include landing time to reduce collisions.
+  return (
+    takeoff + "|" + landing + "|" + dep + "|" + arr + "|" + (flight || "--")
+  );
+}
+
+function getTripDuplicateKey(trip) {
+  if (!trip) {
+    return "";
+  }
+  return getTripDuplicateKeyFromValues(
+    trip.departureIATA,
+    trip.arrivalIATA,
+    trip.takeOffTime,
+    trip.flightNumber,
+    trip.landingTime
+  );
+}
+
+function buildExistingTripDuplicateKeySet() {
+  const keys = new Set();
+  trips.forEach((trip) => {
+    const key = getTripDuplicateKey(trip);
+    if (key) {
+      keys.add(key);
+    }
+  });
+  return keys;
+}
+
+function pushImportIssueSample(samples, text, maxSamples = 8) {
+  if (samples.length < maxSamples) {
+    samples.push(text);
+  }
+}
+
+function buildImportSummaryMessage(
+  sourceLabel,
+  totalRows,
+  validRows,
+  invalidRows,
+  duplicateRows,
+  issueSamples
+) {
+  let message =
+    sourceLabel +
+    " import preview\n\n" +
+    "Total rows: " +
+    totalRows +
+    "\n" +
+    "Ready to import: " +
+    validRows +
+    "\n" +
+    "Invalid rows: " +
+    invalidRows +
+    "\n" +
+    "Duplicate rows: " +
+    duplicateRows;
+
+  if (issueSamples.length > 0) {
+    message += "\n\nExamples:\n" + issueSamples.map((x) => "- " + x).join("\n");
+  }
+  return message;
+}
+
+async function getAirportTimezone(iata) {
+  const normalizedIata = normalizeIATACode(iata);
+  if (airportTimezoneCache.has(normalizedIata)) {
+    return airportTimezoneCache.get(normalizedIata);
+  }
+  const coords = IATAtoCoordinates(normalizedIata);
+  if (!coords) {
+    throw new Error("Airport coordinates not found for " + normalizedIata);
+  }
+  const result = await GeoTZ.find(coords.latitude, coords.longitude);
+  if (!Array.isArray(result) || result.length < 1) {
+    throw new Error("Timezone not found for " + normalizedIata);
+  }
+  airportTimezoneCache.set(normalizedIata, result[0]);
+  return result[0];
+}
+
+function minutesToDurationText(totalMinutes) {
+  const sign = totalMinutes < 0 ? "-" : "";
+  const abs = Math.abs(totalMinutes);
+  const hours = Math.floor(abs / 60);
+  const minutes = abs % 60;
+  return sign + hours + "h " + minutes + "min";
+}
 
 // when there is no trip at all, show "demo" button, otherwise hide it
 function toggleDemoButton() {
@@ -46,9 +189,12 @@ async function demo() {
         importedTrip.aircraft,
         importedTrip.tailNumber,
         importedTrip.seatClass,
-        importedTrip.seatNumber
+        importedTrip.seatNumber,
+        { skipPersist: true, skipRender: true }
       );
     }
+    await saveTripsToStorage(trips);
+    refreshGlobeRoutes(viewer);
     // remove demo button and show table
     loadStats();
     toggleTableDisplay();
@@ -61,9 +207,6 @@ async function demo() {
 
 async function importFR24(event) {
   const fr24Data = event.target.result;
-  alert(
-    "NOTE: This import needs some time depending on number of your trips. It could be few seconds or several mintues. Please wait :)"
-  );
   try {
     // parse CSV data using PapaParse
     const parsedData = await new Promise((resolve, reject) => {
@@ -74,10 +217,86 @@ async function importFR24(event) {
         error: (err) => reject(err),
       });
     });
-    // store parsed data to trips
-    for (const record of parsedData) {
-      await parseFRTrip(record);
+
+    const existingKeys = buildExistingTripDuplicateKeySet();
+    const batchKeys = new Set();
+    const issueSamples = [];
+    const candidates = [];
+    let invalidRows = 0;
+    let duplicateRows = 0;
+
+    for (let i = 0; i < parsedData.length; i++) {
+      const rowNumber = i + 2; // row 1 is CSV header
+      const candidateResult = buildFR24ImportCandidate(parsedData[i], rowNumber);
+      if (!candidateResult.ok) {
+        invalidRows += 1;
+        pushImportIssueSample(issueSamples, candidateResult.reason);
+        continue;
+      }
+      if (
+        existingKeys.has(candidateResult.key) ||
+        batchKeys.has(candidateResult.key)
+      ) {
+        duplicateRows += 1;
+        pushImportIssueSample(
+          issueSamples,
+          "Row " +
+            rowNumber +
+            ": duplicate flight (" +
+            candidateResult.data.departureIATA +
+            "-" +
+            candidateResult.data.arrivalIATA +
+            " " +
+            candidateResult.data.takeOffTime.substring(0, 10) +
+            ")."
+        );
+        continue;
+      }
+      batchKeys.add(candidateResult.key);
+      candidates.push(candidateResult.data);
     }
+
+    const previewMessage = buildImportSummaryMessage(
+      "myFlightRadar24 CSV",
+      parsedData.length,
+      candidates.length,
+      invalidRows,
+      duplicateRows,
+      issueSamples
+    );
+    if (candidates.length < 1) {
+      alert(previewMessage);
+      return;
+    }
+    const shouldImport = window.confirm(
+      previewMessage + "\n\nContinue importing these trips?"
+    );
+    if (!shouldImport) {
+      return;
+    }
+
+    const commitErrors = [];
+    for (const candidate of candidates) {
+      try {
+        await commitFR24ImportCandidate(candidate, {
+          skipPersist: true,
+          skipRender: true,
+        });
+      } catch (error) {
+        pushImportIssueSample(
+          commitErrors,
+          "Row " + candidate.rowNumber + ": " + error.message
+        );
+      }
+    }
+    if (commitErrors.length > 0) {
+      alert(
+        "Some rows failed while importing:\n" + commitErrors.map((x) => "- " + x).join("\n")
+      );
+    }
+
+    await saveTripsToStorage(trips);
+    refreshGlobeRoutes(viewer);
     toggleDemoButton();
     loadStats();
     console.log("INFO: Trips imported from myFR24 formatted csv file.");
@@ -87,65 +306,172 @@ async function importFR24(event) {
 }
 
 // helper to parse a trip item from myFR24 csv file to our trip json object
-async function parseFRTrip(item) {
-  const tDepartureCity = item.From.split("/")[0].trim();
-  const tArrivalCity = item.To.split("/")[0].trim();
-  const tDepartureIATA = item.From.slice(-9).substring(0, 3);
-  const tArrivalIATA = item.To.slice(-9).substring(0, 3);
-  if (!isValidAirport(tDepartureIATA)) {
-    alert(
-      "Airport IATA code not found: " + tDepartureIATA + ", skipping the trip."
-    );
-    return;
+async function parseFRTrip(item, options = {}) {
+  const candidate = buildFR24ImportCandidate(item, 0);
+  if (!candidate.ok) {
+    throw new Error(candidate.reason);
   }
-  if (!isValidAirport(tArrivalIATA)) {
-    alert(
-      "Airport IATA code not found: " + tArrivalIATA + ", skipping the trip."
-    );
-    return;
+  await commitFR24ImportCandidate(candidate.data, options);
+}
+
+function parseDateForFR24(value) {
+  const text = (value || "").toString().trim();
+  const isoMatch = text.match(/\d{4}-\d{2}-\d{2}/);
+  if (isoMatch) {
+    return isoMatch[0];
+  }
+  const date = new Date(text);
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+  return date.toISOString().substring(0, 10);
+}
+
+function parseFR24Duration(value) {
+  const text = (value || "").toString().trim();
+  const match = text.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+  if (!match) {
+    return null;
+  }
+  const hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const seconds = match[3] ? parseInt(match[3], 10) : 0;
+  if (
+    !Number.isFinite(hours) ||
+    !Number.isFinite(minutes) ||
+    !Number.isFinite(seconds) ||
+    minutes > 59 ||
+    seconds > 59
+  ) {
+    return null;
+  }
+  return {
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+    raw: text,
+  };
+}
+
+function buildFR24ImportCandidate(item, rowNumber) {
+  const fromText = (item.From || "").toString();
+  const toText = (item.To || "").toString();
+  const departureIATA = normalizeIATACode(fromText.slice(-9).substring(0, 3));
+  const arrivalIATA = normalizeIATACode(toText.slice(-9).substring(0, 3));
+  if (!isValidAirport(departureIATA)) {
+    return {
+      ok: false,
+      reason:
+        "Row " + rowNumber + ": airport IATA not found for departure (" + departureIATA + ").",
+    };
+  }
+  if (!isValidAirport(arrivalIATA)) {
+    return {
+      ok: false,
+      reason:
+        "Row " + rowNumber + ": airport IATA not found for arrival (" + arrivalIATA + ").",
+    };
   }
 
-  const tFlightNumber = item["Flight number"];
-  const tDistance = getDistance(tDepartureIATA, tArrivalIATA);
+  const datePart = parseDateForFR24(item.Date);
+  const depTimePart = (item["Dep time"] || "").toString().trim().substring(0, 5);
+  if (!datePart || depTimePart.length !== 5) {
+    return {
+      ok: false,
+      reason: "Row " + rowNumber + ": invalid departure date/time.",
+    };
+  }
 
-  const date = new Date(item.Date).toISOString().substring(0, 11);
-  const tTakeOff = date + item["Dep time"].slice(0, 5);
-  const tDurationCalc = item.Duration;
-  // re-calculate this since FR24 does not have arrival date and there is timezone and +1 day issue.
-  const tLanding = await getArrivalDateTime(
-    tDepartureIATA,
-    tArrivalIATA,
-    tTakeOff,
-    tDurationCalc
+  const durationParts = parseFR24Duration(item.Duration);
+  if (!durationParts) {
+    return {
+      ok: false,
+      reason: "Row " + rowNumber + ": invalid duration format.",
+    };
+  }
+
+  const takeOffTime = datePart + "T" + depTimePart;
+  const departureCity =
+    fromText.split("/")[0].trim() || airportDataMap.get(departureIATA).city || "";
+  const arrivalCity =
+    toText.split("/")[0].trim() || airportDataMap.get(arrivalIATA).city || "";
+  const flightNumber = normalizeFlightNumber(item["Flight number"]);
+
+  const airlineCandidate = (item.Airline || "")
+    .toString()
+    .slice(-4)
+    .substring(0, 3)
+    .toUpperCase();
+  const airline = airlineDataMap.has(airlineCandidate) ? airlineCandidate : "";
+  const aircraft = aircraftICAO2IATA(
+    (item.Aircraft || "").toString().slice(-5).substring(0, 4).toUpperCase()
   );
-  // now that arrival is calculated, can set duration to display string
-  const tDuration =
-    tDurationCalc.split(":")[0] + "h " + tDurationCalc.split(":")[1] + "min";
 
-  const targetAirline = item.Airline.slice(-4).substring(0, 3);
-  const tAirline = airlineDataMap.has(targetAirline) ? targetAirline : "";
-  const tAircraft = aircraftICAO2IATA(item.Aircraft.slice(-5).substring(0, 4));
-  const tTailNumber = item.Registration;
-  const tSeatClass = seatClassFR24(item["Flight class"]);
-  const tSeatNumber = item["Seat number"];
+  return {
+    ok: true,
+    key: getTripDuplicateKeyFromValues(
+      departureIATA,
+      arrivalIATA,
+      takeOffTime,
+      flightNumber
+    ),
+    data: {
+      rowNumber: rowNumber,
+      departureCity: departureCity,
+      departureIATA: departureIATA,
+      arrivalCity: arrivalCity,
+      arrivalIATA: arrivalIATA,
+      takeOffTime: takeOffTime,
+      durationRaw: durationParts.raw,
+      durationParts: durationParts,
+      distance: getDistance(departureIATA, arrivalIATA),
+      flightNumber: flightNumber,
+      airline: airline,
+      aircraft: aircraft,
+      tailNumber: (item.Registration || "").toString().trim(),
+      seatClass: seatClassFR24(item["Flight class"]),
+      seatNumber: (item["Seat number"] || "").toString().trim(),
+    },
+  };
+}
 
-  // call addTrip()
-  addTrip(
+async function commitFR24ImportCandidate(candidate, options = {}) {
+  const landingTime = await getArrivalDateTime(
+    candidate.departureIATA,
+    candidate.arrivalIATA,
+    candidate.takeOffTime,
+    candidate.durationParts || candidate.durationRaw
+  );
+  const parsedDuration =
+    candidate.durationParts || parseFR24Duration(candidate.durationRaw);
+  if (!parsedDuration) {
+    throw new Error("Invalid duration format.");
+  }
+  const totalMinutes = Math.round(
+    (parsedDuration.hours * 3600 +
+      parsedDuration.minutes * 60 +
+      parsedDuration.seconds) /
+      60
+  );
+  const durationText = minutesToDurationText(totalMinutes);
+
+  await addTrip(
     "",
-    tDepartureCity,
-    tDepartureIATA,
-    tArrivalCity,
-    tArrivalIATA,
-    tTakeOff,
-    tLanding,
-    tDuration,
-    tDistance,
-    tFlightNumber,
-    tAirline,
-    tAircraft,
-    tTailNumber,
-    tSeatClass,
-    tSeatNumber
+    candidate.departureCity,
+    candidate.departureIATA,
+    candidate.arrivalCity,
+    candidate.arrivalIATA,
+    candidate.takeOffTime,
+    landingTime,
+    durationText,
+    candidate.distance,
+    candidate.flightNumber,
+    candidate.airline,
+    candidate.aircraft,
+    candidate.tailNumber,
+    candidate.seatClass,
+    candidate.seatNumber,
+    options
   );
 }
 
@@ -157,22 +483,24 @@ async function getArrivalDateTime(
   takeoff,
   duration
 ) {
-  const departureCoords = IATAtoCoordinates(departureIATA);
-  const arrivalCoords = IATAtoCoordinates(arrivalIATA);
-  const departureTZ = await GeoTZ.find(
-    departureCoords.latitude,
-    departureCoords.longitude
-  );
-  const arrivalTZ = await GeoTZ.find(
-    arrivalCoords.latitude,
-    arrivalCoords.longitude
-  );
-  const depDate = DateTime.fromISO(takeoff, { zone: departureTZ[0] });
-  const add = duration.split(":");
-  let arrDate = depDate.plus({ hours: add[0], minutes: add[1] });
+  const parsedDuration =
+    typeof duration === "string" ? parseFR24Duration(duration) : duration;
+  if (!parsedDuration) {
+    throw new Error("Invalid duration format for arrival time calculation.");
+  }
+  const departureTZ = await getAirportTimezone(departureIATA);
+  const arrivalTZ = await getAirportTimezone(arrivalIATA);
+  const depDate = DateTime.fromISO(normalizeDateTimeInput(takeoff), {
+    zone: departureTZ,
+  });
+  let arrDate = depDate.plus({
+    hours: parsedDuration.hours,
+    minutes: parsedDuration.minutes,
+    seconds: parsedDuration.seconds,
+  });
   // convert to our string format
   arrDate = arrDate
-    .setZone(arrivalTZ[0])
+    .setZone(arrivalTZ)
     .toISO({ includeOffset: false })
     .substring(0, 16);
   return arrDate;
@@ -264,11 +592,10 @@ async function getAirlineDataAsync() {
         error: (err) => reject(err),
       });
     });
-    // k-v map based on airline IATA
-    let count = 0;
+    // k-v map based on airline ICAO (unique)
     airlineData.forEach((airline) => {
-      // drop those without IATA, but use ICAO (unique) as key
-      if (airline.iata) {
+      // drop entries missing ICAO key
+      if (airline.icao) {
         airlineDataMap.set(airline.icao, airline);
       }
     });
@@ -332,7 +659,8 @@ function populateInputOptions() {
 
   airlineDataMap.forEach((v, k) => {
     const option = document.createElement("option");
-    const item = v.name + " (" + v.iata + "/" + v.icao + ")"; // option value = "Delta Airlines (DL/DAL)"
+    const item =
+      v.name + " (" + (v.iata || "--") + "/" + v.icao + ")"; // option value = "Delta Airlines (DL/DAL)"
     option.value = item;
     airlineDataList.append(option);
   });
@@ -391,27 +719,30 @@ function getDistance(departureIATA, arrivalIATA) {
 // Calculate flight duration
 async function getDuration(takeoff, landing, departureIATA, arrivalIATA) {
   // consider timezone offset given IATA code
-  const departureCoords = IATAtoCoordinates(departureIATA);
-  const arrivalCoords = IATAtoCoordinates(arrivalIATA);
+  const departureTZ = await getAirportTimezone(departureIATA);
+  const arrivalTZ = await getAirportTimezone(arrivalIATA);
 
-  const departureTZ = await GeoTZ.find(
-    departureCoords.latitude,
-    departureCoords.longitude
+  const departureDate = DateTime.fromISO(normalizeDateTimeInput(takeoff), {
+    zone: departureTZ,
+  });
+  const arrivalDate = DateTime.fromISO(normalizeDateTimeInput(landing), {
+    zone: arrivalTZ,
+  });
+  if (!departureDate.isValid || !arrivalDate.isValid) {
+    throw new Error("Invalid takeoff/landing datetime.");
+  }
+
+  const totalMinutes = Math.round(
+    arrivalDate.diff(departureDate, "minutes").minutes
   );
-  const arrivalTZ = await GeoTZ.find(
-    arrivalCoords.latitude,
-    arrivalCoords.longitude
-  );
-
-  const departureDate = DateTime.fromISO(takeoff, { zone: departureTZ[0] });
-  const arrivalDate = DateTime.fromISO(landing, { zone: arrivalTZ[0] });
-
-  const duration = arrivalDate.diff(departureDate, ["hours", "minutes"]);
-  return duration.hours + "h " + duration.minutes + "min";
+  if (!Number.isFinite(totalMinutes)) {
+    throw new Error("Cannot calculate duration from given datetime values.");
+  }
+  return minutesToDurationText(totalMinutes);
 }
 
 // Function to draw flight route on the globe using CesiumJS
-function drawFlightRoute(viewer, trip) {
+function drawFlightRoute(viewer, trip, routeCountMap, pointCountMap) {
   const departureCoords = IATAtoCoordinates(trip.departureIATA);
   const arrivalCoords = IATAtoCoordinates(trip.arrivalIATA);
 
@@ -424,13 +755,16 @@ function drawFlightRoute(viewer, trip) {
     arrivalCoords.latitude
   );
 
-  const routeCount = getRouteCount(trip.departureIATA, trip.arrivalIATA);
-  const departureCount = getPointCount(trip.departureIATA);
-  const arrivalCount = getPointCount(trip.arrivalIATA);
-  const routeId =
-    trip.departureIATA < trip.arrivalIATA
-      ? trip.departureIATA + "-" + trip.arrivalIATA
-      : trip.arrivalIATA + "-" + trip.departureIATA;
+  const routeId = normalizeRouteKey(trip.departureIATA, trip.arrivalIATA);
+  const routeCount = (routeCountMap
+    ? routeCountMap.get(routeId)
+    : getRouteCount(trip.departureIATA, trip.arrivalIATA)) || 0;
+  const departureCount = (pointCountMap
+    ? pointCountMap.get(trip.departureIATA)
+    : getPointCount(trip.departureIATA)) || 0;
+  const arrivalCount = (pointCountMap
+    ? pointCountMap.get(trip.arrivalIATA)
+    : getPointCount(trip.arrivalIATA)) || 0;
 
   // remove current entity to draw new ones
   removeFlightRoute(viewer, trip);
@@ -495,13 +829,41 @@ function drawFlightRoute(viewer, trip) {
 }
 
 function removeFlightRoute(viewer, trip) {
-  const routeId =
-    trip.departureIATA < trip.arrivalIATA
-      ? trip.departureIATA + "-" + trip.arrivalIATA
-      : trip.arrivalIATA + "-" + trip.departureIATA;
+  const routeId = normalizeRouteKey(trip.departureIATA, trip.arrivalIATA);
   viewer.entities.removeById("route-" + routeId); // Remove the flight route
   viewer.entities.removeById("point-" + trip.departureIATA); // Remove the departure dot
   viewer.entities.removeById("point-" + trip.arrivalIATA); // Remove the arrival dot
+}
+
+function normalizeRouteKey(iata1, iata2) {
+  return iata1 < iata2 ? iata1 + "-" + iata2 : iata2 + "-" + iata1;
+}
+
+// Rebuild route/airport count maps once and reuse for globe redraw.
+function getRouteAndPointCounts() {
+  const routeCountMap = new Map();
+  const pointCountMap = new Map();
+  trips.forEach((trip) => {
+    const routeKey = normalizeRouteKey(trip.departureIATA, trip.arrivalIATA);
+    routeCountMap.set(routeKey, (routeCountMap.get(routeKey) || 0) + 1);
+    pointCountMap.set(
+      trip.departureIATA,
+      (pointCountMap.get(trip.departureIATA) || 0) + 1
+    );
+    pointCountMap.set(
+      trip.arrivalIATA,
+      (pointCountMap.get(trip.arrivalIATA) || 0) + 1
+    );
+  });
+  return { routeCountMap, pointCountMap };
+}
+
+function refreshGlobeRoutes(viewer) {
+  viewer.entities.removeAll();
+  const { routeCountMap, pointCountMap } = getRouteAndPointCounts();
+  trips.forEach((trip) => {
+    drawFlightRoute(viewer, trip, routeCountMap, pointCountMap);
+  });
 }
 
 // Functions to draw different color or weight based on route/airport frequency

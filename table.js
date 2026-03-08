@@ -58,49 +58,85 @@ function getColSortName(index) {
   }
 }
 
-// Search/filter table
-$("#searchInput").on("keyup", function () {
-  let value = $(this).val().toLowerCase();
+function debounce(callback, delayMs) {
+  let timeoutId = null;
+  return function (...args) {
+    const ctx = this;
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(function () {
+      callback.apply(ctx, args);
+    }, delayMs);
+  };
+}
+
+function runTableSearch() {
+  const value = $("#searchInput").val().toLowerCase().trim();
   if (value === "") {
     // Show all rows
     $("#travelLogTable tbody tr").show();
     return;
   }
   $("#travelLogTable tbody tr").each(function () {
-    let rowStr = getRowFilterString($(this)[0]);
+    const rowStr = getRowFilterString($(this)[0]);
     $(this).toggle(rowStr.includes(value));
   });
-});
+}
+
+// Search/filter table
+$("#searchInput").on("input", debounce(runTableSearch, 120));
 
 // reset button
 $("#resetButton").on("click", function () {
   $("#searchInput").val("");
-  $("#travelLogTable tbody tr").show();
+  runTableSearch();
 });
 
 // keyup quick filter: IATA/city/flighNO
 function getRowFilterString(row) {
-  let str = [];
-  let trip = trips.find((obj) => obj.id == row.id);
-  str.push(trip.departureIATA.toLowerCase());
-  str.push(trip.arrivalIATA.toLowerCase());
-  str.push(trip.takeOffTime.substring(0 ,4));
-  str.push(trip.departureCity.toLowerCase());
-  str.push(trip.departureCity.replace(/ /g, "").toLowerCase());
-  str.push(trip.arrivalCity.toLowerCase());
-  str.push(trip.arrivalCity.replace(/ /g, "").toLowerCase());
-  str.push(trip.flightNumber.toLowerCase());
-  str.push(trip.flightNumber.replace(/ /g, "").toLowerCase());
-  str.push(trip.airline.toLowerCase());
-  str.push(trip.aircraft.toLowerCase());
-  str.push(airlineDataMap.get(trip.airline).iata.toLowerCase());
-  str.push(aircraftDataMap.get(trip.aircraft).icao_code.toLowerCase());
-  return str;
+  const trip = window.getTripById
+    ? window.getTripById(row.id)
+    : trips.find((obj) => obj.id == row.id);
+  if (!trip) {
+    return "";
+  }
+  const lower = (value) => (value || "").toString().toLowerCase();
+  const compact = (value) => lower(value).replace(/ /g, "");
+  const airline = airlineDataMap.get(trip.airline || "");
+  const aircraft = aircraftDataMap.get(trip.aircraft || "");
+
+  const tokens = [
+    lower(trip.departureIATA),
+    lower(trip.arrivalIATA),
+    lower(trip.takeOffTime).substring(0, 4),
+    lower(trip.departureCity),
+    compact(trip.departureCity),
+    lower(trip.arrivalCity),
+    compact(trip.arrivalCity),
+    lower(trip.flightNumber),
+    compact(trip.flightNumber),
+    lower(trip.airline),
+    lower(trip.aircraft),
+    lower(airline ? airline.iata : ""),
+    lower(aircraft ? aircraft.icao_code : ""),
+    lower(airline ? airline.name : ""),
+    lower(aircraft ? aircraft.name : ""),
+  ];
+  return tokens.join(" ");
 }
 
 // TODO: Pagination + rows per page
 
 // ==================================== TABLE HELPERS ===================================== //
+
+function escapeHTML(value) {
+  return (value || "")
+    .toString()
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 function flightToHTML(airlineICAO, flightNumber) {
   let img = "";
@@ -110,11 +146,11 @@ function flightToHTML(airlineICAO, flightNumber) {
     const imgPath = "./assets/airline_logos/" + airlineICAO + ".png";
     img = '<img src="' + imgPath + '" height="30px" width="30px"/>';
   }
-  html =
+  const html =
     '<p class="flightCell">' +
     img +
     "&nbsp;&nbsp; <b>" +
-    flightNumber +
+    escapeHTML(flightNumber) +
     "</b></p>";
   return html;
 }
@@ -144,11 +180,11 @@ function timeToHTML(takeoff, landing) {
   }
   const html =
     "<p><b>" +
-    takeoffDate +
+    escapeHTML(takeoffDate) +
     "</b></p><p>" +
-    takeoffTime +
+    escapeHTML(takeoffTime) +
     ' -<i class="fa fa-plane"></i>- ' +
-    landingTime +
+    escapeHTML(landingTime) +
     "</p>";
   return html;
 }
@@ -177,9 +213,9 @@ function populateRow(trip, row) {
   cells[2].innerHTML =
     "<p><b>" +
     airportToCountryIconHTML(trip.departureIATA) +
-    trip.departureIATA +
+    escapeHTML(trip.departureIATA) +
     "</b></p><p>" +
-    trip.departureCity +
+    escapeHTML(trip.departureCity) +
     "</p>";
   cells[2].classList.add("tooltip-cell");
   cells[2].setAttribute(
@@ -190,9 +226,9 @@ function populateRow(trip, row) {
   cells[3].innerHTML =
     "<p><b>" +
     airportToCountryIconHTML(trip.arrivalIATA) +
-    trip.arrivalIATA +
+    escapeHTML(trip.arrivalIATA) +
     "</b></p><p>" +
-    trip.arrivalCity +
+    escapeHTML(trip.arrivalCity) +
     "</p>";
   cells[3].classList.add("tooltip-cell");
   cells[3].setAttribute(
@@ -211,7 +247,9 @@ function populateRow(trip, row) {
 
   if (trip.aircraft) {
     cells[6].innerHTML =
-      "<p><b>" + aircraftDataMap.get(trip.aircraft).icao_code + "</b></p>";
+      "<p><b>" +
+      escapeHTML(aircraftDataMap.get(trip.aircraft).icao_code) +
+      "</b></p>";
     cells[6].classList.add("tooltip-cell");
     cells[6].setAttribute(
       "data-tooltip",
@@ -222,34 +260,51 @@ function populateRow(trip, row) {
     cells[6].classList.remove("tooltip-cell");
     cells[6].removeAttribute("data-tooltip");
   }
-  cells[6].innerHTML += "<p>" + trip.tailNumber + "</p>";
+  cells[6].innerHTML += "<p>" + escapeHTML(trip.tailNumber) + "</p>";
 
   cells[7].innerHTML =
-    "<p>" + trip.seatClass + "</p><p>" + trip.seatNumber + "</p>";
+    "<p>" +
+    escapeHTML(trip.seatClass) +
+    "</p><p>" +
+    escapeHTML(trip.seatNumber) +
+    "</p>";
 
   // edit and delete buttons within row
-  const editButtonHTML =
-    '<button id="' +
-    trip.id +
-    "e" +
-    '" class="rowEditButton" onclick="editRow(this)">&plus;</button>';
-  const deleteButtonHTML =
-    '<button id="' +
-    trip.id +
-    "d" +
-    '" class="rowDeleteButton" onclick="removeRow(this)">&times;</button>';
-  cells[8].innerHTML = editButtonHTML + deleteButtonHTML;
-  $("#" + trip.id + "d").addClass("tooltip-cell");
-  $("#" + trip.id + "d").attr("data-tooltip", "delete trip");
-  $("#" + trip.id + "e").addClass("tooltip-cell");
-  $("#" + trip.id + "e").attr("data-tooltip", "edit trip");
+  cells[8].innerHTML = "";
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.classList.add("rowEditButton", "tooltip-cell");
+  editButton.innerHTML = "&plus;";
+  editButton.dataset.tripId = trip.id;
+  editButton.setAttribute("data-tooltip", "edit trip");
+  editButton.onclick = function () {
+    editRow(this);
+  };
+
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.classList.add("rowDeleteButton", "tooltip-cell");
+  deleteButton.innerHTML = "&times;";
+  deleteButton.dataset.tripId = trip.id;
+  deleteButton.setAttribute("data-tooltip", "delete trip");
+  deleteButton.onclick = async function () {
+    await removeRow(this);
+  };
+
+  cells[8].appendChild(editButton);
+  cells[8].appendChild(deleteButton);
 }
 
 // prepare to edit a row
 function editRow(evt) {
   const editRowIndex = evt.parentElement.parentElement.rowIndex;
-  const editTripID = evt.id.slice(0, -1);
-  let trip = trips.find((obj) => obj.id == editTripID);
+  const editTripID = evt.dataset.tripId;
+  let trip = window.getTripById
+    ? window.getTripById(editTripID)
+    : trips.find((obj) => obj.id == editTripID);
+  if (!trip) {
+    return;
+  }
 
   // pre-fill the current values in form
   $("#departureCity").val(trip.departureCity);
@@ -275,20 +330,23 @@ function editRow(evt) {
 }
 
 // delete a row
-function removeRow(evt) {
+async function removeRow(evt) {
   const deleteRowIndex = evt.parentElement.parentElement.rowIndex;
-  const deleteTripID = evt.id.slice(0, -1);
-  // delete row in table
-  $("#travelLogTable")[0].deleteRow(deleteRowIndex);
-  // delete route on earth
-  removeFlightRoute(
-    viewer,
-    trips.find((obj) => obj.id == deleteTripID)
-  );
+  const deleteTripID = evt.dataset.tripId;
   // delete trip from storage
   const deleteIdx = trips.findIndex((obj) => obj.id == deleteTripID);
+  if (deleteIdx < 0) {
+    return;
+  }
+  // delete row in table
+  $("#travelLogTable")[0].deleteRow(deleteRowIndex);
   trips.splice(deleteIdx, 1);
-  localStorage.setItem(tripStorageKey, JSON.stringify(trips));
+  if (window.removeTripFromIndex) {
+    window.removeTripFromIndex(deleteTripID);
+  }
+  await deleteTripFromStorage(deleteTripID);
+  // re-draw all routes to keep shared route/airport entities consistent
+  refreshGlobeRoutes(viewer);
   // reload stats
   loadStats();
   // if trips count dropped to 0 then hide table
