@@ -23,6 +23,7 @@ The idea of creating this site, as well as its design, are inspired by `App In t
 A complete version of this kind of website is [OpenFlights](https://openflights.org/), they are actively maintaining and publishing the aviation data which is very helpful!
 
 From Spring 2026, AI coding agent will be making new features, fixes, and improvements under my high-level review only. Issues might be present in the code and documentation even though I try my best to maintain high quality.
+
 This app is my personal project only. Not for commercial use. Please contact the author or log an issue if you have questions or see potential bug(s).
 
 ## Usage
