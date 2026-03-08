@@ -893,22 +893,26 @@ function getRouteCount(iata1, iata2) {
 }
 
 function getRouteColor(count) {
-  if (count < 2) {
-    return Object.freeze(Cesium.Color.fromCssColorString("#f4feb3"));
-  } else if (count < 5) {
-    return Object.freeze(Cesium.Color.fromCssColorString("#f9fc67"));
+  if (count <= 1) {
+    return Object.freeze(Cesium.Color.fromCssColorString("#FFFDF6"));
+  } else if (count === 2) {
+    return Object.freeze(Cesium.Color.fromCssColorString("#FFF8E8"));
+  } else if (count <= 4) {
+    return Object.freeze(Cesium.Color.fromCssColorString("#FFF2D3"));
   } else {
-    return Object.freeze(Cesium.Color.fromCssColorString("#e9c43d"));
+    return Object.freeze(Cesium.Color.fromCssColorString("#FFE9BB"));
   }
 }
 
 function getRouteWeight(count) {
-  if (count < 2) {
+  if (count <= 1) {
     return 1;
-  } else if (count < 5) {
+  } else if (count === 2) {
     return 2;
-  } else {
+  } else if (count <= 4) {
     return 3;
+  } else {
+    return 4;
   }
 }
 
@@ -933,19 +937,23 @@ function getPointCount(iata) {
 }
 
 function getPointColor(count) {
-  if (count < 3) {
-    return Cesium.Color.AQUAMARINE;
-  } else if (count < 6) {
-    return Cesium.Color.DODGERBLUE;
+  if (count <= 1) {
+    return Cesium.Color.fromCssColorString("#E7F0FF");
+  } else if (count <= 4) {
+    return Cesium.Color.fromCssColorString("#D3E4FF");
+  } else if (count <= 10) {
+    return Cesium.Color.fromCssColorString("#BCD7FF");
   } else {
-    return Cesium.Color.DARKBLUE;
+    return Cesium.Color.fromCssColorString("#A2C8FA");
   }
 }
 
 function getPointSize(count) {
-  if (count < 3) {
+  if (count <= 1) {
+    return 6;
+  } else if (count <= 4) {
     return 7;
-  } else if (count < 6) {
+  } else if (count <= 10) {
     return 8;
   } else {
     return 9;
