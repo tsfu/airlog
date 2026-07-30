@@ -1298,5 +1298,35 @@
         "icao_code": "YS11",
         "iata_code": "YS1",
         "name": "NAMC YS-11"
+    },
+    {
+        "icao_code": "C208",
+        "iata_code": "C08",
+        "name": "Cessna 208 Caravan"
+    },
+    {
+        "icao_code": "C408",
+        "iata_code": "CS4",
+        "name": "Cessna 408 SkyCourier"
+    },
+    {
+        "icao_code": "CL35",
+        "iata_code": "CL3",
+        "name": "Bombardier BD-100 Challenger 350"
+    },
+    {
+        "icao_code": "FA6X",
+        "iata_code": "DF6",
+        "name": "Dassault Falcon 6X"
+    },
+    {
+        "icao_code": "GA7C",
+        "iata_code": "GL7",
+        "name": "Gulfstream G700"
+    },
+    {
+        "icao_code": "PC12",
+        "iata_code": "PL2",
+        "name": "Pilatus PC-12"
     }
 ]

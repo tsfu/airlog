@@ -1,5 +1,17 @@
 # AirLog Changelog
 
+## [1.4.0] - 2026.07.29
+
+#### Added
+- "Find my flight" auto-fill: enter a flight number + date to populate the trip form (fields stay editable; multi-leg flights show a leg picker).
+- Cloudflare Worker proxy (`/worker`) to the AeroDataBox API: hides the API key, handles CORS, and caches lookups for 24h.
+- Merged additive aviation data: 180 airports, 84 airlines (+5 logos, +6 banners), 6 aircraft designators.
+
+#### Changed
+- Moved flight-lookup helpers into `utils.js`.
+- Updated CDN libs: CesiumJS 1.121→1.143, flag-icons 7.2.3→7.5.0, PapaParse 5.4.1→5.5.4, luxon 3.5.0→3.7.2; pinned Sortable to 4.1.7.
+- Added Subresource Integrity (SRI) hashes to all CDN dependencies.
+
 ## [1.3.0] - 2026.03.07
 
 #### Added

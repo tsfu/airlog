@@ -1,0 +1,6 @@
+name = "airlog-flight"
+main = "worker.js"
+compatibility_date = "2026-07-01"
+
+# RAPIDAPI_KEY is NOT stored here — it is an encrypted secret.
+# Set it with:  wrangler secret put RAPIDAPI_KEY

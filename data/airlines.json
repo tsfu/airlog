@@ -12130,4 +12130,172 @@
     {"id":"19863","name":"French Bee SAS","alias":"French Blue","iata":"BF","icao":"FBU","callsign":"FRENCH BEE","country":"France","active":"Y"}
     ,
     {"id":"19864","name":"Thai Smile","alias":"","iata":"WE","icao":"THD","callsign":"THAI SMILE","country":"Thailand","active":"N"}
+    ,
+    {"id":"16459","name":"Sky Regional","alias":"Air Canada Express","iata":"RS","icao":"SKV","callsign":"Sky Regional","country":"Canada","active":"Y"}
+    ,
+    {"id":"19886","name":"Spring Airlines Japan","alias":"","iata":"IJ","icao":"SJO","callsign":"","country":"Japan","active":"Y"}
+    ,
+    {"id":"19890","name":"Dense Airways","alias":"","iata":"KP","icao":"DWA","callsign":"DENSE","country":"United States","active":"Y"}
+    ,
+    {"id":"19891","name":"Dense Connection","alias":"","iata":"KZ","icao":"DC2","callsign":"DC2","country":"United States","active":"Y"}
+    ,
+    {"id":"19908","name":"Vuola Italia","alias":"Vuola Italia","iata":"4S","icao":"VI4","callsign":"","country":"Italy","active":"Y"}
+    ,
+    {"id":"19917","name":"Jet Suite","alias":"","iata":"","icao":"RSP","callsign":"Red Stripe","country":"United States","active":"Y"}
+    ,
+    {"id":"19923","name":"Fly Jamaica Airways","alias":"","iata":"","icao":"FJM","callsign":"Greenheart","country":"Jamaica","active":"Y"}
+    ,
+    {"id":"19928","name":"All Argentina Express","alias":"All Argentina Express","iata":"Z0","icao":"Z9H","callsign":"","country":"Argentina","active":"Y"}
+    ,
+    {"id":"19970","name":"All America AR","alias":"All America Argentina","iata":"2R","icao":"M7A","callsign":"","country":"Argentina","active":"Y"}
+    ,
+    {"id":"19971","name":"All America CL","alias":"All America Chile","iata":"1R","icao":"R1R","callsign":"","country":"Chile","active":"Y"}
+    ,
+    {"id":"19974","name":"SOCHI AIR EXPRESS","alias":"ADLER EXPRESS","iata":"Q4","icao":"SAE","callsign":"ADLER EXPRESS","country":"Russia","active":"Y"}
+    ,
+    {"id":"19977","name":"All America BR","alias":"All America Brasil","iata":"1Y","icao":"A9B","callsign":"","country":"Brazil","active":"Y"}
+    ,
+    {"id":"20004","name":"Volotea Costa Rica","alias":"Volotea Costa Rica","iata":"9V","icao":"VC9","callsign":"","country":"Costa Rica","active":"Y"}
+    ,
+    {"id":"20017","name":"Fly Romania","alias":"","iata":"X5","icao":"OTJ","callsign":"TENDER AIR","country":"Romania","active":"Y"}
+    ,
+    {"id":"20051","name":"Fly Africa Zimbabwe","alias":"Zimbabwe flyafrica.com","iata":"","icao":"FZW","callsign":"Fresh Express","country":"Zimbabwe","active":"Y"}
+    ,
+    {"id":"20060","name":"San Dima Air","alias":"(Cyber Airlines) Not Real","iata":"","icao":"SDI","callsign":"FAREFLIGHT","country":"United States","active":"Y"}
+    ,
+    {"id":"20073","name":"All America CO","alias":"All America Colombia","iata":"0Y","icao":"7ZC","callsign":"","country":"Colombia","active":"Y"}
+    ,
+    {"id":"20074","name":"All America MX","alias":"All America México","iata":"0M","icao":"0MM","callsign":"","country":"Mexico","active":"Y"}
+    ,
+    {"id":"20110","name":"FOX Linhas Aereas","alias":"","iata":"FX","icao":"FOX","callsign":"","country":"Brazil","active":"Y"}
+    ,
+    {"id":"20144","name":"Via Conectia Airlines","alias":"Via Conectia","iata":"6V","icao":"CZV","callsign":"","country":"Uruguay","active":"Y"}
+    ,
+    {"id":"20155","name":"Hebradran Air Services","alias":"","iata":"","icao":"HBR","callsign":"Hebradran","country":"United Kingdom","active":"Y"}
+    ,
+    {"id":"20158","name":"Pobeda","alias":"","iata":"","icao":"PBD","callsign":"POBEDA","country":"Russia","active":"Y"}
+    ,
+    {"id":"20160","name":"City Airways","alias":"","iata":"E8","icao":"GTA","callsign":"CITY AIR","country":"Thailand","active":"Y"}
+    ,
+    {"id":"20170","name":"Norwegian Long Haul AS","alias":"","iata":"DU","icao":"NLH","callsign":"NORSTAR","country":"Norway","active":"Y"}
+    ,
+    {"id":"20186","name":"BA101","alias":"","iata":"","icao":"710","callsign":"","country":"United Kingdom","active":"Y"}
+    ,
+    {"id":"20207","name":"TransNusa Air","alias":"","iata":"M8","icao":"TNU","callsign":"TRANSNUSA","country":"Indonesia","active":"Y"}
+    ,
+    {"id":"20218","name":"Tomp Airlines","alias":"Tomp Airlines","iata":"ZT","icao":"T9P","callsign":"","country":"Chile","active":"Y"}
+    ,
+    {"id":"20220","name":"Fuzhou Airlines","alias":"","iata":"","icao":"FZA","callsign":"","country":"China","active":"Y"}
+    ,
+    {"id":"20221","name":"Sky Angkor Airlines (ZA)","alias":"","iata":"","icao":"SWM","callsign":"SKY ANGKOR","country":"Cambodia","active":"Y"}
+    ,
+    {"id":"20224","name":"Global Airlines","alias":"Global Airlines","iata":"0G","icao":"GA0","callsign":"","country":"Argentina","active":"Y"}
+    ,
+    {"id":"20225","name":"Mann Yadanarpon Airlines","alias":"","iata":"","icao":"MYP","callsign":"MANN ROYAL","country":"Myanmar (Burma)","active":"Y"}
+    ,
+    {"id":"20268","name":"TransRussiaAirlines","alias":"TransRus","iata":"1E","icao":"RGG","callsign":"","country":"Russia","active":"Y"}
+    ,
+    {"id":"20282","name":"REXAIR VIRTUEL","alias":"","iata":"RR","icao":"RXR","callsign":"Rexair","country":"France","active":"Y"}
+    ,
+    {"id":"20285","name":"WestJet Encore","alias":"Encore","iata":"WR","icao":"WEN","callsign":"Encore","country":"Canada","active":"Y"}
+    ,
+    {"id":"20286","name":"Air Pegasus","alias":"","iata":"OP","icao":"PPL","callsign":"","country":"India","active":"Y"}
+    ,
+    {"id":"20288","name":"International Europe","alias":"International","iata":"9I","icao":"INE","callsign":"","country":"Spain","active":"Y"}
+    ,
+    {"id":"20401","name":"V Air","alias":"V Air Taiwan","iata":"ZV","icao":"VAX","callsign":"","country":"Taiwan","active":"Y"}
+    ,
+    {"id":"20415","name":"Cello Aviation","alias":"","iata":"","icao":"CLJ","callsign":"CELLOJET","country":"United Kingdom","active":"Y"}
+    ,
+    {"id":"20478","name":"Pouya Air","alias":"","iata":"","icao":"PYA","callsign":"","country":"Iran","active":"Y"}
+    ,
+    {"id":"20565","name":"Boutique Air (Priv)","alias":"","iata":"4B","icao":"BTQ","callsign":"","country":"United States","active":"Y"}
+    ,
+    {"id":"20566","name":"FlyEgypt","alias":"FlyEgypt","iata":"","icao":"FEG","callsign":"","country":"Egypt","active":"Y"}
+    ,
+    {"id":"20577","name":"VOLOTEA Airways","alias":"","iata":"V7","icao":"VOE","callsign":"","country":"Spain","active":"Y"}
+    ,
+    {"id":"20599","name":"INAVIA Internacional","alias":"Internacional","iata":"Z5","icao":"IIR","callsign":"","country":"Argentina","active":"Y"}
+    ,
+    {"id":"20607","name":"Liberty Airways","alias":"","iata":"LE","icao":"LTY","callsign":"","country":"United States","active":"Y"}
+    ,
+    {"id":"20653","name":"Aeronautica Militare","alias":"","iata":"","icao":"IAM","callsign":"Italian Airforce","country":"Italy","active":"Y"}
+    ,
+    {"id":"20657","name":"Bassaka airlines","alias":"","iata":"5B","icao":"BSX","callsign":"5B","country":"Cambodia","active":"Y"}
+    ,
+    {"id":"20675","name":"Jetstar Japan ","alias":"","iata":"","icao":"JJP","callsign":"ORANGE LINER","country":"Japan","active":"Y"}
+    ,
+    {"id":"20698","name":"First Flying","alias":"","iata":"","icao":"DAK","callsign":"","country":"Japan","active":"Y"}
+    ,
+    {"id":"20716","name":"AtlasGlobal Ukraine","alias":"","iata":"","icao":"UJX","callsign":"Atlas Ukraine","country":"Ukraine","active":"Y"}
+    ,
+    {"id":"20725","name":"Boliviana de Aviacion (OB)","alias":"BoA","iata":"","icao":"BOV","callsign":"BOLIVIANA","country":"Bolivia","active":"Y"}
+    ,
+    {"id":"20729","name":"Norwegian Air International (D8)","alias":"","iata":"","icao":"IBK","callsign":"NORTRANS","country":"Norway","active":"Y"}
+    ,
+    {"id":"20769","name":"VIA Líneas Aéreas","alias":"VIA","iata":"V1","icao":"VIA","callsign":"","country":"Argentina","active":"Y"}
+    ,
+    {"id":"20802","name":"GermanXL","alias":"","iata":"GX","icao":"GXG","callsign":"","country":"Germany","active":"Y"}
+    ,
+    {"id":"20808","name":"Alghanim","alias":"","iata":"","icao":"KYA","callsign":"","country":"United States","active":"Y"}
+    ,
+    {"id":"20827","name":"Fly France","alias":"Fly France","iata":"FF","icao":"FRF","callsign":"","country":"France","active":"Y"}
+    ,
+    {"id":"20875","name":"Jota Aviation","alias":"","iata":"","icao":"ENZ","callsign":"ENZO","country":"United Kingdom","active":"Y"}
+    ,
+    {"id":"20881","name":"Europe Jet","alias":"Europe Jet","iata":"EX","icao":"EU9","callsign":"","country":"France","active":"Y"}
+    ,
+    {"id":"20923","name":"COBALT","alias":"COBALT","iata":"","icao":"FCB","callsign":"COBALT","country":"Cyprus","active":"Y"}
+    ,
+    {"id":"20931","name":"Southern Airways Express","alias":"Sun Air Express","iata":"","icao":"LTD","callsign":"LIGHTSPEED","country":"United States","active":"Y"}
+    ,
+    {"id":"20962","name":"Orenburzhie","alias":"","iata":"","icao":"ORG","callsign":"","country":"Russia","active":"Y"}
+    ,
+    {"id":"20976","name":"World Scale Airlines","alias":"World Scale","iata":"W3","icao":"WSS","callsign":"","country":"United States","active":"Y"}
+    ,
+    {"id":"20978","name":"All America US","alias":"All America US","iata":"AG","icao":"SSA","callsign":"","country":"United States","active":"Y"}
+    ,
+    {"id":"20986","name":"University of Birmingham Air Squadron (RAF)","alias":"8AEF RAF","iata":"","icao":"UAY","callsign":"UAY","country":"United Kingdom","active":"Y"}
+    ,
+    {"id":"20991","name":"Choice Airways","alias":"","iata":"","icao":"CSX","callsign":"","country":"United States","active":"Y"}
+    ,
+    {"id":"20994","name":"Aruba Airlines","alias":"","iata":"","icao":"ARU","callsign":"","country":"Aruba","active":"Y"}
+    ,
+    {"id":"20995","name":"BudgetAir","alias":"BudgetAir","iata":"1K","icao":"BG1","callsign":"","country":"Germany","active":"Y"}
+    ,
+    {"id":"20996","name":"Dynamic Airways","alias":"","iata":"","icao":"DYA","callsign":"","country":"United States","active":"Y"}
+    ,
+    {"id":"21012","name":"Fly One","alias":"Fly One","iata":"F5","icao":"FI5","callsign":"","country":"Moldova","active":"Y"}
+    ,
+    {"id":"21036","name":"Tez Jet Airlines","alias":"","iata":"","icao":"TEZ","callsign":"","country":"Kyrgyzstan","active":"Y"}
+    ,
+    {"id":"21043","name":"Kush Air","alias":"","iata":"","icao":"KUH","callsign":"","country":"South Sudan","active":"Y"}
+    ,
+    {"id":"21124","name":"ViaAir","alias":"Charter Air Transport","iata":"","icao":"SRY","callsign":"Stingray","country":"United States","active":"Y"}
+    ,
+    {"id":"21131","name":"All America BOPY","alias":"All America BOPY","iata":"0P","icao":"PYB","callsign":"BOPY","country":"Paraguay","active":"Y"}
+    ,
+    {"id":"21179","name":"Thai Vietjet Air","alias":"","iata":"","icao":"TVJ","callsign":"THAIVIET JET","country":"Thailand","active":"Y"}
+    ,
+    {"id":"21317","name":"Svyaz Rossiya","alias":"Russian Commuter ","iata":"7R","icao":"SJM","callsign":"RussianConnecty","country":"Russia","active":"Y"}
+    ,
+    {"id":"19979","name":"FRA Air","alias":"","iata":"X9","icao":"X9F","callsign":"FA","country":"Germany","active":"N"}
+    ,
+    {"id":"20124","name":"Wings of England","alias":"","iata":"EX","icao":"..,","callsign":"","country":"United Kingdom","active":"N"}
+    ,
+    {"id":"20438","name":"Naka Nihon Airlines Service","alias":"","iata":"NV","icao":"ALS","callsign":"","country":"Japan","active":"N"}
+    ,
+    {"id":"20580","name":"Aguilar Connect","alias":"","iata":"3X","icao":"GUI","callsign":"Moonexpress","country":"Chile","active":"N"}
+    ,
+    {"id":"20589","name":"ROYAL BRITAIN","alias":"Flying Brits","iata":"7V","icao":"ROB","callsign":"","country":"United Kingdom","active":"N"}
+    ,
+    {"id":"20777","name":"Palair Macedonia","alias":"","iata":"3D","icao":"PMK","callsign":"","country":"North Macedonia","active":"N"}
+    ,
+    {"id":"20961","name":"Deutsche Luftverkehrsgesellschaft (DLT)","alias":"","iata":"DW","icao":"DWD","callsign":"","country":"Germany","active":"N"}
+    ,
+    {"id":"21181","name":"Air Andaman (2Y)","alias":"","iata":"2Y","icao":"AOW","callsign":"AIR ANDAMAN","country":"Thailand","active":"N"}
+    ,
+    {"id":"21240","name":"TDA Toa Domestic Airlines","alias":"TDA","iata":"","icao":"TDA","callsign":"Toa Domes","country":"Japan","active":"N"}
+    ,
+    {"id":"21251","name":"Lynx Aviation (L3/SSX)","alias":"","iata":"","icao":"SSX","callsign":"Shasta","country":"United States","active":"N"}
 ]

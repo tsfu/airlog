@@ -959,3 +959,62 @@ function getPointSize(count) {
     return 9;
   }
 }
+
+// ---- Flight lookup / autofill helpers (pure, data-map based) ----
+
+// Whole-day difference between a YYYY-MM-DD string and today (can be negative).
+function daysFromToday(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  if (isNaN(d.getTime())) return NaN;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.round((d.getTime() - today.getTime()) / 86400000);
+}
+
+// Best-effort: map an API aircraft model name to a form datalist option string.
+function findAircraftOptionByModel(modelName) {
+  const norm = (s) => (s || "").toString().toLowerCase().replace(/[\s-]/g, "");
+  const target = norm(modelName);
+  if (!target) return "";
+  for (const [, v] of aircraftDataMap) {
+    if (norm(v.name) === target) {
+      return v.name + " (" + v.icao_code + "/" + v.iata_code + ")";
+    }
+  }
+  return "";
+}
+
+// Build the datalist-style option string the airline field expects.
+function airlineOptionString(a) {
+  return a.name + " (" + (a.iata || "--") + "/" + a.icao + ")";
+}
+
+// Find an airline entry by IATA code (airlineDataMap is keyed by ICAO).
+function findAirlineByIata(iata) {
+  if (!iata) return null;
+  const up = iata.toString().toUpperCase();
+  for (const [, v] of airlineDataMap) {
+    if ((v.iata || "").toUpperCase() === up) return v;
+  }
+  return null;
+}
+
+// Resolve the best airline value from the leg + flight number, in priority order:
+// 1) API ICAO (direct map key), 2) API IATA, 3) code parsed from the flight number.
+function resolveAirlineValue(leg, flightNo) {
+  if (leg.airlineICAO && airlineDataMap.has(leg.airlineICAO)) {
+    return airlineOptionString(airlineDataMap.get(leg.airlineICAO));
+  }
+  let a = findAirlineByIata(leg.airlineIATA);
+  if (a) return airlineOptionString(a);
+
+  // Fall back to the airline designator in the flight number (e.g. "UA123" -> "UA").
+  const prefix = (normalizeFlightNumber(flightNo).match(/^[A-Z0-9]{2,3}/) || [""])[0];
+  if (prefix.length === 3 && airlineDataMap.has(prefix)) {
+    return airlineOptionString(airlineDataMap.get(prefix)); // ICAO designator
+  }
+  a = findAirlineByIata(prefix.substring(0, 2));
+  if (a) return airlineOptionString(a);
+
+  return leg.airlineName || "";
+}

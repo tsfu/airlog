@@ -5,15 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AirLog</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
-    <script src="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Cesium.js"></script>
+    <script
+      src="https://cesium.com/downloads/cesiumjs/releases/1.143/Build/Cesium/Cesium.js"
+      integrity="sha384-6pySA8bzGAn2+aYh8KWmvzl5DRnspbScFYUbrFcu2ayckTxx8gyn+/WNvNbPM9iG"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <link
       rel="stylesheet"
-      href="https://cesium.com/downloads/cesiumjs/releases/1.121/Build/Cesium/Widgets/widgets.css"
+      href="https://cesium.com/downloads/cesiumjs/releases/1.143/Build/Cesium/Widgets/widgets.css"
+      integrity="sha384-ghEeMdcWWzRv/BPeUcX835vcKDGrxvROXisl/Btpv3GeekBUXTSPVcFJpI1Tcrgp"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
+      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.5.0/css/flag-icons.min.css"
+      integrity="sha384-8olrmTcwXL3OYMeB+2ok8jx9/U/FZxeLnoRWdu1Pyi+lakrkqoI7hfysfQF5Q1Xx"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -116,7 +127,12 @@
           <!-- Add log here dynamically from trips -->
         </tbody>
       </table>
-      <script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js"></script>
+      <script
+        src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@4.1.7/dist/sortable.min.js"
+        integrity="sha384-KJBzhWbOFhju6N4Bbl034ASSL8K5GirZoHBt0hZTiPcEKUUmzt5N2TIyg7bu5/AF"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
 
       <!-- Trip Details Form (modal hidden initially) -->
       <div id="addTripModal" class="modal">
@@ -130,6 +146,29 @@
             <p class="form-info" style="margin-bottom: 30px">
               Enter connecting flights separately.
             </p>
+
+            <!-- Autofill helper: fetch trip details from a flight number + date -->
+            <div id="autofillBox">
+              <label id="autofillLabel"><b>Find my flight</b></label>
+              <div id="autofillRow">
+                <input
+                  type="text"
+                  id="lookupFlightNumber"
+                  placeholder="e.g. UA123"
+                  autocomplete="off"
+                />
+                <input type="date" id="lookupDate" />
+                <button
+                  type="button"
+                  id="autofillButton"
+                  title="Can only fetch flight info within one year of today."
+                >
+                  Find
+                </button>
+              </div>
+              <p id="autofillStatus" class="form-info" hidden></p>
+              <div id="legPicker" hidden></div>
+            </div>
 
             <label for="departureIATA"><b>Departure IATA Code</b></label>
             <input
@@ -392,13 +431,18 @@
       referrerpolicy="no-referrer"
     ></script>
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"
-      integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ=="
+      src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.5.4/papaparse.min.js"
+      integrity="sha384-cVhx/0SJFbYLpLfJwgKCNeZGKLkRzWIJl3WELXyNgY8vP1gK1TBhuOBbSPRk6xQn"
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/browser-geo-tz@0.1.0/dist/geotz.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"
+      integrity="sha384-MPG/j0tMZel8D/wdSK2M2n+fUXFQ6lHE3r5wnJZ25xVC8KKtBOvT9BGMOmLfSxGT"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="utils.js"></script>
     <script src="table.js"></script>
     <script src="stats.js"></script>
