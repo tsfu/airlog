@@ -5,6 +5,7 @@
 - [Usage](#usage)
   - [Globe](#globe)
   - [Trips](#trips)
+    - [Find My Flight (auto-fill from flight number)](#find-my-flight-auto-fill-from-flight-number)
   - [Stats](#stats)
 - [Data](#data)
   - [Data Source](#data-source)
@@ -63,6 +64,33 @@ You can export your trips from `myFlightRadar24` (was `FlightDiary`) and import 
  - Use the black "Import from myFlightRadar24" button to add trips in that .csv to Airlog UI.
 
 You can export and then covert App In The Air data into myFR24 using a python tool, see [this converter](https://github.com/ffuuugor/myfr24-converter) to learn more.
+
+#### Find My Flight (auto-fill from flight number)
+Instead of typing every field by hand, you can use the **Find my flight** box at the top of the add-trip form: enter a flight number (e.g. `UA123`) and the flight date, click **Find**, and AirLog will auto-fill departure/arrival airports and cities, take-off/landing times, airline, aircraft, and tail number for you. Everything stays fully editable — review and adjust before submitting, and you can still edit the trip later like any other. If a flight number returns multiple legs (codeshares/multi-leg), you pick the correct one.
+
+This live flight data comes from the [AeroDataBox](https://aerodatabox.com/) API. Because AirLog is a pure client-side app hosted on GitHub Pages, the browser can't safely call that API directly — doing so would expose the API key and run into CORS restrictions. To solve this, a small **[Cloudflare Worker](https://workers.cloudflare.com/)** sits in the middle as a proxy (its source lives in `/worker`):
+
+```text
+  AirLog (browser)          Cloudflare Worker (proxy)         AeroDataBox API
+        |                            |                       (via RapidAPI)
+        |  GET /?no=UA123&date=...   |                            |
+        | -------------------------> |                            |
+        |                            |  validate + check 24h cache |
+        |                            |  add secret API key         |
+        |                            | -------------------------> |
+        |                            |     full flight JSON        |
+        |                            | <------------------------- |
+        |  trimmed JSON (form fields)|                            |
+        | <------------------------- |                            |
+```
+
+The Worker adds the value that a static site cannot provide on its own:
+ - **Hides the API key** — the key is stored as an encrypted Cloudflare secret, never shipped to the browser or committed to this repo.
+ - **Handles CORS** — it only allows requests from the AirLog origins.
+ - **Caches** each `(flightNo, date)` result for 24h, so re-opening or editing the same trip doesn't spend extra API quota.
+ - **Trims the response** down to just the fields the trip form uses.
+
+A note on limits: AeroDataBox's free tier can only look up flights **within one year of today** (past or future). If the date you enter is outside that window, the **Find** button is disabled and AirLog tells you to fill the trip in manually. Setup and deployment details for the proxy are in [`/worker/README.md`](./worker/README.md).
 
 When you import data from outside sources, due to different data format, they may not be recognized correctly by AirLog. You may simply edit the trip with the desired value, then it should have AirLog format and good to go. For example, some websites use 2-letter IATA code for airlines which is not unique and may be rendered differently here. You can edit it by providing correct 3-letter ICAO code.  
 

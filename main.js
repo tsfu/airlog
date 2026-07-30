@@ -37,6 +37,11 @@ const tripDbName = "airlog";
 const tripDbStoreName = "trips";
 const tripDbVersion = 1;
 
+// Flight-lookup proxy (Cloudflare Worker). Fetches trip details from a flight number.
+const FLIGHT_LOOKUP_URL = "https://airlog-flight.fts1109.workers.dev/";
+// AeroDataBox free tier only serves flights within +/- 365 days of today.
+const FLIGHT_LOOKUP_MAX_DAYS = 365;
+
 // hold user's trips
 let trips = [];
 const tripIndexMap = new Map();
@@ -385,6 +390,10 @@ function resetTripFormState() {
   $("#updateTripButton").attr("hidden", "hidden");
   sessionStorage.removeItem("editTripID");
   sessionStorage.removeItem("editRowIndex");
+  // clear autofill helper UI (inputs are reset by form.reset above)
+  $("#autofillButton").prop("disabled", false);
+  $("#legPicker").attr("hidden", "hidden").empty();
+  if (typeof setAutofillStatus === "function") setAutofillStatus("");
 }
 
 function isEditingTrip() {
@@ -444,6 +453,133 @@ $("#arrivalIATA").keyup(function () {
   const iata = $("#arrivalIATA").val().substring(0, 3).toUpperCase();
   if (iata.length > 2 && isValidAirport(iata)) {
     $("#arrivalCity").val(airportDataMap.get(iata).city);
+  }
+});
+
+// ---- Autofill trip details from a flight number + date (via Worker proxy) ----
+
+// Show/clear a status message under the autofill box (error tone by default).
+function setAutofillStatus(msg, isInfo = false) {
+  const el = $("#autofillStatus");
+  if (!msg) {
+    el.attr("hidden", "hidden").removeClass("info").text("");
+    return;
+  }
+  el.text(msg).toggleClass("info", isInfo).removeAttr("hidden");
+}
+
+// Enable/disable the Autofill button based on the date being within +/-365 days.
+function validateLookupDate() {
+  const dateStr = $("#lookupDate").val();
+  const btn = $("#autofillButton");
+  if (!dateStr) {
+    btn.prop("disabled", false); // no date yet: click handler will prompt
+    return;
+  }
+  const diff = daysFromToday(dateStr);
+  if (isNaN(diff) || Math.abs(diff) > FLIGHT_LOOKUP_MAX_DAYS) {
+    btn.prop("disabled", true);
+    setAutofillStatus(
+      "Flight info can only be fetched within one year of today. Please enter these details manually."
+    );
+  } else {
+    btn.prop("disabled", false);
+    setAutofillStatus("");
+  }
+}
+$("#lookupDate").on("input change", validateLookupDate);
+
+// Fill the trip form fields from one normalized leg. All fields stay editable.
+function populateFormFromLeg(leg) {
+  const flightNo = normalizeFlightNumber($("#lookupFlightNumber").val());
+  $("#departureIATA").val(leg.departureIATA || "");
+  $("#departureCity").val(leg.departureCity || "");
+  $("#arrivalIATA").val(leg.arrivalIATA || "");
+  $("#arrivalCity").val(leg.arrivalCity || "");
+  $("#takeOffTime").val(leg.takeOffTime || "");
+  $("#landingTime").val(leg.landingTime || "");
+  $("#flightNumber").val(flightNo);
+  $("#tailNumber").val(leg.tailNumber || "");
+
+  // Airline: form validates by ICAO -> resolve to the datalist "Name (IATA/ICAO)" string.
+  $("#airline").val(resolveAirlineValue(leg, flightNo));
+
+  // Aircraft: API gives a model name; map to our datalist option when possible.
+  const acOption = findAircraftOptionByModel(leg.aircraft);
+  $("#aircraft").val(acOption || leg.aircraft || "");
+
+  const cargoNote = leg.isCargo ? " (cargo flight)" : "";
+  setAutofillStatus(
+    "Filled from " + flightNo + cargoNote + ". Review and edit before submitting.",
+    true
+  );
+}
+
+// Render a chooser when a flight number returns multiple legs.
+function showLegPicker(legs) {
+  const picker = $("#legPicker");
+  picker.empty();
+  legs.forEach((leg) => {
+    const label =
+      (leg.departureIATA || "???") + " \u2192 " + (leg.arrivalIATA || "???") +
+      "  " + (leg.takeOffTime ? leg.takeOffTime.replace("T", " ") : "");
+    const btn = $("<button type='button'></button>").text(label);
+    btn.on("click", function () {
+      populateFormFromLeg(leg);
+      picker.attr("hidden", "hidden").empty();
+    });
+    picker.append(btn);
+  });
+  picker.removeAttr("hidden");
+  setAutofillStatus("Multiple flights found \u2014 pick the correct leg:", true);
+}
+
+// Autofill button click: validate, call the proxy, populate.
+$("#autofillButton").on("click", async function () {
+  const flightNo = normalizeFlightNumber($("#lookupFlightNumber").val());
+  const date = $("#lookupDate").val();
+  $("#legPicker").attr("hidden", "hidden").empty();
+
+  if (!flightNo) {
+    setAutofillStatus("Enter a flight number first (e.g. UA123).");
+    return;
+  }
+  if (!date) {
+    setAutofillStatus("Pick the flight date first.");
+    return;
+  }
+  const diff = daysFromToday(date);
+  if (isNaN(diff) || Math.abs(diff) > FLIGHT_LOOKUP_MAX_DAYS) {
+    setAutofillStatus("Flight info can only be fetched within one year of today.");
+    return;
+  }
+
+  const btn = $(this);
+  const original = btn.text();
+  btn.prop("disabled", true).text("Looking up\u2026");
+  setAutofillStatus("Fetching flight details\u2026", true);
+  try {
+    const url = FLIGHT_LOOKUP_URL + "?no=" + encodeURIComponent(flightNo) +
+      "&date=" + encodeURIComponent(date);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("service returned " + res.status);
+    const data = await res.json();
+    const legs = (data && data.legs) || [];
+    if (legs.length === 0) {
+      setAutofillStatus(
+        "No flight found for " + flightNo + " on " + date + ". Please enter details manually."
+      );
+    } else if (legs.length === 1) {
+      populateFormFromLeg(legs[0]);
+    } else {
+      showLegPicker(legs);
+    }
+  } catch (err) {
+    console.error("ERROR: flight lookup failed.", err);
+    setAutofillStatus("Lookup failed (" + err.message + "). Please enter details manually.");
+  } finally {
+    btn.text(original);
+    validateLookupDate(); // restore disabled state based on current date
   }
 });
 

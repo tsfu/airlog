@@ -337,10 +337,87 @@ tr:hover td {
 .trip-form input,
 .trip-form select {
     width: 100%;
+    box-sizing: border-box;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+/* autofill-from-flight helper box */
+#autofillBox {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #e8f3ef;
+    border: 1px solid #cfe5dd;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 25px;
+}
+
+#autofillLabel {
+    margin: 0 0 8px;
+    color: #12694f;
+}
+
+#autofillRow {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+#autofillRow #lookupFlightNumber {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+}
+
+#autofillRow #lookupDate {
+    flex: 0 1 auto;
+    width: auto;
+    margin-bottom: 0;
+}
+
+#autofillButton {
+    flex: 0 0 auto;
+    padding: 8px 16px;
+    background-color: #12694f;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+#autofillButton:disabled {
+    background-color: #9bb8b0;
+    cursor: not-allowed;
+    filter: none;
+}
+
+#autofillStatus {
+    margin: 10px 0 0;
+    color: #a34; /* error/info tone */
+}
+
+#autofillStatus.info {
+    color: #12694f;
+}
+
+#legPicker {
+    margin-top: 10px;
+}
+
+#legPicker button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #cfe5dd;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+}
+
+#legPicker button:hover {
+    background-color: #d7ebe4;
+    filter: none;
 }
 
 /* buttons styling */
