@@ -1,5 +1,9 @@
 # AirLog Changelog
 
+## [1.4.1] - 2026.08.04
+#### Fixed
+- Update geotz lib to fix timezone-duration calculation
+
 ## [1.4.0] - 2026.07.29
 
 #### Added
